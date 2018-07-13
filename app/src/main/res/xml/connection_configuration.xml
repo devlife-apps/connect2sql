@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditTextPreference
+        android:key="name"
+        android:title="@string/name"/>
+
+    <PreferenceCategory
+        android:key="connection_configuration"
+        android:title="@string/connection_configuration">
+        <EditTextPreference
+            android:key="domain"
+            android:title="@string/domain"/>
+        <EditTextPreference
+            android:key="host"
+            android:title="@string/host"/>
+        <EditTextPreference
+            android:key="instance"
+            android:title="@string/instance"/>
+        <EditTextPreference
+            android:key="port"
+            android:title="@string/port"/>
+        <EditTextPreference
+            android:key="username"
+            android:title="@string/username"/>
+        <EditTextPreference
+            android:key="password"
+            android:title="@string/password"/>
+        <EditTextPreference
+            android:key="database"
+            android:title="@string/database"/>
+
+        <CheckBoxPreference
+            android:key="use_ssl"
+            android:title="@string/use_ssl"/>
+        <!-- <CheckBoxPreference
+            android:key="require_ssl"
+            android:title="@string/require_ssl" />
+        <CheckBoxPreference
+            android:key="verify_server_certificate"
+            android:title="@string/verify_server_cert" /> -->
+    </PreferenceCategory>
+    <!--
+    <PreferenceCategory android:title="@string/preference_attributes" >
+        <CheckBoxPreference
+            android:key="parent_checkbox_preference"
+            android:summary="@string/summary_parent_preference"
+            android:title="@string/title_parent_preference" />
+
+        <CheckBoxPreference
+            android:dependency="parent_checkbox_preference"
+            android:key="child_checkbox_preference"
+            android:layout="?android:attr/preferenceLayoutChild"
+            android:summary="@string/summary_child_preference"
+            android:title="@string/title_child_preference" />
+    </PreferenceCategory>
+    -->
+    <PreferenceCategory
+        android:key="additional_options"
+        android:title="@string/additional_options">
+
+        <EditTextPreference
+            android:enabled="false"
+            android:title="@string/no_options_available"/>
+        <!--
+             <me.jromero.connect2sql.ui.widget.AutoCompletePreference
+            android:key="test"
+            android:title="@string/test_connection" />
+        -->
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

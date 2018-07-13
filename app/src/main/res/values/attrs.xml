@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="me.jromero.connect2sql.ui.widget.BlockItem">
+        <attr name="title"/>
+        <attr name="subtitle"/>
+        <attr name="image" format="reference"/>
+    </declare-styleable>
+
+</resources>

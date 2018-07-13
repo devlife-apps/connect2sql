@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="lock_forgot_instructions"><b>Sorry you forgot your pattern.</b>\n\nUnfortunately, for your security, the only way to continue using this application is to clear all data.</string>
+    <string name="lock_clear_data">Open App Info</string>
+</resources>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:orientation="vertical"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/form_actionbar_background"
+        android:layout_width="match_parent"
+        android:layout_height="?android:actionBarSize"
+        android:background="@drawable/action_bar_background">
+
+        <ImageView
+            android:id="@android:id/home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/form_actionbar_title"
+            android:paddingLeft="@dimen/form_actionbar_title_padding_left"
+            android:paddingTop="@dimen/form_actionbar_title_padding_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textAppearance="@style/Form.EditText.Text"/>
+    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/form_actionbar_logo"
+        android:layout_marginLeft="@dimen/form_actionbar_logo_padding_left"
+        android:layout_marginTop="@dimen/form_actionbar_logo_padding_top"
+        android:paddingLeft="@dimen/form_padding_vertical"
+        android:paddingRight="@dimen/form_padding_vertical"
+        android:layout_width="@dimen/form_actionbar_logo_width"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"/>
+
+</FrameLayout>

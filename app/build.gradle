@@ -1,0 +1,118 @@
+apply plugin: 'android-sdk-manager'
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+//apply plugin: 'io.fabric'
+apply plugin: 'spoon'
+apply plugin: 'kotlin-kapt'
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+    mavenCentral()
+}
+
+def buildNumber = System.env.BUILD_NUMBER ?: "dev"
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion '28.0.1'
+    publishNonDefault true
+    defaultConfig {
+        versionCode 300020
+        versionName "3.0.2"
+        project.version = versionName
+
+        minSdkVersion 23
+        targetSdkVersion 23
+    }
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+    packagingOptions {
+        exclude 'META-INF/services/java.sql.Driver'
+        exclude 'META-INF/maven/com.google.guava/guava/pom.properties'
+        exclude 'META-INF/maven/com.google.guava/guava/pom.xml'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'LICENSE.txt'
+    }
+    dexOptions {
+        javaMaxHeapSize "4g"
+        jumboMode true
+        incremental true
+    }
+    buildTypes {
+        debug {
+            versionNameSuffix "-SNAPSHOT"
+            minifyEnabled false
+        }
+        release {
+            versionNameSuffix "+build${buildNumber}"
+            minifyEnabled false
+        }
+    }
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            output.outputFile = new File(
+                    output.outputFile.parent,
+                    output.outputFile.name.replace("app", "connect2sql").replace(".apk", "-${versionName}.apk")
+            )
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    productFlavors {
+
+    }
+}
+
+ext {
+    SUPPORT_VERSION = "23.1.1"
+}
+
+dependencies {
+    compile fileTree(include: '*.jar', dir: 'libs')
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile 'com.mobsandgeeks:android-saripaar:1.0.3'
+    compile "com.android.support:support-annotations:${SUPPORT_VERSION}"
+    compile "com.android.support:appcompat-v7:${SUPPORT_VERSION}"
+    compile "com.android.support:cardview-v7:${SUPPORT_VERSION}"
+    compile "com.android.support:design:${SUPPORT_VERSION}"
+    compile "com.android.support:recyclerview-v7:${SUPPORT_VERSION}"
+    compile 'net.zetetic:android-database-sqlcipher:3.3.1-2'
+    compile 'com.mixpanel.android:mixpanel-android:4.6.0'
+    compile('com.crashlytics.sdk.android:crashlytics:2.3.2@aar') {
+        transitive = true;
+    }
+    compile 'me.zhanghai.android.patternlock:library:2.0.1'
+    compile 'org.mariadb.jdbc:mariadb-java-client:1.7.4'
+    // Dagger 2
+    compile 'com.google.dagger:dagger:2.0.1'
+    kapt "com.google.dagger:dagger-compiler:2.0.1"
+    compile 'javax.annotation:jsr250-api:1.0'
+    compile 'io.reactivex:rxandroid:1.1.0'
+    compile 'io.reactivex:rxjava:1.1.0'
+    // logging
+    compile 'org.slf4j:slf4j-api:1.7.13'
+    compile 'com.github.tony19:logback-android-classic:1.1.1-4'
+    compile 'com.github.tony19:logback-android-core:1.1.1-4'
+}
+
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+        maven { url 'https://maven.fabric.io/public' }
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlin_version"
+        classpath 'com.android.tools.build:gradle:2.3.0'
+        classpath 'io.fabric.tools:gradle:1.20.1'
+    }
+}

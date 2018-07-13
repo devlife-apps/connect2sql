@@ -1,0 +1,26 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context="me.jromero.connect2sql.ui.results.ResultsActivity">
+
+    <item
+        android:icon="@drawable/ic_menu_font"
+        android:title="Font Size"
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/menu_font_increase"
+                android:title="Increase"/>
+            <item
+                android:id="@+id/menu_font_decrease"
+                android:title="Decrease"/>
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/menu_refresh"
+        android:icon="@drawable/ic_menu_refresh"
+        android:title="Refresh"
+        app:showAsAction="always">
+    </item>
+</menu>

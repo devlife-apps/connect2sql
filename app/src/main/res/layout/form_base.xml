@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+
+    <me.jromero.connect2sql.ui.widget.FloatLabelPlusLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/float_label_name"
+        style="@style/Form.FloatLabelLayout">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/form_hint_name"
+            android:id="@+id/form_txt_name"
+            style="@style/Form.EditText.Text">
+
+            <requestFocus/>
+        </EditText>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Form.Action.Help"/>
+
+    </me.jromero.connect2sql.ui.widget.FloatLabelPlusLayout>
+
+
+</merge>

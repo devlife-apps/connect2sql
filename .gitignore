@@ -1,0 +1,17 @@
+*/bin
+*/gen
+*/.settings
+.DS_Store
+
+.gradle
+.idea/*
+!.idea/runConfigurations
+
+build/
+*.iml
+
+*.apk
+
+*.keystore
+local.*.properties
+local.properties

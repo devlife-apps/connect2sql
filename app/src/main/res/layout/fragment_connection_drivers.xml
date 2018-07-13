@@ -1,0 +1,52 @@
+<FrameLayout
+    android:id="@+id/drivers_root"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.apps.iosched.ui.widget.DashboardLayout
+            android:id="@+id/drivers_dashboard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <me.jromero.connect2sql.ui.widget.BlockItem
+                android:id="@+id/bi_mysql"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:image="@drawable/db_mysql"
+                app:title="MySQL">
+            </me.jromero.connect2sql.ui.widget.BlockItem>
+
+            <me.jromero.connect2sql.ui.widget.BlockItem
+                android:id="@+id/bi_mssql"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:image="@drawable/db_mssql"
+                app:title="MsSQL">
+            </me.jromero.connect2sql.ui.widget.BlockItem>
+
+            <me.jromero.connect2sql.ui.widget.BlockItem
+                android:id="@+id/bi_postgre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:image="@drawable/db_postgre"
+                app:title="PostgreSQL">
+            </me.jromero.connect2sql.ui.widget.BlockItem>
+
+            <me.jromero.connect2sql.ui.widget.BlockItem
+                android:id="@+id/bi_sybase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:image="@drawable/db_sybase"
+                app:title="Sybase">
+            </me.jromero.connect2sql.ui.widget.BlockItem>
+        </com.google.android.apps.iosched.ui.widget.DashboardLayout>
+    </ScrollView>
+
+</FrameLayout>

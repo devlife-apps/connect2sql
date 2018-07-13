@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="fill_parent"
+             android:layout_height="wrap_content"
+             android:layout_marginBottom="2dip"
+             android:minHeight="100dip"
+             android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TableLayout
+            android:id="@+id/tl_frozen_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dip"
+            android:layout_marginTop="2dip"
+            android:stretchColumns="1"/>
+
+        <me.jromero.connect2sql.ui.widget.ObservableHorizontalScrollView
+            android:id="@+id/ohsv_content_header"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dip"
+            android:layout_marginRight="1dip"
+            android:layout_marginTop="2dip">
+
+            <TableLayout
+                android:id="@+id/tl_content_header"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:stretchColumns="1"/>
+        </me.jromero.connect2sql.ui.widget.ObservableHorizontalScrollView>
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/sv_vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TableLayout
+                android:id="@+id/tl_frozen_columns"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dip"
+                android:layout_marginTop="2dip"
+                android:stretchColumns="1"/>
+
+            <me.jromero.connect2sql.ui.widget.ObservableHorizontalScrollView
+                android:id="@+id/ohsv_content_table"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dip"
+                android:layout_marginRight="1dip"
+                android:layout_marginTop="2dip">
+
+                <TableLayout
+                    android:id="@+id/tl_content_table"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:stretchColumns="1"/>
+            </me.jromero.connect2sql.ui.widget.ObservableHorizontalScrollView>
+        </LinearLayout>
+    </ScrollView>
+
+</TableLayout>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="top"
+                android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/llCurrentPath"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/themeBgDarkTransparent"
+        android:gravity="left|top">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/transparent_bar_item"
+            android:gravity="center"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="@string/database"
+            android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+        <TextView
+            android:id="@+id/lblCurrentDatabase"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/transparent_bar_item_dropdown"
+            android:ellipsize="marquee"
+            android:paddingLeft="5dp"
+            android:paddingRight="15dp"
+            android:paddingTop="7dp"
+            android:singleLine="true"
+            android:text="@string/database"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/blueLight"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/transparent_bar_item"
+            android:gravity="center"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="@string/table"
+            android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+        <TextView
+            android:id="@+id/lblCurrentTable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/transparent_bar_item_dropdown"
+            android:ellipsize="marquee"
+            android:paddingLeft="5dp"
+            android:paddingRight="15dp"
+            android:paddingTop="7dp"
+            android:singleLine="true"
+            android:text="@string/table"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/blueLight"/>
+    </LinearLayout>
+
+    <me.jromero.connect2sql.ui.widget.SqlEditText
+        android:id="@+id/txtQuery"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/llCurrentPath"
+        android:ems="10"
+        android:gravity="top"
+        android:hint="@string/sample_query"
+        android:inputType="textMultiLine|textNoSuggestions"
+        android:textColorHint="@color/greyDarker">
+
+        <requestFocus/>
+    </me.jromero.connect2sql.ui.widget.SqlEditText>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/txtQuery"
+        android:layout_alignRight="@+id/txtQuery"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:src="@drawable/ic_menu_run"/>
+
+</RelativeLayout>
