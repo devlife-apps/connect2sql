@@ -9,3 +9,4 @@ package:
   artifacts:
     paths:
       - app/build/outputs/apk/*.apk
+    expire_in: 1 week
