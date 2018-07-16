@@ -28,7 +28,7 @@ class UserPreferences(context: Context) {
             else entry.value as T
     }
 
-    public fun <T> save(option: Option<T>): Unit {
+    public fun <T> save(option: Option<T>) {
         when (option) {
             is Option.BooleanOption -> sharedPreferences.edit().putBoolean(option.key, option.value).apply()
             is Option.LongOption -> sharedPreferences.edit().putLong(option.key, option.value).apply()

@@ -257,15 +257,8 @@ class DashboardActivity : BaseActivity() {
     }
 
     private val mConnectionsLoaderCallbacks = object : LoaderManager.LoaderCallbacks<Cursor> {
-
-        override fun onCreateLoader(id: Int, args: Bundle): Loader<Cursor>? {
-            try {
-                return ConnectionInfoCursorLoader(this@DashboardActivity)
-            } catch (e: ContentUriHelper.BaseUriNotFoundException) {
-                Log.e(TAG, e.message)
-                return null
-            }
-
+        override fun onCreateLoader(id: Int, args: Bundle?): Loader<Cursor> {
+            return ConnectionInfoCursorLoader(this@DashboardActivity)
         }
 
         override fun onLoadFinished(loader: Loader<Cursor>, cursor: Cursor?) {
