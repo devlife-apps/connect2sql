@@ -1,0 +1,12 @@
+stages:
+  - package
+
+package:
+  stage: package
+  image: thyrlian/android-sdk
+  script:
+    - ./gradlew :app:assemble
+  artifacts:
+    paths:
+      - app/build/outputs/apk/*.apk
+    expire_in: 1 week
