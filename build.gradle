@@ -1,35 +1,24 @@
 buildscript {
     ext.kotlin_version = '1.2.51'
     repositories {
+        google()
         jcenter()
-        maven { url "https://jitpack.io" }
-        mavenCentral()
     }
     dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'com.stanfy.spoon:spoon-gradle-plugin:1.0.2'
-        classpath 'com.github.CantilSoftware:sdk-manager-plugin:551c2322d985c062cba3d73fadec66aa0c9c1a59'
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
     }
 }
-apply plugin: 'kotlin'
-apply plugin: 'java'
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
 
 allprojects {
     repositories {
-        mavenCentral()
+        google()
         jcenter()
-        maven { url "https://jitpack.io" }
     }
 }
-repositories {
-    mavenCentral()
-}
-dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-}
-sourceSets {
-    main.java.srcDirs += 'src/main/kotlin'
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
 }
