@@ -14,7 +14,6 @@ def buildNumber = System.env.BUILD_NUMBER ?: "dev"
 android {
     compileSdkVersion 27
     buildToolsVersion '28.0.1'
-    publishNonDefault true
 
     defaultConfig {
         versionCode 300020
@@ -38,11 +37,6 @@ android {
         exclude 'LICENSE.txt'
     }
 
-    dexOptions {
-        javaMaxHeapSize "4g"
-        jumboMode true
-    }
-
     buildTypes {
         debug {
             versionNameSuffix "-SNAPSHOT"
@@ -58,14 +52,14 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
-    applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            output.outputFile = new File(
-                    output.outputFile.parent,
-                    output.outputFile.name.replace("app", "connect2sql").replace(".apk", "-${versionName}.apk")
-            )
-        }
-    }
+    //    applicationVariants.all { variant ->
+    //        variant.outputs.each { output ->
+    //            output.outputFile = new File(
+    //                    output.outputFile.parent,
+    //                    output.outputFile.name.replace("app", "connect2sql").replace(".apk", "-${versionName}.apk")
+    //            )
+    //        }
+    //    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
@@ -75,11 +69,10 @@ android {
     productFlavors {
 
     }
-}
 
-kapt {
-    generateStubs = true
-    mapDiagnosticLocations = true
+    lintOptions {
+        abortOnError false
+    }
 }
 
 ext {
@@ -98,29 +91,29 @@ ext {
 }
 
 dependencies {
-    compile fileTree(include: '*.jar', dir: 'libs')
-    compile "com.mobsandgeeks:android-saripaar:${version_saripaar}"
-    compile "com.android.support:support-annotations:${version_support}"
-    compile "com.android.support:appcompat-v7:${version_support}"
-    compile "com.android.support:cardview-v7:${version_support}"
-    compile "com.android.support:design:${version_support}"
-    compile "com.android.support:recyclerview-v7:${version_support}"
-    compile "com.github.tony19:logback-android:${version_logback_android}"
+    implementation "com.mobsandgeeks:android-saripaar:${version_saripaar}"
+    implementation "com.android.support:support-v4:${version_support}"
+    implementation "com.android.support:support-annotations:${version_support}"
+    implementation "com.android.support:appcompat-v7:${version_support}"
+    implementation "com.android.support:cardview-v7:${version_support}"
+    implementation "com.android.support:design:${version_support}"
+    implementation "com.android.support:recyclerview-v7:${version_support}"
+    implementation "com.github.tony19:logback-android:${version_logback_android}"
     kapt "com.google.dagger:dagger-android-processor:${version_dagger}"
     kapt "com.google.dagger:dagger-compiler:${version_dagger}"
-    compile "com.google.dagger:dagger:${version_dagger}"
-    compile "com.google.dagger:dagger-android:${version_dagger}"
-    compile "com.google.dagger:dagger-android-support:${version_dagger}"
-    compile "com.mixpanel.android:mixpanel-android:${version_mixpanel}"
-    compile("com.crashlytics.sdk.android:crashlytics:${version_crashlytcs}@aar") {
-        transitive = true;
+    implementation "com.google.dagger:dagger:${version_dagger}"
+    implementation "com.google.dagger:dagger-android:${version_dagger}"
+    implementation "com.google.dagger:dagger-android-support:${version_dagger}"
+    implementation "com.mixpanel.android:mixpanel-android:${version_mixpanel}"
+    implementation("com.crashlytics.sdk.android:crashlytics:${version_crashlytcs}@aar") {
+        transitive = true
     }
-    compile "javax.annotation:jsr250-api:${version_jsr250}"
-    compile "io.reactivex:rxandroid:${version_rx}"
-    compile "io.reactivex:rxjava:${version_rx}"
-    compile "me.zhanghai.android.patternlock:library:${version_patternlock}"
-    compile "net.zetetic:android-database-sqlcipher:${version_sqlcipher}"
-    compile "org.mariadb.jdbc:mariadb-java-client:${version_mariadb}"
-    compile "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
-    compile "org.slf4j:slf4j-api:${version_slf4j}"
+    implementation "javax.annotation:jsr250-api:${version_jsr250}"
+    implementation "io.reactivex:rxandroid:${version_rx}"
+    implementation "io.reactivex:rxjava:${version_rx}"
+    implementation "me.zhanghai.android.patternlock:library:${version_patternlock}"
+    implementation "net.zetetic:android-database-sqlcipher:${version_sqlcipher}"
+    implementation "org.mariadb.jdbc:mariadb-java-client:${version_mariadb}"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${kotlin_version}"
+    implementation "org.slf4j:slf4j-api:${version_slf4j}"
 }

@@ -9,10 +9,7 @@ import android.support.v7.view.ActionMode
 import android.text.InputType
 import android.text.TextUtils
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.widget.EditText
 import android.widget.TextView
 import com.mixpanel.android.mpmetrics.MixpanelAPI
@@ -24,6 +21,7 @@ import me.jromero.connect2sql.db.model.connection.ConnectionInfoSqlModel
 import me.jromero.connect2sql.db.provider.ContentUriHelper
 import me.jromero.connect2sql.db.repo.ConnectionInfoRepository
 import com.gitlab.connect2sql.R
+import com.gitlab.connect2sql.R.id.connections_dashboard
 import me.jromero.connect2sql.loader.ConnectionInfoCursorLoader
 import me.jromero.connect2sql.log.EzLogger
 import me.jromero.connect2sql.sql.DriverType
