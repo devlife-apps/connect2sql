@@ -1,20 +1,19 @@
 package me.jromero.connect2sql.ui.results
 
 import android.app.ActionBar
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.FragmentTransaction
-import android.support.v7.app.AlertDialog
 import android.util.SparseArray
 import android.view.Menu
 import android.view.MenuItem
+import com.gitlab.connect2sql.R
 import me.jromero.connect2sql.ApplicationUtils
 import me.jromero.connect2sql.activity.BaseActivity
 import me.jromero.connect2sql.connection.ConnectionAgent
 import me.jromero.connect2sql.db.model.connection.ConnectionInfo
 import me.jromero.connect2sql.db.repo.ConnectionInfoRepository
-import com.gitlab.connect2sql.R
 import me.jromero.connect2sql.lang.ensure
 import me.jromero.connect2sql.log.EzLogger
 import me.jromero.connect2sql.sql.driver.agent.DefaultDriverAgent
@@ -256,13 +255,11 @@ class ResultsActivity : BaseActivity() {
     }
 
     private val tabListener: android.support.v7.app.ActionBar.TabListener = object : android.support.v7.app.ActionBar.TabListener {
-        override fun onTabReselected(tab: android.support.v7.app.ActionBar.Tab?, ft: FragmentTransaction?) {}
+        override fun onTabReselected(tab: android.support.v7.app.ActionBar.Tab?, ft: android.support.v4.app.FragmentTransaction?) = Unit
 
-        override fun onTabSelected(tab: android.support.v7.app.ActionBar.Tab?, ft: FragmentTransaction?) {
-            showContents(tab?.getTag() as ResultSet)
-        }
+        override fun onTabUnselected(tab: android.support.v7.app.ActionBar.Tab?, ft: android.support.v4.app.FragmentTransaction?) = Unit
 
-        override fun onTabUnselected(tab: android.support.v7.app.ActionBar.Tab?, ft: FragmentTransaction?) {}
+        override fun onTabSelected(tab: android.support.v7.app.ActionBar.Tab?, ft: android.support.v4.app.FragmentTransaction?) = Unit
     }
 
     class ResultSetClosingRunnable(private val mResultSet: ResultSet) : Runnable {

@@ -8,5 +8,6 @@ package:
     - ./gradlew :app:assemble
   artifacts:
     paths:
-      - app/build/outputs/apk/*.apk
+      - app/build/outputs/apk/debug/*.apk
+      - app/build/outputs/apk/release/*.apk
     expire_in: 1 week
