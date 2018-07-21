@@ -12,18 +12,16 @@ import android.util.Log
 import android.view.*
 import android.widget.EditText
 import android.widget.TextView
-import com.mixpanel.android.mpmetrics.MixpanelAPI
+import com.crashlytics.android.answers.Answers
+import com.crashlytics.android.answers.CustomEvent
 import kotlinx.android.synthetic.main.activity_connections.*
 import me.jromero.connect2sql.ApplicationUtils
 import me.jromero.connect2sql.connection.ConnectionAgent
 import me.jromero.connect2sql.db.model.connection.ConnectionInfo
 import me.jromero.connect2sql.db.model.connection.ConnectionInfoSqlModel
-import me.jromero.connect2sql.db.provider.ContentUriHelper
 import me.jromero.connect2sql.db.repo.ConnectionInfoRepository
 import com.gitlab.connect2sql.R
-import com.gitlab.connect2sql.R.id.connections_dashboard
 import me.jromero.connect2sql.loader.ConnectionInfoCursorLoader
-import me.jromero.connect2sql.log.EzLogger
 import me.jromero.connect2sql.sql.DriverType
 import me.jromero.connect2sql.ui.connection.ConnectionInfoDriverChooserActivity
 import me.jromero.connect2sql.ui.connection.ConnectionInfoEditorActivity
@@ -32,8 +30,6 @@ import me.jromero.connect2sql.ui.query.QueryActivity
 import me.jromero.connect2sql.ui.widget.BlockItem
 import me.jromero.connect2sql.ui.widget.Toast
 import me.jromero.connect2sql.ui.widget.dialog.ProgressDialog
-import org.json.JSONException
-import org.json.JSONObject
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -52,7 +48,7 @@ class DashboardActivity : BaseActivity() {
     @Inject
     lateinit var connectionInfoSqlModel: ConnectionInfoSqlModel
     @Inject
-    lateinit var mixpanelAPI: MixpanelAPI
+    lateinit var mAnswers: Answers
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,19 +69,13 @@ class DashboardActivity : BaseActivity() {
 
 
     private fun connect(connectionInfo: ConnectionInfo) {
-        try {
-            val payload = JSONObject()
-            payload.put("DriverType", connectionInfo.driverType.toString())
-            mixpanelAPI.track("connect", payload)
-        } catch (e: JSONException) {
-            EzLogger.e(e.message, e)
-        }
+        mAnswers.logCustom(CustomEvent("connect").putCustomAttribute("DriverType", connectionInfo.driverType.toString()))
 
         // define a progress dialog to display
         val progressDialog = ProgressDialog(
-                this@DashboardActivity,
-                "Connecting",
-                "Please wait while we connect to the server...")
+            this@DashboardActivity,
+            "Connecting",
+            "Please wait while we connect to the server...")
         progressDialog.setCancelable(true)
 
         val subscription = connectionAgent
@@ -304,8 +294,8 @@ class DashboardActivity : BaseActivity() {
                 R.id.configure -> {
                     if (activatedBlockItems.size > 1) {
                         Toast.makeText(this@DashboardActivity,
-                                "Please select only ONE connection to configure.",
-                                Toast.LENGTH_LONG).show()
+                            "Please select only ONE connection to configure.",
+                            Toast.LENGTH_LONG).show()
                         return false
                     }
                     for (connectionItem in activatedBlockItems) {

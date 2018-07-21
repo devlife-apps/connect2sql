@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.gitlab.connect2sql"
-          xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.gitlab.connect2sql"
           android:installLocation="auto">
 
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -30,12 +30,10 @@
         <activity
             android:name="me.jromero.connect2sql.ui.lock.ForgotLockActivity"
             android:label="@string/title_activity_forgot_lock"/>
-
         <activity
             android:name="me.jromero.connect2sql.activity.DashboardActivity"
             android:configChanges="screenSize|orientation|keyboardHidden"
-            android:label="@string/activity_home">
-        </activity>
+            android:label="@string/activity_home"/>
         <activity
             android:name="me.jromero.connect2sql.ui.connection.ConnectionInfoDriverChooserActivity"
             android:label="@string/activity_select_driver"/>
@@ -59,24 +57,15 @@
             android:name="me.jromero.connect2sql.ui.results.ResultsActivity"
             android:configChanges="orientation|uiMode|screenSize|smallestScreenSize|keyboardHidden"
             android:label="@string/activity_query_results"/>
-        <activity android:name="com.mixpanel.android.surveys.SurveyActivity"/>
 
         <provider
             android:name="me.jromero.connect2sql.db.provider.AppContentProvider"
             android:authorities="me.jromero.connect2sql.db.provider.AppContentProvider"
             android:exported="false"/>
 
-        <receiver
-            android:name="com.mixpanel.android.mpmetrics.InstallReferrerReceiver"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.android.vending.INSTALL_REFERRER"/>
-            </intent-filter>
-        </receiver>
-
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="DUMMY_VALUE"/>
+            android:value="${fabricApiKey}"/>
     </application>
 
 </manifest>
