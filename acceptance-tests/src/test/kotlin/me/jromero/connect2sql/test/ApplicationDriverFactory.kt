@@ -17,7 +17,7 @@ object ApplicationDriverFactory {
         val launcher = SelendroidLauncher(config)
         launcher.launchSelendroid()
 
-        val capabilities = SelendroidCapabilities("me.jromero.connect2sql.donate")
+        val capabilities = SelendroidCapabilities("app.devlife.connect2sql")
 
         val driver = SelendroidDriver(capabilities)
         driver.switchTo().window("NATIVE_APP")

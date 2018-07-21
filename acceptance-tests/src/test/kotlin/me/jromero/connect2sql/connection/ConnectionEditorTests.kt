@@ -12,7 +12,7 @@ class ConnectionEditorTests {
 
     val testServers = arrayListOf(
         TestServer.MYSQL_BASIC_USER,
-        TestServer.MSSQL_BASIC_USER,
+//        TestServer.MSSQL_BASIC_USER,
         TestServer.POSTGRES_ADMIN
     )
 

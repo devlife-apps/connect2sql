@@ -1,0 +1,11 @@
+version: '3.1'
+services:
+  c2s-test-mysql:
+    container_name: c2s-test-mysql
+    image: mysql/mysql-server:5.7
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_USER=${RAILS_ENV:-test_user}
+      - MYSQL_PASSWORD=${RAILS_ENV:-test_password}
+      - MYSQL_ROOT_HOST=${RAILS_ENV:-%}

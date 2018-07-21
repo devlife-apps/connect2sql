@@ -14,6 +14,6 @@ enum class TestServer(
         val database: String? = null) {
 
     MSSQL_BASIC_USER(ConnectionType.MSSQL, "SOME_HOST", 1433, "sa", "SOME_PASSWORD"),
-    MYSQL_BASIC_USER(ConnectionType.MYSQL, "SOME_HOST", 3306, "basic_user", "SOME_PASSWORD"),
+    MYSQL_BASIC_USER(ConnectionType.MYSQL, "localhost", 3306, "test_user", "test_password"),
     POSTGRES_ADMIN(ConnectionType.POSTGRES, "SOME_HOST", 5432, "postgres", "SOME_PASSWORD", "test")
 }
