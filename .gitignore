@@ -15,3 +15,5 @@ build/
 *.keystore
 local.*.properties
 local.properties
+
+*/fabric.properties

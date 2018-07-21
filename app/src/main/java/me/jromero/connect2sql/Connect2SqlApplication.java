@@ -2,23 +2,14 @@ package me.jromero.connect2sql;
 
 import android.app.Activity;
 import android.app.Application;
-
-import com.mixpanel.android.mpmetrics.MixpanelAPI;
-
-import java.lang.ref.WeakReference;
-
-import javax.inject.Inject;
-
+import io.fabric.sdk.android.Fabric;
 import me.jromero.connect2sql.activity.LaunchActivity;
 import me.jromero.connect2sql.data.LockManager;
-import me.jromero.connect2sql.di.AnalyticsModule;
-import me.jromero.connect2sql.di.ApplicationComponent;
-import me.jromero.connect2sql.di.ApplicationModule;
-import me.jromero.connect2sql.di.DaggerApplicationComponent;
-import me.jromero.connect2sql.di.DatabaseModule;
-import me.jromero.connect2sql.di.PreferencesModule;
-import me.jromero.connect2sql.di.SecurityModule;
+import me.jromero.connect2sql.di.*;
 import me.jromero.connect2sql.log.EzLogger;
+
+import javax.inject.Inject;
+import java.lang.ref.WeakReference;
 
 /**
  *
@@ -29,7 +20,7 @@ public class Connect2SqlApplication extends Application {
 
     @Inject ApplicationFocusManager mApplicationFocusManager;
     @Inject LockManager mLockManager;
-    @Inject MixpanelAPI mMixPanel;
+    @Inject Fabric mFabric;
 
     @Override
     public void onCreate() {
@@ -44,8 +35,9 @@ public class Connect2SqlApplication extends Application {
                 .build();
 
         mApplicationComponent.inject(this);
-
         mApplicationFocusManager.addOnFocusChangeListener(mOnFocusChangeListener);
+
+        EzLogger.i("Fabric version: " + mFabric.getVersion());
     }
 
     public ApplicationComponent getApplicationComponent() {
@@ -55,7 +47,7 @@ public class Connect2SqlApplication extends Application {
     private ApplicationFocusManager.OnFocusChangeListener mOnFocusChangeListener = new ApplicationFocusManager.OnFocusChangeListener() {
         @Override
         public void onApplicationFocusChange(boolean focused) {
-            if (focused)  {
+            if (focused) {
                 WeakReference<Activity> lastFocusedActivity = mApplicationFocusManager.getLastFocusedActivity();
                 if (lastFocusedActivity != null) {
                     if (lastFocusedActivity.get() != null) {
@@ -78,8 +70,6 @@ public class Connect2SqlApplication extends Application {
                 } else {
                     EzLogger.d("No reference to last focused activity");
                 }
-            } else {
-                mMixPanel.flush();
             }
         }
     };
