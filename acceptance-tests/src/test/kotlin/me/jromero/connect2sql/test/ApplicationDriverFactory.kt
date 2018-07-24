@@ -1,27 +1,38 @@
 package me.jromero.connect2sql.test
 
-import io.selendroid.client.SelendroidDriver
-import io.selendroid.common.SelendroidCapabilities
-import io.selendroid.standalone.SelendroidConfiguration
-import io.selendroid.standalone.SelendroidLauncher
+import io.appium.java_client.android.AndroidDriver
+import io.appium.java_client.android.AndroidElement
+import org.apache.xpath.operations.And
+import org.openqa.selenium.Capabilities
+import org.openqa.selenium.remote.DesiredCapabilities
+import java.io.File
+import java.net.URL
+import java.util.concurrent.TimeUnit
 
 /**
  *
  */
 object ApplicationDriverFactory {
 
-    fun create(): SelendroidDriver {
-        val config = SelendroidConfiguration()
-        config.appFolderToMonitor = System.getenv("APK_DIR")!!
+    fun create(): AndroidDriver<AndroidElement> {
 
-        val launcher = SelendroidLauncher(config)
-        launcher.launchSelendroid()
+        val apk = File(System.getenv("APK")!!)
 
-        val capabilities = SelendroidCapabilities("app.devlife.connect2sql")
+        val capabilities = DesiredCapabilities()
+        capabilities.setCapability("device", "Android")
+        capabilities.setCapability("deviceName", "Android")
+        capabilities.setCapability("platformName", "Android")
+        capabilities.setCapability("allowTestPackages", true)
+        capabilities.setCapability("automationName", "uiautomator2")
+        capabilities.setCapability("app", apk.absolutePath)
+        capabilities.setCapability("appWaitActivity", "me.jromero.connect2sql.*")
+        capabilities.setCapability("unicodeKeyboard", true)
+        capabilities.setCapability("resetKeyboard", true)
+        capabilities.setCapability("disableAndroidWatchers", true)
+        capabilities.setCapability("ignoreUnimportantViews", true)
 
-        val driver = SelendroidDriver(capabilities)
-        driver.switchTo().window("NATIVE_APP")
-
+        val driver = AndroidDriver<AndroidElement>(URL("http://127.0.0.1:4723/wd/hub"), capabilities)
+        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS)
         return driver
     }
 }

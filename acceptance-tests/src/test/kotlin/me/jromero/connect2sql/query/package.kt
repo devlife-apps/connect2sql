@@ -1,8 +1,7 @@
 package me.jromero.connect2sql.query
 
-import io.selendroid.client.SelendroidDriver
-import io.selendroid.client.waiter.TestWaiter
-import org.openqa.selenium.By
+import io.appium.java_client.android.AndroidDriver
+import io.appium.java_client.android.AndroidElement
 
 /**
  *
@@ -10,33 +9,33 @@ import org.openqa.selenium.By
 private val queryEditTextId = "txtQuery"
 private val databaseSelectionId = "lblCurrentDatabase"
 
-fun SelendroidDriver.doReadSql(): String {
+fun AndroidDriver<AndroidElement>.doReadSql(): String {
     return findElementById(queryEditTextId).text
 }
 
-fun SelendroidDriver.doClearSql() {
+fun AndroidDriver<AndroidElement>.doClearSql() {
     findElementById(queryEditTextId).clear()
 }
 
-fun SelendroidDriver.doEnterSql(sql: String) {
+fun AndroidDriver<AndroidElement>.doEnterSql(sql: String) {
     doClearSql()
     findElementById(queryEditTextId).sendKeys(sql)
 }
 
-fun SelendroidDriver.doExecuteSql(sql: String) {
+fun AndroidDriver<AndroidElement>.doExecuteSql(sql: String) {
     doEnterSql(sql)
     findElementById("fab").click()
 }
 
-fun SelendroidDriver.doWaitForQueryScreen(timeoutSecs: Int) {
-    TestWaiter.waitForElement(By.id(queryEditTextId), timeoutSecs, this)
+fun AndroidDriver<AndroidElement>.doWaitForQueryScreen(timeoutSecs: Int) {
+//    TestWaiter.waitForElement(By.id(queryEditTextId), timeoutSecs, this)
 }
 
-fun SelendroidDriver.doWaitForDatabasesToBeDetected(timeoutSecs: Int) {
-    TestWaiter.waitFor({ findElementById(databaseSelectionId).text.contains("None")})
+fun AndroidDriver<AndroidElement>.doWaitForDatabasesToBeDetected(timeoutSecs: Int) {
+//    TestWaiter.waitFor({ findElementById(databaseSelectionId).text.contains("None")})
 }
 
-fun SelendroidDriver.doAttemptToSelectDatabase(databaseName: String) {
+fun AndroidDriver<AndroidElement>.doAttemptToSelectDatabase(databaseName: String) {
     findElementById(databaseSelectionId).click()
     findElementByPartialLinkText(databaseName).click()
 }

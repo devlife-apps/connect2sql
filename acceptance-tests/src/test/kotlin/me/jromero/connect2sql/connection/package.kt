@@ -1,12 +1,13 @@
 package me.jromero.connect2sql.connection
 
-import io.selendroid.client.SelendroidDriver
+import io.appium.java_client.android.AndroidDriver
+import io.appium.java_client.android.AndroidElement
 import me.jromero.connect2sql.TestServer
+import me.jromero.connect2sql.test.findElementContainingText
 import org.openqa.selenium.By
 
-fun SelendroidDriver.doGoToAddConnection(type: ConnectionType) {
+fun AndroidDriver<AndroidElement>.doGoToAddConnection(type: ConnectionType) {
     this.findElement(By.id("fab")).click()
-
     when (type) {
         ConnectionType.MYSQL -> this.findElement(By.id("bi_mysql")).click()
         ConnectionType.MSSQL -> this.findElement(By.id("bi_mssql")).click()
@@ -15,7 +16,7 @@ fun SelendroidDriver.doGoToAddConnection(type: ConnectionType) {
     }
 }
 
-fun SelendroidDriver.doFillConnectionForm(testServer: TestServer) {
+fun AndroidDriver<AndroidElement>.doFillConnectionForm(testServer: TestServer) {
     doFillConnectionForm(
             testServer.name,
             testServer.host,
@@ -25,7 +26,7 @@ fun SelendroidDriver.doFillConnectionForm(testServer: TestServer) {
             testServer.database)
 }
 
-fun SelendroidDriver.doFillConnectionForm(
+fun AndroidDriver<AndroidElement>.doFillConnectionForm(
         name: String,
         host: String,
         port: Int,
@@ -33,26 +34,26 @@ fun SelendroidDriver.doFillConnectionForm(
         password: String,
         database: String?) {
 
-    findElementById("form_txt_name").sendKeys(name)
-    findElementById("form_txt_host").sendKeys(host)
-    findElementById("form_txt_port").clear()
-    findElementById("form_txt_port").sendKeys("${port}")
-    findElementById("form_txt_username").sendKeys(username)
-    findElementById("form_txt_password").sendKeys(password)
+    findElementById("form_txt_name").also { it.clear() }.also { it.sendKeys(name) }
+    findElementById("form_txt_host").also { it.clear() }.also { it.sendKeys(host) }
+    findElementById("form_txt_port").also { it.clear() }.also { it.sendKeys("${port}") }
+
+    findElementById("form_txt_username").also { it.clear() }.also { it.sendKeys(username) }
+    findElementById("form_txt_password").also { it.clear() }.also { it.sendKeys(password) }
 
     if (database != null) findElementById("form_txt_database").sendKeys(database)
 }
 
-fun SelendroidDriver.doPressTestConnection() {
-    findElementByLinkText("Test").click()
-    findElementByPartialLinkText("Testing")
+fun AndroidDriver<AndroidElement>.doPressTestConnection() {
+    findElementContainingText("Test").click()
+    findElementContainingText("Testing")
 }
 
 
-fun SelendroidDriver.doPressSaveConnection() {
-    findElementByLinkText("Save").click()
+fun AndroidDriver<AndroidElement>.doPressSaveConnection() {
+    findElementContainingText("Save").click()
 }
 
-fun SelendroidDriver.doPressConnectionWithName(name: String) {
+fun AndroidDriver<AndroidElement>.doPressConnectionWithName(name: String) {
     findElementByLinkText(name).click()
 }

@@ -1,7 +1,9 @@
 package me.jromero.connect2sql.lock
 
-import io.selendroid.client.SelendroidDriver
-import io.selendroid.client.TouchActionBuilder
+import io.appium.java_client.TouchAction
+import io.appium.java_client.android.AndroidDriver
+import io.appium.java_client.android.AndroidElement
+import me.jromero.connect2sql.test.findElementContainingText
 import org.openqa.selenium.By
 import org.openqa.selenium.Dimension
 import org.openqa.selenium.Point
@@ -9,29 +11,29 @@ import org.openqa.selenium.Point
 /**
  * Goes through the setting of the unlock pattern
  */
-fun SelendroidDriver.doSetUnlockPattern() {
+fun AndroidDriver<AndroidElement>.doSetUnlockPattern() {
     drawUnlockPattern()
-    findElement(By.linkText("Continue")).click()
+    findElementContainingText("Continue").click()
 
     drawUnlockPattern()
-    findElement(By.linkText("Confirm")).click()
+    findElementContainingText("Confirm").click()
 }
 
 /**
  * Simply goes through the motions of drawing the unlock pattern
  */
-fun SelendroidDriver.drawUnlockPattern() {
+fun AndroidDriver<AndroidElement>.drawUnlockPattern() {
     val patternView = this.findElement(By.id("pl_pattern"))
 
     val cell1point = getCoordinatesOf(1, patternView.size, patternView.location)
     val cell3point = getCoordinatesOf(3, patternView.size, patternView.location)
     val cell9point = getCoordinatesOf(9, patternView.size, patternView.location)
-    TouchActionBuilder()
-            .pointerDown(cell1point.x, cell1point.y)
-            .pointerMove(cell3point.x, cell3point.y)
-            .pointerMove(cell9point.x, cell9point.y)
-            .pointerUp()
-            .build().perform(this)
+    TouchAction(this)
+            .press(cell1point.x, cell1point.y)
+            .moveTo(cell3point.x, cell3point.y)
+            .moveTo(cell9point.x, cell9point.y)
+            .release()
+            .perform()
 }
 
 /**

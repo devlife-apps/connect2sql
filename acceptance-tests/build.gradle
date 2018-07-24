@@ -1,15 +1,12 @@
 apply plugin: 'kotlin'
 
-dependencies {
-    testCompile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    testCompile 'io.selendroid:selendroid-standalone:0.17.0'
-    testCompile 'io.selendroid:selendroid-client:0.17.0'
-    testCompile "junit:junit:4.12"
-
-    testCompile 'org.mariadb.jdbc:mariadb-java-client:2.2.5'
-}
-
 repositories {
     mavenCentral()
-    maven { url "https://jitpack.io" }
+}
+
+dependencies {
+    testImplementation "io.appium:java-client:3.0.0"
+    testImplementation "junit:junit:4.12"
+    testImplementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    testImplementation 'org.mariadb.jdbc:mariadb-java-client:2.2.5'
 }
