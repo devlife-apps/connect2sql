@@ -56,6 +56,15 @@ android {
         exclude 'LICENSE.txt'
     }
 
+    signingConfigs {
+        release {
+            keyAlias "connect2sql"
+            keyPassword System.env.SIGNING_KEY_PASSWORD
+            storeFile file("${project.projectDir}/../devtools/signing/release.keystore")
+            storePassword System.env.SIGNING_STORE_PASSWORD
+        }
+    }
+
     buildTypes {
         debug {
             versionNameSuffix "-SNAPSHOT"
@@ -64,6 +73,7 @@ android {
         release {
             versionNameSuffix "+${buildNumber}"
             minifyEnabled false
+            signingConfig signingConfigs.release
         }
     }
 

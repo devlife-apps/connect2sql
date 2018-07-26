@@ -1,13 +1,25 @@
 stages:
   - package
 
-package:
+package:debug:
   stage: package
   image: thyrlian/android-sdk
+  variables: {}
   script:
-    - ./gradlew :app:assemble
+    - ./gradlew --no-daemon :app:assembleDebug
   artifacts:
     paths:
       - app/build/outputs/apk/debug/*.apk
-      - app/build/outputs/apk/release/*.apk
     expire_in: 1 week
+
+package:release:
+  stage: package
+  image: thyrlian/android-sdk
+  script:
+    - echo "apiSecret=${FABRIC_API_SECRET}" > app/fabric.properties
+    - ./gradlew --no-daemon :app:assembleRelease
+  artifacts:
+    paths:
+      - app/build/outputs/apk/release/*.apk
+  only:
+    - master
