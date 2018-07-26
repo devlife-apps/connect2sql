@@ -8,7 +8,7 @@ buildscript {
     }
 }
 
-def buildNumber = System.env.CI_JOB_ID ?: "dev"
+def buildNumber = System.env.CI_JOB_ID ?: "0"
 def fabricApiKey = System.env.FABRIC_API_KEY ?: ""
 
 apply plugin: 'com.android.application'
@@ -67,13 +67,20 @@ android {
 
     buildTypes {
         debug {
-            versionNameSuffix "-SNAPSHOT"
+            versionNameSuffix "+d${buildNumber}"
             minifyEnabled false
         }
+
         release {
-            versionNameSuffix "+${buildNumber}"
+            versionNameSuffix "+r${buildNumber}"
             minifyEnabled false
             signingConfig signingConfigs.release
+        }
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "connect2sql-${variant.buildType.name}-${variant.versionName}.apk"
         }
     }
 
