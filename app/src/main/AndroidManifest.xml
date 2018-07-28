@@ -1,71 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.gitlab.connect2sql"
-          android:installLocation="auto">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.gitlab.connect2sql"
+    android:installLocation="auto">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name="me.jromero.connect2sql.Connect2SqlApplication"
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/Theme.C2SQL.ActionBar">
+        android:theme="@style/Theme.C2SQL.ActionBar"
+        tools:replace="android:icon">
         <activity
             android:name="me.jromero.connect2sql.activity.LaunchActivity"
             android:label="@string/app_name">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name="me.jromero.connect2sql.ui.lock.UnlockActivity"
-            android:label="@string/activity_lock"/>
+            android:label="@string/activity_lock" />
         <activity
             android:name="me.jromero.connect2sql.ui.lock.SetLockActivity"
-            android:label="@string/activity_set_lock"/>
+            android:label="@string/activity_set_lock" />
         <activity
             android:name="me.jromero.connect2sql.ui.lock.ForgotLockActivity"
-            android:label="@string/title_activity_forgot_lock"/>
+            android:label="@string/title_activity_forgot_lock" />
         <activity
             android:name="me.jromero.connect2sql.activity.DashboardActivity"
             android:configChanges="screenSize|orientation|keyboardHidden"
-            android:label="@string/activity_home"/>
+            android:label="@string/activity_home" />
         <activity
             android:name="me.jromero.connect2sql.ui.connection.ConnectionInfoDriverChooserActivity"
-            android:label="@string/activity_select_driver"/>
+            android:label="@string/activity_select_driver" />
         <activity
             android:name="me.jromero.connect2sql.ui.connection.ConnectionInfoEditorActivity"
             android:label="@string/activity_configure_connection"
-            android:theme="@style/Theme.C2SQL.NoActionBar"/>
+            android:theme="@style/Theme.C2SQL.NoActionBar" />
         <activity
             android:name="me.jromero.connect2sql.ui.query.QueryActivity"
             android:configChanges="orientation|uiMode|screenSize|smallestScreenSize|keyboardHidden"
             android:label="@string/activity_query"
             android:uiOptions="splitActionBarWhenNarrow"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name="me.jromero.connect2sql.ui.savedqueries.SavedQueriesActivity"
-            android:label="@string/activity_saved_queries"/>
+            android:label="@string/activity_saved_queries" />
         <activity
             android:name="me.jromero.connect2sql.ui.history.QueryHistoryActivity"
-            android:label="@string/activity_query_history"/>
+            android:label="@string/activity_query_history" />
         <activity
             android:name="me.jromero.connect2sql.ui.results.ResultsActivity"
             android:configChanges="orientation|uiMode|screenSize|smallestScreenSize|keyboardHidden"
-            android:label="@string/activity_query_results"/>
+            android:label="@string/activity_query_results" />
 
         <provider
             android:name="me.jromero.connect2sql.db.provider.AppContentProvider"
             android:authorities="me.jromero.connect2sql.db.provider.AppContentProvider"
-            android:exported="false"/>
+            android:exported="false" />
 
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="${fabricApiKey}"/>
+            android:value="${fabricApiKey}" />
     </application>
 
 </manifest>
