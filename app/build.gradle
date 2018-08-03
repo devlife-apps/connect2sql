@@ -32,8 +32,8 @@ android {
 
     defaultConfig {
         applicationId "app.devlife.connect2sql"
-        versionCode 40_00_10
-        versionName "4.0.1"
+        versionCode 4_000_002
+        versionName "4.0.2"
 
         minSdkVersion 23
         targetSdkVersion 27
