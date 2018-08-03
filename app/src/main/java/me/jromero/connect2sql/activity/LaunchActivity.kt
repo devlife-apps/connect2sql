@@ -26,21 +26,6 @@ class LaunchActivity : Activity() {
     @Inject
     lateinit var mLockManager: LockManager
 
-    @Inject
-    lateinit var mAppDatabaseHelperV3: AppDatabaseHelperV3
-
-    @Inject
-    lateinit var mConnectionInfoSqlModel: ConnectionInfoSqlModel
-
-    @Inject
-    lateinit var mHistoryQuerySqlModel: HistoryQuery.HistoryQuerySqlModel
-
-    @Inject
-    lateinit var mSavedQuerySqlModel: SavedQuery.SavedQuerySqlModel
-
-    @Inject
-    lateinit var mCrashlytics: Crashlytics
-
     private var mPendingResult = false
 
     override fun onCreate(savedInstanceState: Bundle?) {

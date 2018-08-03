@@ -1,7 +1,12 @@
 package me.jromero.connect2sql.activity
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.content.res.Resources
 import android.database.Cursor
+import android.net.Uri
 import android.os.Bundle
+import android.support.customtabs.CustomTabsIntent
 import android.support.v4.app.LoaderManager
 import android.support.v4.content.Loader
 import android.support.v7.app.AlertDialog
@@ -57,7 +62,7 @@ class DashboardActivity : BaseActivity() {
         ApplicationUtils.getApplication(this).applicationComponent.inject(this)
 
         fab.setOnClickListener {
-            startActivity(ConnectionInfoDriverChooserActivity.newIntent(this));
+            startActivity(ConnectionInfoDriverChooserActivity.newIntent(this))
         }
     }
 
@@ -67,6 +72,39 @@ class DashboardActivity : BaseActivity() {
         supportLoaderManager.restartLoader(LOADER_CONNECTIONS, Bundle(), mConnectionsLoaderCallbacks)
     }
 
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.connections, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.rate -> {
+                try {
+                    val goToMarket = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName"));
+                    goToMarket.addFlags(
+                        Intent.FLAG_ACTIVITY_NO_HISTORY
+                        or Intent.FLAG_ACTIVITY_NEW_DOCUMENT
+                        or Intent.FLAG_ACTIVITY_MULTIPLE_TASK
+                    )
+                    startActivity(goToMarket);
+                } catch (_: ActivityNotFoundException) {
+                    CustomTabsIntent.Builder()
+                        .setToolbarColor(resources.getColor(R.color.blueBase, theme))
+                        .build()
+                        .launchUrl(this, Uri.parse("http://play.google.com/store/apps/details?id=$packageName"))
+                }
+            }
+            R.id.about -> {
+                CustomTabsIntent.Builder()
+                    .setToolbarColor(resources.getColor(R.color.blueBase, theme))
+                    .build()
+                    .launchUrl(this, Uri.parse("https://about.devlife.app/connect2sql/"))
+            }
+        }
+        return true
+    }
 
     private fun connect(connectionInfo: ConnectionInfo) {
         mAnswers.logCustom(CustomEvent("connect").putCustomAttribute("DriverType", connectionInfo.driverType.toString()))
@@ -103,7 +141,7 @@ class DashboardActivity : BaseActivity() {
             })
 
         progressDialog.setOnCancelListener { subscription.unsubscribe() }
-        progressDialog.show();
+        progressDialog.show()
     }
 
 
@@ -171,7 +209,7 @@ class DashboardActivity : BaseActivity() {
 
         // Start the CAB using the ActionMode.Callback defined above
         actionMode = startSupportActionMode(mActionModeCallback)
-        actionMode!!.setTitle("${activatedBlockItems().size} selected")
+        actionMode!!.title = "${activatedBlockItems().size} selected"
 
         true
     }
@@ -184,30 +222,19 @@ class DashboardActivity : BaseActivity() {
             /***
              * Single click selection when in action mode
              */
-            /***
-             * Single click selection when in action mode
-             */
 
-            if (item.isActivated) {
-                item.isActivated = false
-            } else {
-                item.isActivated = true
-            }
+            item.isActivated = !item.isActivated
 
             if (activatedBlockItems().size < 1) {
                 actionMode!!.finish()
             } else {
-                actionMode!!.setTitle("${activatedBlockItems().size} selected")
+                actionMode!!.title = "${activatedBlockItems().size} selected"
             }
         } else {
             try {
                 /***
                  * Single click when not in selection mode
                  */
-                /***
-                 * Single click when not in selection mode
-                 */
-
 
                 // get connection info from item
                 val connectionInfo = (item.tag as ConnectionInfo)
@@ -266,7 +293,6 @@ class DashboardActivity : BaseActivity() {
         }
     }
 
-
     private val mActionModeCallback = object : ActionMode.Callback {
 
         override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
@@ -298,15 +324,15 @@ class DashboardActivity : BaseActivity() {
                             Toast.LENGTH_LONG).show()
                         return false
                     }
+
                     for (connectionItem in activatedBlockItems) {
                         val connectionInfo = connectionItem.tag as ConnectionInfo
                         val request = ConnectionInfoEditorRequest(connectionInfo.id.toLong())
                         val newIntent = ConnectionInfoEditorActivity.newIntent(this@DashboardActivity, request)
                         startActivity(newIntent)
-                        // there should only be one but just in case...
                         break
                     }
-                    mode.finish() // Action picked, so close the CAB
+                    mode.finish()
                     return true
                 }
                 R.id.duplicate -> {
@@ -330,7 +356,7 @@ class DashboardActivity : BaseActivity() {
                         connectionInfoRepository.delete(connectionInfo.id.toLong())
                         connections_dashboard.removeView(connectionItem)
                     }
-                    mode.finish() // Action picked, so close the CAB
+                    mode.finish()
                     return true
                 }
                 else -> return false
