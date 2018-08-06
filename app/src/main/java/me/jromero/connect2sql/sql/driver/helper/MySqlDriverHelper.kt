@@ -10,18 +10,7 @@ import me.jromero.connect2sql.sql.driver.agent.DriverAgent
  */
 class MySqlDriverHelper : DriverHelper {
 
-    override val driverClass: String
-        get() {
-            if (canSupportMariaDb()) {
-                return MARIA_DRIVER_PATH
-            } else {
-                return MYSQL_DRIVER_PATH
-            }
-        }
-
-    private fun canSupportMariaDb(): Boolean {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
-    }
+    override val driverClass: String = MARIA_DRIVER_PATH
 
     override fun getColumnsQuery(table: String): String {
         return "DESCRIBE " + safeObject(table) + ";"
@@ -29,10 +18,8 @@ class MySqlDriverHelper : DriverHelper {
 
     override fun getConnectionString(connectionInfo: ConnectionInfo): String {
 
-        val driver = if (canSupportMariaDb()) "mariadb" else "mysql"
 
-        var connectionPath = "jdbc:" + driver + "://" + connectionInfo.host
-        connectionPath += ":" + connectionInfo.port + "/"
+        var connectionPath = "jdbc:mariadb://${connectionInfo.host}:${connectionInfo.port}/"
 
         if (connectionInfo.database != null) {
             connectionPath += connectionInfo.database
@@ -91,8 +78,6 @@ class MySqlDriverHelper : DriverHelper {
     }
 
     companion object {
-
         private val MARIA_DRIVER_PATH = "org.mariadb.jdbc.Driver"
-        private val MYSQL_DRIVER_PATH = "com.mysql.jdbc.Driver"
     }
 }
