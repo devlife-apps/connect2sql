@@ -22,4 +22,4 @@ package:release:
     paths:
       - app/build/outputs/apk/release/*.apk
   only:
-    - master
+    - tags
