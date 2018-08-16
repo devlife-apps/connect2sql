@@ -1,7 +1,6 @@
 package me.jromero.connect2sql.sql.driver.helper
 
 import android.text.TextUtils
-
 import me.jromero.connect2sql.db.model.connection.ConnectionInfo
 import me.jromero.connect2sql.sql.driver.agent.DriverAgent
 
@@ -15,8 +14,7 @@ abstract class JtdsDriverHelper : DriverHelper {
 
     abstract val serverType: String
 
-
-    override fun getConnectionString(connectionInfo: ConnectionInfo): String {
+    override fun createConnectionString(connectionInfo: ConnectionInfo): String {
 
         var connectionPath = "jdbc:jtds:" + serverType + "://" + connectionInfo.host
         connectionPath += ":" + connectionInfo.port
@@ -41,27 +39,15 @@ abstract class JtdsDriverHelper : DriverHelper {
         return connectionPath
     }
 
-    override fun getUseDatabaseSql(databaseName: String): String? {
-        return "USE " + safeObject(databaseName)
-    }
-
-    override fun safeObject(`object`: String): String {
-        return "[$`object`]"
+    override fun createUseDatabaseSql(database: DriverAgent.Database): String? {
+        return "USE " + safeObject(database)
     }
 
     override fun safeValue(value: String): String {
         return "'$value'"
     }
 
-    override fun safeObject(column: DriverAgent.Column): String {
-        return "[" + column.name + "]"
-    }
-
-    override fun safeObject(table: DriverAgent.Table): String {
-        return "[" + table.name + "]"
-    }
-
-    override fun safeObject(database: DriverAgent.Database): String {
-        return "[" + database.name + "]"
+    override fun safeObject(systemObject: DriverAgent.SystemObject): String {
+        return "[${systemObject.name}]"
     }
 }

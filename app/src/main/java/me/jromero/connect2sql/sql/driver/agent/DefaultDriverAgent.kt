@@ -1,13 +1,12 @@
 package me.jromero.connect2sql.sql.driver.agent
 
-import java.sql.Connection
-import java.sql.SQLException
-import java.sql.Statement
-
 import me.jromero.connect2sql.log.EzLogger
 import me.jromero.connect2sql.sql.driver.helper.DriverHelper
 import rx.Observable
+import java.sql.Connection
 import java.sql.ResultSet
+import java.sql.SQLException
+import java.sql.Statement
 
 /**
 
@@ -34,8 +33,8 @@ class DefaultDriverAgent(private val mDriverHelper: DriverHelper) : DriverAgent 
         }
     }
 
-    override fun tables(connection: Connection, databaseName: String): Observable<DriverAgent.Table> {
-        EzLogger.v("[tables] databaseName=" + databaseName)
+    override fun tables(connection: Connection, databaseName: DriverAgent.Database): Observable<DriverAgent.Table> {
+        EzLogger.v("[tables] databaseName=$databaseName")
         return Observable.create { subscriber ->
             try {
                 useDatabase(connection, databaseName)
@@ -44,8 +43,24 @@ class DefaultDriverAgent(private val mDriverHelper: DriverHelper) : DriverAgent 
                 val resultSet = statement.executeQuery(mDriverHelper.getTablesQuery(databaseName))
                 while (resultSet.next()) {
                     val tableName = resultSet.getString(mDriverHelper.tableNameIndex)
-                    val tableType = resultSet.getString(mDriverHelper.tableTypeIndex)
-                    subscriber.onNext(DriverAgent.Table(tableName, DriverAgent.TableType(tableType)))
+                    val tableType = resultSet.getString(mDriverHelper.tableTypeIndex)?.let {
+                        when (it) {
+                            "SYSTEM VIEW",
+                            "VIEW" ->
+                                DriverAgent.TableType.VIEW
+                            "BASE TABLE",
+                            "TABLE" ->
+                                DriverAgent.TableType.TABLE
+                            else -> {
+                                EzLogger.w("Skipping table type: ${it}")
+                                null
+                            }
+                        }
+                    }
+
+                    if (tableType != null) {
+                        subscriber.onNext(DriverAgent.Table(tableName, tableType))
+                    }
                 }
                 resultSet.close()
                 statement.close()
@@ -58,7 +73,7 @@ class DefaultDriverAgent(private val mDriverHelper: DriverHelper) : DriverAgent 
         }
     }
 
-    override fun columns(connection: Connection, databaseName: String, tableName: String): Observable<DriverAgent.Column> {
+    override fun columns(connection: Connection, databaseName: DriverAgent.Database, tableName: DriverAgent.Table): Observable<DriverAgent.Column> {
         EzLogger.v("[columns] databaseName=$databaseName, tableName=$tableName")
         return Observable.create { subscriber ->
             try {
@@ -69,10 +84,9 @@ class DefaultDriverAgent(private val mDriverHelper: DriverHelper) : DriverAgent 
 
                 while (resultSet.next()) {
                     val columnName = resultSet.getString(mDriverHelper.columnNameIndex)
-                    val columnType = resultSet.getString(mDriverHelper.columnTypeIndex)
-
-                    subscriber.onNext(DriverAgent.Column(columnName, DriverAgent.ColumnType(columnType)))
+                    subscriber.onNext(DriverAgent.Column(columnName))
                 }
+
                 resultSet.close()
                 statement.close()
 
@@ -84,7 +98,7 @@ class DefaultDriverAgent(private val mDriverHelper: DriverHelper) : DriverAgent 
         }
     }
 
-    override fun execute(connection: Connection, databaseName: String?, sql: String): Observable<Statement> {
+    override fun execute(connection: Connection, databaseName: DriverAgent.Database?, sql: String): Observable<Statement> {
         return Observable.create { subscriber ->
             try {
 
@@ -120,9 +134,9 @@ class DefaultDriverAgent(private val mDriverHelper: DriverHelper) : DriverAgent 
      * @param connection
      * @param databaseName
      */
-    private fun useDatabase(connection: Connection, databaseName: String) {
+    private fun useDatabase(connection: Connection, databaseName: DriverAgent.Database) {
         val statement = connection.createStatement()
-        val useDatabaseSql = mDriverHelper.getUseDatabaseSql(databaseName)
+        val useDatabaseSql = mDriverHelper.createUseDatabaseSql(databaseName)
         if (useDatabaseSql != null) {
             if (statement.execute(useDatabaseSql)) {
                 statement.close()

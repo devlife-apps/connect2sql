@@ -1,8 +1,7 @@
 package me.jromero.connect2sql.sql.driver.agent
 
-import java.sql.Connection
-
 import rx.Observable
+import java.sql.Connection
 import java.sql.Statement
 
 
@@ -13,22 +12,27 @@ interface DriverAgent {
 
     fun databases(connection: Connection): Observable<Database>
 
-    fun tables(connection: Connection, databaseName: String): Observable<Table>
+    fun tables(connection: Connection, databaseName: Database): Observable<Table>
 
-    fun columns(connection: Connection, databaseName: String, tableName: String): Observable<Column>
+    fun columns(connection: Connection, databaseName: Database, tableName: Table): Observable<Column>
 
-    fun execute(connection: Connection, databaseName: String?, sql: String): Observable<Statement>
+    fun execute(connection: Connection, databaseName: Database?, sql: String): Observable<Statement>
 
     fun close(statement: Statement): Observable<Void>
 
     /**
      * System Objects are items such as tables, schemas, databases, columns, etc.
      */
-    interface SystemObject
-    data class Database(val name: String) : SystemObject
-    data class Table(val name: String, val type: TableType) : SystemObject
-    data class Column(val name: String, val type: ColumnType) : SystemObject
+    interface SystemObject {
+        val name: String
+    }
 
-    data class TableType(val value: String)
-    data class ColumnType(val value: String)
+    data class Database(override val name: String) : SystemObject
+    data class Table(override val name: String, val type: TableType = TableType.TABLE) : SystemObject
+    data class Column(override val name: String) : SystemObject
+
+    enum class TableType {
+        VIEW,
+        TABLE
+    }
 }

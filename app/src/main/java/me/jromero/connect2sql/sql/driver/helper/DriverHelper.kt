@@ -22,7 +22,7 @@ interface DriverHelper {
      * *
      * @return
      */
-    fun getConnectionString(connectionInfo: ConnectionInfo): String
+    fun createConnectionString(connectionInfo: ConnectionInfo): String
 
     /**
      * Get a list of all databases available
@@ -42,7 +42,7 @@ interface DriverHelper {
 
      * @return tables in current database
      */
-    fun getTablesQuery(database: String): String
+    fun getTablesQuery(database: DriverAgent.Database): String
 
     /**
      * Get the index of where the table name is located in the results from
@@ -65,7 +65,7 @@ interface DriverHelper {
 
      * @return columns
      */
-    fun getColumnsQuery(table: String): String
+    fun getColumnsQuery(table: DriverAgent.Table): String
 
     /**
      * Get the index of where the column name is located in the results from
@@ -76,41 +76,17 @@ interface DriverHelper {
     val columnNameIndex: Int
 
     /**
-     * Get the index of where the column type is located in the results from
-     * getColumnsQuery();
-
-     * @return column index
-     */
-    val columnTypeIndex: Int
-
-    /**
      * Returns SQL to execute to change or select database
 
      * @return
      */
-    fun getUseDatabaseSql(databaseName: String): String?
+    fun createUseDatabaseSql(database: DriverAgent.Database): String?
 
     /**
-     * Manipulate string to make it safe to insert into a query string
-
-     * @param object
-     * *
-     * @return
-     */
-    @Deprecated("use @{link DriverHelper#safeObject} or @{link DriverHelper#safeValue}")
-    fun safeObject(`object`: String): String
-
-    /**
-
      * @param value
-     * *
      * @return
      */
     fun safeValue(value: String): String
 
-    fun safeObject(table: DriverAgent.Table): String
-
-    fun safeObject(database: DriverAgent.Database): String
-
-    fun safeObject(column: DriverAgent.Column): String
+    fun safeObject(systemObject: DriverAgent.SystemObject): String
 }

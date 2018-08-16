@@ -140,66 +140,66 @@ class ResultsActivity : BaseActivity() {
         progressDialog.show()
 
         connectionAgent
-                .connect(connectionInfo)
-                .flatMap { connection ->
-                    driverAgent.execute(
-                            connection,
-                            databaseName,
-                            sqlString)
+            .connect(connectionInfo)
+            .flatMap { connection ->
+                driverAgent.execute(
+                    connection,
+                    databaseName?.let { DriverAgent.Database(it) },
+                    sqlString)
+            }
+            .map { statement ->
+                val resultSet = statement.resultSet
+                if (resultSet != null) {
+                    fun extractResults(statement: Statement, list: List<ResultSet>): List<ResultSet> {
+                        if (statement.getMoreResults(Statement.KEEP_CURRENT_RESULT))
+                            return extractResults(statement, list + statement.resultSet)
+                        else
+                            return list
+                    }
+
+                    ViewableResults(extractResults(statement, arrayListOf(resultSet)))
+                } else {
+                    UpdateResults(statement.updateCount)
                 }
-                .map { statement ->
-                    val resultSet = statement.resultSet
-                    if (resultSet != null) {
-                        fun extractResults(statement: Statement, list: List<ResultSet>): List<ResultSet> {
-                            if (statement.getMoreResults(Statement.KEEP_CURRENT_RESULT))
-                                return extractResults(statement, list + statement.resultSet)
-                            else
-                                return list
-                        }
+            }
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : Subscriber<Results>() {
+                override fun onCompleted() {}
 
-                        ViewableResults(extractResults(statement, arrayListOf(resultSet)))
-                    } else {
-                        UpdateResults(statement.updateCount)
+                override fun onError(e: Throwable) {
+                    EzLogger.e(e.message, e)
+                    progressDialog.dismiss()
+
+                    val builder = AlertDialog.Builder(this@ResultsActivity)
+                    builder.setTitle("Error")
+                    builder.setMessage(e.message)
+                    builder.setPositiveButton("OK") { dialog, which -> onBackPressed() }
+                    builder.create().show()
+                }
+
+                override fun onNext(results: Results) {
+                    progressDialog.dismiss()
+
+                    when (results) {
+                        is ViewableResults -> {
+                            results.resultSets.forEachIndexed { i, resultSet -> resultsSets.append(i, resultSet) }
+                            EzLogger.i("Total result sets: " + resultsSets)
+                            displayResults()
+                        }
+                        is UpdateResults -> {
+                            val builder = AlertDialog.Builder(this@ResultsActivity)
+                            builder.setTitle("Success")
+                            builder.setMessage("Records updated: " + results.updatedRecords)
+                            builder.setPositiveButton("OK") { dialog, which ->
+                                onBackPressed()
+                            }
+                            builder.create().show()
+                        }
                     }
                 }
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Subscriber<Results>() {
-                    override fun onCompleted() {}
 
-                    override fun onError(e: Throwable) {
-                        EzLogger.e(e.message, e)
-                        progressDialog.dismiss()
-
-                        val builder = AlertDialog.Builder(this@ResultsActivity)
-                        builder.setTitle("Error")
-                        builder.setMessage(e.message)
-                        builder.setPositiveButton("OK") { dialog, which -> onBackPressed() }
-                        builder.create().show()
-                    }
-
-                    override fun onNext(results: Results) {
-                        progressDialog.dismiss()
-
-                        when (results) {
-                            is ViewableResults -> {
-                                results.resultSets.forEachIndexed { i, resultSet -> resultsSets.append(i, resultSet)}
-                                EzLogger.i("Total result sets: " + resultsSets)
-                                displayResults()
-                            }
-                            is UpdateResults -> {
-                                val builder = AlertDialog.Builder(this@ResultsActivity)
-                                builder.setTitle("Success")
-                                builder.setMessage("Records updated: " + results.updatedRecords)
-                                builder.setPositiveButton("OK") { dialog, which ->
-                                    onBackPressed()
-                                }
-                                builder.create().show()
-                            }
-                        }
-                    }
-
-                })
+            })
     }
 
 
