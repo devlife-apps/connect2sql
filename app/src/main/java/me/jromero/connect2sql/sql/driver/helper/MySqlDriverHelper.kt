@@ -1,9 +1,8 @@
 package me.jromero.connect2sql.sql.driver.helper
 
-import android.os.Build
-
 import me.jromero.connect2sql.db.model.connection.ConnectionInfo
 import me.jromero.connect2sql.sql.driver.agent.DriverAgent
+import me.jromero.connect2sql.sql.driver.agent.DriverAgent.Table
 
 /**
 
@@ -12,12 +11,11 @@ class MySqlDriverHelper : DriverHelper {
 
     override val driverClass: String = MARIA_DRIVER_PATH
 
-    override fun getColumnsQuery(table: String): String {
+    override fun getColumnsQuery(table: Table): String {
         return "DESCRIBE " + safeObject(table) + ";"
     }
 
-    override fun getConnectionString(connectionInfo: ConnectionInfo): String {
-
+    override fun createConnectionString(connectionInfo: ConnectionInfo): String {
 
         var connectionPath = "jdbc:mariadb://${connectionInfo.host}:${connectionInfo.port}/"
 
@@ -36,7 +34,7 @@ class MySqlDriverHelper : DriverHelper {
     override val databaseNameIndex: Int
         get() = 1
 
-    override fun getTablesQuery(database: String): String {
+    override fun getTablesQuery(database: DriverAgent.Database): String {
         return "SHOW FULL TABLES FROM " + safeObject(database) + ";"
     }
 
@@ -49,32 +47,17 @@ class MySqlDriverHelper : DriverHelper {
     override val columnNameIndex: Int
         get() = 1
 
-    override val columnTypeIndex: Int
-        get() = 2
-
-    override fun getUseDatabaseSql(databaseName: String): String? {
-        return "USE " + safeObject(databaseName) + ";"
+    override fun createUseDatabaseSql(database: DriverAgent.Database): String? {
+        return "USE " + safeObject(database) + ";"
     }
 
-
-    override fun safeObject(`object`: String): String {
-        return "`$`object``"
-    }
 
     override fun safeValue(value: String): String {
         return "'$value'"
     }
 
-    override fun safeObject(table: DriverAgent.Table): String {
-        return safeObject(table.name)
-    }
-
-    override fun safeObject(database: DriverAgent.Database): String {
-        return safeObject(database.name)
-    }
-
-    override fun safeObject(column: DriverAgent.Column): String {
-        return safeObject(column.name)
+    override fun safeObject(systemObject: DriverAgent.SystemObject): String {
+        return "`${systemObject.name}`"
     }
 
     companion object {

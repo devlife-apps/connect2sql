@@ -8,7 +8,7 @@ public class Table {
     public static final int TYPE_VIEW = 2;
 
     private String mName = "";
-    private int mType = TYPE_TABLE;
+    private int mType;
     private List<Column> mColumns = new ArrayList<Column>();
 
     public Table(String name, int type) {

@@ -14,6 +14,7 @@ import android.text.TextUtils
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import com.gitlab.connect2sql.R
 import kotlinx.android.synthetic.main.activity_query.*
 import me.jromero.connect2sql.ApplicationUtils
 import me.jromero.connect2sql.activity.BaseActivity
@@ -25,7 +26,6 @@ import me.jromero.connect2sql.db.model.query.SavedQuery
 import me.jromero.connect2sql.db.repo.ConnectionInfoRepository
 import me.jromero.connect2sql.db.repo.HistoryQueryRepository
 import me.jromero.connect2sql.db.repo.SavedQueryRepository
-import com.gitlab.connect2sql.R
 import me.jromero.connect2sql.lang.ensure
 import me.jromero.connect2sql.log.EzLogger
 import me.jromero.connect2sql.prefs.UserPreferences
@@ -34,6 +34,7 @@ import me.jromero.connect2sql.sql.DriverType
 import me.jromero.connect2sql.sql.Table
 import me.jromero.connect2sql.sql.driver.agent.DefaultDriverAgent
 import me.jromero.connect2sql.sql.driver.agent.DriverAgent
+import me.jromero.connect2sql.sql.driver.agent.DriverAgent.TableType.VIEW
 import me.jromero.connect2sql.sql.driver.helper.DriverHelper
 import me.jromero.connect2sql.sql.driver.helper.DriverHelperFactory
 import me.jromero.connect2sql.ui.history.QueryHistoryActivity
@@ -42,9 +43,6 @@ import me.jromero.connect2sql.ui.savedqueries.SavedQueriesActivity
 import me.jromero.connect2sql.ui.widget.Toast
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
-import rx.functions.Action2
-import rx.functions.Func0
-import rx.functions.Func1
 import rx.schedulers.Schedulers
 import java.util.*
 import javax.inject.Inject
@@ -128,8 +126,8 @@ class QueryActivity : BaseActivity() {
         quickKeysAdapter.listItemLayout = R.layout.widget_quickkeys_text
 
         val params = LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT)
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT)
 
         /***
          * Build table list dialog
@@ -220,17 +218,17 @@ class QueryActivity : BaseActivity() {
 
         // quick keys
         mQuickKeysList!!.setOnChildClickListener { parent, v, groupPosition, childPosition, id ->
-            var text = quickKeysAdapter.getChild(groupPosition,
-                    childPosition).toString()
+            val text = quickKeysAdapter.getChild(groupPosition, childPosition).toString()
 
             when (groupPosition) {
-                QuickKeysAdapter.SECTION_DATABASES, QuickKeysAdapter.SECTION_TABLES, QuickKeysAdapter.SECTION_COLUMNS -> {
-                    text = driverHelper.safeObject(text)
-                    txtQuery.append(text + " ")
-                }
-            // fall through
-                else -> txtQuery.append(text + " ")
-            }
+                QuickKeysAdapter.SECTION_DATABASES ->
+                    driverHelper.safeObject(DriverAgent.Database(text))
+                QuickKeysAdapter.SECTION_TABLES ->
+                    driverHelper.safeObject(DriverAgent.Table(text))
+                QuickKeysAdapter.SECTION_COLUMNS ->
+                    driverHelper.safeObject(DriverAgent.Column(text))
+                else -> text
+            }.also { txtQuery.append("$it ") }
 
             true
         }
@@ -306,19 +304,26 @@ class QueryActivity : BaseActivity() {
 
     private fun retrieveServerGraph() {
         EzLogger.d("[retrieveServerGraph]")
-        mConnectionAgent.connect(connectionInfo).flatMap<Pair<DriverAgent.Database, DriverAgent.Table>>(Func1<java.sql.Connection, rx.Observable<Pair<DriverAgent.Database, DriverAgent.Table>>> { connection ->
-            driverAgent.databases(connection).flatMap<Pair<DriverAgent.Database, DriverAgent.Table>>(Func1<DriverAgent.Database, rx.Observable<Pair<DriverAgent.Database, DriverAgent.Table>>> { database ->
-                EzLogger.v("[call] database retrieved=" + database)
-                driverAgent.tables(connection, database.name).map<Pair<DriverAgent.Database, DriverAgent.Table>>(Func1<DriverAgent.Table, Pair<DriverAgent.Database, DriverAgent.Table>> { table ->
-                    EzLogger.v("[call] table retrieved=" + table)
-                    Pair(database, table)
-                })
-            })
-        }).collect<MutableMap<DriverAgent.Database, MutableList<DriverAgent.Table>>>(
-                Func0<MutableMap<DriverAgent.Database, MutableList<DriverAgent.Table>>> {
+
+        mConnectionAgent
+            .connect(connectionInfo).flatMap<Pair<DriverAgent.Database, DriverAgent.Table>> { connection ->
+                driverAgent
+                    .databases(connection)
+                    .flatMap<Pair<DriverAgent.Database, DriverAgent.Table>> { database ->
+                        EzLogger.v("[call] database retrieved=$database")
+                        driverAgent
+                            .tables(connection, database)
+                            .map<Pair<DriverAgent.Database, DriverAgent.Table>> { table ->
+                                EzLogger.v("[call] table retrieved=$database/$table")
+                                Pair(database, table)
+                            }
+                    }
+            }
+            .collect<MutableMap<DriverAgent.Database, MutableList<DriverAgent.Table>>>(
+                {
                     hashMapOf()
                 },
-                Action2<MutableMap<DriverAgent.Database, MutableList<DriverAgent.Table>>, Pair<DriverAgent.Database, DriverAgent.Table>> { aggregation, databaseTable ->
+                { aggregation, databaseTable ->
                     val database = databaseTable.first
                     val table = databaseTable.second
 
@@ -328,29 +333,31 @@ class QueryActivity : BaseActivity() {
 
                     aggregation[database]?.add(table)
                 }
-        ).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread()).subscribe(object : Subscriber<Map<DriverAgent.Database, List<DriverAgent.Table>>>() {
-            override fun onCompleted() {
-                EzLogger.v("[onComplete]")
-            }
+            )
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread()).subscribe(object : Subscriber<Map<DriverAgent.Database, List<DriverAgent.Table>>>() {
+                override fun onCompleted() {
+                    EzLogger.v("[onComplete]")
+                }
 
-            override fun onError(e: Throwable) {
-                EzLogger.e("[onError] error=" + e.message, e)
-                val builder = AlertDialog.Builder(this@QueryActivity)
-                builder.setTitle("Error")
-                builder.setMessage(e.message)
-                builder.setNeutralButton("OK", null)
-                builder.create().show()
-            }
+                override fun onError(e: Throwable) {
+                    EzLogger.e("[onError] error=" + e.message, e)
+                    val builder = AlertDialog.Builder(this@QueryActivity)
+                    builder.setTitle("Error")
+                    builder.setMessage(e.message)
+                    builder.setNeutralButton("OK", null)
+                    builder.create().show()
+                }
 
-            override fun onNext(graph: Map<DriverAgent.Database, List<DriverAgent.Table>>) {
-                EzLogger.d("[onNext] databases=" + graph.keys)
+                override fun onNext(graph: Map<DriverAgent.Database, List<DriverAgent.Table>>) {
+                    EzLogger.d("[onNext] databases=" + graph.keys)
 
-                serverGraph.clear()
-                serverGraph.putAll(graph)
+                    serverGraph.clear()
+                    serverGraph.putAll(graph)
 
-                onServerGraphRetrieved()
-            }
-        })
+                    onServerGraphRetrieved()
+                }
+            })
     }
 
     private fun onServerGraphRetrieved() {
@@ -363,8 +370,10 @@ class QueryActivity : BaseActivity() {
 
     private fun loadQueryIfAny() {
         if (!TextUtils.isEmpty(mQueryToLoad)) {
-            val databaseName = driverHelper.safeObject(currentDatabase ?: "")
-            val tableName = driverHelper.safeObject(currentTable ?: "")
+            val databaseName = currentDatabase?.let { DriverAgent.Database(it) }?.let { driverHelper.safeObject(it) }
+                ?: ""
+            val tableName = currentTable?.let { DriverAgent.Table(it) }?.let { driverHelper.safeObject(it) }
+                ?: ""
 
             var columnsCsv = ""
             if (!currentColumns.isEmpty()) {
@@ -471,23 +480,23 @@ class QueryActivity : BaseActivity() {
             button.setOnClickListener {
                 if (txtQueryName.length() > 0) {
                     val savedQuery = SavedQuery(0,
-                            connectionInfo.id,
-                            txtQueryName.text.toString(),
-                            txtQueryText.text.toString())
+                        connectionInfo.id,
+                        txtQueryName.text.toString(),
+                        txtQueryText.text.toString())
 
                     if (mSavedQueryRepository.saveQuery(savedQuery)) {
                         Toast.makeText(this@QueryActivity, "Query saved!",
-                                Toast.LENGTH_SHORT).show()
+                            Toast.LENGTH_SHORT).show()
                     } else {
                         Toast.makeText(this@QueryActivity,
-                                "Failed to save query",
-                                Toast.LENGTH_SHORT).show()
+                            "Failed to save query",
+                            Toast.LENGTH_SHORT).show()
                     }
                     dialog.dismiss()
                 } else {
                     Toast.makeText(this@QueryActivity,
-                            "Please enter a name for the query.",
-                            Toast.LENGTH_SHORT).show()
+                        "Please enter a name for the query.",
+                        Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -586,7 +595,7 @@ class QueryActivity : BaseActivity() {
         serverGraph.entries.firstOrNull { it ->
             it.key.name == currentDatabase
         }?.value?.forEach { it ->
-            tableAdapter.add(Table(it.name, if (it.type.value == "VIEW") Table.TYPE_VIEW else Table.TYPE_TABLE))
+            tableAdapter.add(Table(it.name, if (it.type == VIEW) Table.TYPE_VIEW else Table.TYPE_TABLE))
         }
     }
 
@@ -634,8 +643,8 @@ class QueryActivity : BaseActivity() {
             EzLogger.w("Table not yet selected!")
             onColumnsRetrieved()
         } else {
-            val databaseName = currentDatabase!!
-            val tableName = currentTable!!
+            val databaseName = DriverAgent.Database(currentDatabase!!)
+            val tableName = DriverAgent.Table(currentTable!!)
 
             mConnectionAgent.connect(connectionInfo).flatMap { connection -> driverAgent.columns(connection, databaseName, tableName) }.collect({ arrayListOf<DriverAgent.Column>() }) { columns, column -> columns.add(column) }.observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.newThread()).subscribe(object : Subscriber<List<DriverAgent.Column>>() {
                 override fun onCompleted() {
