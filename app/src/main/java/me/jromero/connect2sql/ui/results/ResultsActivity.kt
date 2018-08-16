@@ -21,6 +21,7 @@ import me.jromero.connect2sql.sql.driver.agent.DriverAgent
 import me.jromero.connect2sql.sql.driver.helper.DriverHelper
 import me.jromero.connect2sql.sql.driver.helper.DriverHelperFactory
 import me.jromero.connect2sql.ui.widget.dialog.ProgressDialog
+import me.jromero.connect2sql.util.rx.ActivityAwareSubscriber
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -42,6 +43,8 @@ class ResultsActivity : BaseActivity() {
 
     private val resultsSets = SparseArray<ResultSet>()
     private val resultTableFragments = HashMap<ResultSet, ResultsTableFragment>()
+
+    private var progressDialog: ProgressDialog? = null
 
     private lateinit var driverHelper: DriverHelper
     private lateinit var driverAgent: DriverAgent
@@ -100,6 +103,10 @@ class ResultsActivity : BaseActivity() {
         queryServer()
     }
 
+    override fun onPause() {
+        super.onPause()
+        progressDialog?.dismiss()
+    }
 
     private fun redrawTables() {
         for (entry in resultTableFragments.entries) {
@@ -134,10 +141,9 @@ class ResultsActivity : BaseActivity() {
         }
     }
 
-    protected fun queryServer() {
-        // create progress dialog
-        val progressDialog = ProgressDialog(this, "Running", "Querying server...")
-        progressDialog.show()
+    private fun queryServer() {
+        progressDialog = ProgressDialog(this, "Running", "Querying server...")
+        progressDialog?.show()
 
         connectionAgent
             .connect(connectionInfo)
@@ -164,12 +170,12 @@ class ResultsActivity : BaseActivity() {
             }
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : Subscriber<Results>() {
+            .subscribe(ActivityAwareSubscriber(this@ResultsActivity, object : Subscriber<Results>() {
                 override fun onCompleted() {}
 
                 override fun onError(e: Throwable) {
                     EzLogger.e(e.message, e)
-                    progressDialog.dismiss()
+                    progressDialog?.dismiss()
 
                     val builder = AlertDialog.Builder(this@ResultsActivity)
                     builder.setTitle("Error")
@@ -179,18 +185,18 @@ class ResultsActivity : BaseActivity() {
                 }
 
                 override fun onNext(results: Results) {
-                    progressDialog.dismiss()
+                    progressDialog?.dismiss()
 
                     when (results) {
                         is ViewableResults -> {
                             results.resultSets.forEachIndexed { i, resultSet -> resultsSets.append(i, resultSet) }
-                            EzLogger.i("Total result sets: " + resultsSets)
+                            EzLogger.i("Total result sets: $resultsSets")
                             displayResults()
                         }
                         is UpdateResults -> {
                             val builder = AlertDialog.Builder(this@ResultsActivity)
                             builder.setTitle("Success")
-                            builder.setMessage("Records updated: " + results.updatedRecords)
+                            builder.setMessage("Records updated: ${results.updatedRecords}")
                             builder.setPositiveButton("OK") { dialog, which ->
                                 onBackPressed()
                             }
@@ -198,8 +204,7 @@ class ResultsActivity : BaseActivity() {
                         }
                     }
                 }
-
-            })
+            }))
     }
 
 
