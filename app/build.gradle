@@ -27,8 +27,8 @@ repositories {
 }
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion '28.0.1'
+    compileSdkVersion 28
+    buildToolsVersion '28.0.2'
 
     defaultConfig {
         applicationId "app.devlife.connect2sql"
@@ -36,7 +36,7 @@ android {
         versionName "4.0.3"
 
         minSdkVersion 23
-        targetSdkVersion 27
+        targetSdkVersion 28
 
         manifestPlaceholders = [fabricApiKey: fabricApiKey]
 

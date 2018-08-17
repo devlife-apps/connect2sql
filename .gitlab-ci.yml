@@ -1,25 +1,65 @@
 stages:
+  - ci
   - package
+
+variables:
+  GRADLE_USER_HOME: "${CI_PROJECT_DIR}/.gradle-home"
+
+ci:create:
+  stage: ci
+  image: docker:latest
+  services:
+    - docker:dind
+  before_script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+  script: |
+      cd docker
+      if [ "false" = $(./update-required.sh) ]; then
+        echo "Skipping docker build..."
+        exit 0
+      else
+        echo "New build required with hash..."
+        cat .previous-hash
+      fi
+      docker build -t registry.gitlab.com/devlife-apps/connect2sql/ci .
+      docker push registry.gitlab.com/devlife-apps/connect2sql/ci
+  cache:
+    key: "${CI_JOB_NAME}-${CI_COMMIT_REF_SLUG}"
+    paths:
+      - "docker/.previous-hash"
 
 package:debug:
   stage: package
-  image: thyrlian/android-sdk
-  variables: {}
+  dependencies:
+      - ci:create
+  image: registry.gitlab.com/devlife-apps/connect2sql/ci
   script:
     - ./gradlew --no-daemon :app:assembleDebug
   artifacts:
+    expire_in: 1 week
     paths:
       - app/build/outputs/apk/debug/*.apk
-    expire_in: 1 week
+  cache:
+    key: "${CI_COMMIT_REF_SLUG}"
+    paths:
+      - "${GRADLE_USER_HOME}/caches/"
+      - "${GRADLE_USER_HOME}/wrapper/"
 
 package:release:
   stage: package
-  image: thyrlian/android-sdk
+  dependencies:
+      - ci:create
+  image: registry.gitlab.com/devlife-apps/connect2sql/ci
   script:
     - echo "apiSecret=${FABRIC_API_SECRET}" > app/fabric.properties
     - ./gradlew --no-daemon :app:assembleRelease
   artifacts:
     paths:
       - app/build/outputs/apk/release/*.apk
+  cache:
+      key: "${CI_COMMIT_REF_SLUG}"
+      paths:
+        - "${GRADLE_USER_HOME}/caches/"
+        - "${GRADLE_USER_HOME}/wrapper/"
   only:
     - tags
