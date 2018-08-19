@@ -16,3 +16,5 @@ local.*.properties
 local.properties
 
 */fabric.properties
+
+fastlane/report.xml

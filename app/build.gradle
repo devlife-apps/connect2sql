@@ -32,8 +32,8 @@ android {
 
     defaultConfig {
         applicationId "app.devlife.connect2sql"
-        versionCode 4_000_003
-        versionName "4.0.3"
+        versionCode 4_000_004
+        versionName "4.0.4"
 
         minSdkVersion 23
         targetSdkVersion 28
@@ -75,12 +75,6 @@ android {
             versionNameSuffix "+r${buildNumber}"
             minifyEnabled false
             signingConfig signingConfigs.release
-        }
-    }
-
-    applicationVariants.all { variant ->
-        variant.outputs.all {
-            outputFileName = "connect2sql-${variant.buildType.name}-${variant.versionName}.apk"
         }
     }
 
