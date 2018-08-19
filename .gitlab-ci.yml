@@ -1,6 +1,7 @@
 stages:
   - ci
   - package
+  - deploy
 
 variables:
   GRADLE_USER_HOME: "${CI_PROJECT_DIR}/.gradle-home"
@@ -31,14 +32,15 @@ ci:create:
 package:debug:
   stage: package
   dependencies:
-      - ci:create
+    - ci:create
   image: registry.gitlab.com/devlife-apps/connect2sql/ci
   script:
-    - ./gradlew --no-daemon :app:assembleDebug
+    - ./gradlew --no-daemon --stacktrace :app:assembleDebug
   artifacts:
-    expire_in: 1 week
+    name: "${CI_COMMIT_SHA}-debug"
     paths:
-      - app/build/outputs/apk/debug/*.apk
+      - app/build/outputs/apk/debug/app-debug.apk
+    expire_in: 1 week
   cache:
     key: "${CI_COMMIT_REF_SLUG}"
     paths:
@@ -48,18 +50,30 @@ package:debug:
 package:release:
   stage: package
   dependencies:
-      - ci:create
+    - ci:create
   image: registry.gitlab.com/devlife-apps/connect2sql/ci
   script:
     - echo "apiSecret=${FABRIC_API_SECRET}" > app/fabric.properties
-    - ./gradlew --no-daemon :app:assembleRelease
+    - ./gradlew --no-daemon --stacktrace :app:assembleRelease
   artifacts:
+    name: "${CI_COMMIT_SHA}-release"
     paths:
-      - app/build/outputs/apk/release/*.apk
+      - app/build/outputs/apk/release/app-release.apk
   cache:
       key: "${CI_COMMIT_REF_SLUG}"
       paths:
         - "${GRADLE_USER_HOME}/caches/"
         - "${GRADLE_USER_HOME}/wrapper/"
+  only:
+    - tags
+
+deploy:beta:
+  stage: deploy
+  dependencies:
+    - package:release
+  image: registry.gitlab.com/devlife-apps/connect2sql/ci
+  script:
+    - echo "${GPS_KEY}" > app/gps-key.json
+    - fastlane android beta gps_key_path:'app/gps-key.json' apk_path:'app/build/outputs/apk/release/app-release.apk'
   only:
     - tags

@@ -17,8 +17,6 @@ printf "${current_hash}" > ${previous_hash_file}
 
 if [ "${previous_hash}" = "$current_hash" ]; then
     echo "false";
-    exit 0;
 else
     echo "true";
-    exit 0;
 fi;
