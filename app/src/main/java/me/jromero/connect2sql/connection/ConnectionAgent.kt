@@ -42,7 +42,6 @@ class ConnectionAgent {
                     val driverHelper = DriverHelperFactory.create(connectionInfo.driverType)
                         ?: throw SQLException("Driver not found for ${connectionInfo.driverType}")
 
-
                     try {
                         // import database driver
                         EzLogger.d("Importing database driver: ${driverHelper.driverClass}")

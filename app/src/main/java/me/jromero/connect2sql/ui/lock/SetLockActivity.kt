@@ -22,13 +22,13 @@ class SetLockActivity : SetPatternActivity() {
     lateinit var lockManager: LockManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        logger.debug("[onCreate]: ${savedInstanceState}")
+        logger.debug("[onCreate]: $savedInstanceState")
         super.onCreate(savedInstanceState)
         ApplicationUtils.getApplication(this).applicationComponent.inject(this)
     }
 
     override fun onSetPattern(pattern: List<PatternView.Cell>) {
-        logger.debug("[onCreate]: ${pattern}")
+        logger.debug("[onCreate]: $pattern")
         val patternSha1 = PatternUtils.patternToSha1String(pattern)
         lockManager.passphrase = patternSha1
     }

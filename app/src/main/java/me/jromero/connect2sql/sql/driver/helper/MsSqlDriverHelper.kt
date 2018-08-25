@@ -29,5 +29,4 @@ class MsSqlDriverHelper : JtdsDriverHelper() {
 
     override val columnNameIndex: Int
         get() = 4
-
 }

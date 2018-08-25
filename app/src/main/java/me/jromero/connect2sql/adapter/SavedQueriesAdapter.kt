@@ -41,8 +41,13 @@ class SavedQueriesAdapter(private val context: Context) : BaseExpandableListAdap
         return childPosition.toLong()
     }
 
-    override fun getChildView(groupPosition: Int, childPosition: Int,
-                              isLastChild: Boolean, convertView: View?, parent: ViewGroup): View {
+    override fun getChildView(
+        groupPosition: Int,
+        childPosition: Int,
+        isLastChild: Boolean,
+        convertView: View?,
+        parent: ViewGroup
+    ): View {
 
         val view: View = when (convertView) {
             null -> {
@@ -78,8 +83,12 @@ class SavedQueriesAdapter(private val context: Context) : BaseExpandableListAdap
         return groupPosition.toLong()
     }
 
-    override fun getGroupView(groupPosition: Int, isExpanded: Boolean,
-                              convertView: View?, parent: ViewGroup): View {
+    override fun getGroupView(
+        groupPosition: Int,
+        isExpanded: Boolean,
+        convertView: View?,
+        parent: ViewGroup
+    ): View {
         val view: View = when (convertView) {
             null -> {
                 val view = inflator.inflate(android.R.layout.simple_expandable_list_item_1, null)

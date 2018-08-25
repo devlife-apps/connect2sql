@@ -28,7 +28,6 @@ import rx.schedulers.Schedulers
 import java.sql.ResultSet
 import java.sql.SQLException
 import java.sql.Statement
-import java.util.*
 import javax.inject.Inject
 
 class ResultsActivity : BaseActivity() {
@@ -70,7 +69,6 @@ class ResultsActivity : BaseActivity() {
 
         return super.onCreateOptionsMenu(menu)
     }
-
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
@@ -207,7 +205,6 @@ class ResultsActivity : BaseActivity() {
             }))
     }
 
-
     private fun populateTabs() {
 
         removeAllTabs()
@@ -275,10 +272,8 @@ class ResultsActivity : BaseActivity() {
             } catch (e: SQLException) {
                 EzLogger.e(e.message, e)
             }
-
         }
     }
-
 
     companion object {
 

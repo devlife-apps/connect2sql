@@ -11,7 +11,6 @@ import me.jromero.connect2sql.sql.DriverType
  */
 class MsSqlForm(context: Context, view: View) : BaseMsSqlForm(context, view) {
 
-
     override fun generateConnectionInfo(): ConnectionInfo {
         return super.generateConnectionInfo().copy(driverType = DriverType.MSSQL)
     }

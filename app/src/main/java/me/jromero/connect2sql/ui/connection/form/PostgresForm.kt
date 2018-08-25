@@ -5,7 +5,6 @@ import android.text.TextUtils
 import android.view.View
 import android.widget.EditText
 import android.widget.Switch
-import android.widget.TextView
 
 import com.mobsandgeeks.saripaar.Rule
 

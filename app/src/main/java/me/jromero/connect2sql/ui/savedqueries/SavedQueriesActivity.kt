@@ -11,8 +11,8 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ExpandableListView
-import android.widget.ExpandableListView.*
-import kotlinx.android.synthetic.main.activity_saved_queries.*
+import com.gitlab.connect2sql.R
+import kotlinx.android.synthetic.main.activity_saved_queries.listview_saved_queries
 import me.jromero.connect2sql.ApplicationUtils
 import me.jromero.connect2sql.activity.BaseActivity
 import me.jromero.connect2sql.adapter.SavedQueriesAdapter
@@ -23,7 +23,6 @@ import me.jromero.connect2sql.db.model.query.SavedQuery
 import me.jromero.connect2sql.db.provider.ContentUriHelper
 import me.jromero.connect2sql.db.repo.ConnectionInfoRepository
 import me.jromero.connect2sql.db.repo.SavedQueryRepository
-import com.gitlab.connect2sql.R
 import me.jromero.connect2sql.lang.ensure
 import me.jromero.connect2sql.prefs.UserPreferences
 import me.jromero.connect2sql.prefs.UserPreferences.Option.BooleanOption
@@ -73,8 +72,8 @@ class SavedQueriesActivity : BaseActivity() {
         savedQueriesAdapter.clear()
 
         val cursor1 = contentResolver.query(savedQueryContentUri, null,
-                SavedQuery.Column.CONNECTION_ID + "=" + connectionInfo.id, null,
-                SavedQuery.Column.NAME + " ASC")
+            SavedQuery.Column.CONNECTION_ID + "=" + connectionInfo.id, null,
+            SavedQuery.Column.NAME + " ASC")
 
         if (cursor1 != null) {
             while (cursor1.moveToNext()) {
@@ -84,9 +83,9 @@ class SavedQueriesActivity : BaseActivity() {
         }
 
         val cursor2 = contentResolver.query(builtinQueryContentUri, null,
-                BuiltInQuery.Column.DRIVER + " = ?",
-                arrayOf(connectionInfo.driverType.name),
-                BuiltInQuery.Column.NAME + " ASC")
+            BuiltInQuery.Column.DRIVER + " = ?",
+            arrayOf(connectionInfo.driverType.name),
+            BuiltInQuery.Column.NAME + " ASC")
 
         if (cursor2 != null) {
             while (cursor2.moveToNext()) {
@@ -98,10 +97,10 @@ class SavedQueriesActivity : BaseActivity() {
         savedQueriesAdapter.titleOnly = userPreferences.read(OPTION_SAVED_QUERY_NAMES_ONLY, false)
         savedQueriesAdapter.notifyDataSetChanged()
 
-        userPreferences.registerListener<Boolean>(OPTION_SAVED_QUERY_NAMES_ONLY, { key, value ->
+        userPreferences.registerListener<Boolean>(OPTION_SAVED_QUERY_NAMES_ONLY) { key, value ->
             savedQueriesAdapter.titleOnly = value == true
             savedQueriesAdapter.notifyDataSetChanged()
-        })
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -116,9 +115,9 @@ class SavedQueriesActivity : BaseActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when(item?.itemId) {
+        return when (item?.itemId) {
             R.id.menu_name_only -> {
-                val wasChecked = item?.isChecked == true
+                val wasChecked = item.isChecked == true
                 userPreferences.save(BooleanOption(OPTION_SAVED_QUERY_NAMES_ONLY, !wasChecked))
                 true
             }
@@ -129,10 +128,10 @@ class SavedQueriesActivity : BaseActivity() {
     override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo)
 
-        val info = menuInfo as ExpandableListContextMenuInfo
-        val type = getPackedPositionType(info.packedPosition)
-        val groupPosition = getPackedPositionGroup(info.packedPosition)
-        val childPosition = getPackedPositionChild(info.packedPosition)
+        val info = menuInfo as ExpandableListView.ExpandableListContextMenuInfo
+        val type = ExpandableListView.getPackedPositionType(info.packedPosition)
+        val groupPosition = ExpandableListView.getPackedPositionGroup(info.packedPosition)
+        val childPosition = ExpandableListView.getPackedPositionChild(info.packedPosition)
 
         // Only create a context menu for child items
         if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
@@ -151,11 +150,12 @@ class SavedQueriesActivity : BaseActivity() {
     data class Position(val groupPosition: Int, val childPosition: Int)
 
     override fun onContextItemSelected(menuItem: MenuItem): Boolean {
-        val info = menuItem.menuInfo as ExpandableListContextMenuInfo
+        val info = menuItem.menuInfo as ExpandableListView.ExpandableListContextMenuInfo
 
-        val position = when(getPackedPositionType(info.packedPosition)) {
+        val position = when (ExpandableListView.getPackedPositionType(info.packedPosition)) {
             ExpandableListView.PACKED_POSITION_TYPE_CHILD ->
-                Position(getPackedPositionGroup(info.packedPosition), getPackedPositionChild(info.packedPosition))
+                Position(ExpandableListView.getPackedPositionGroup(info.packedPosition),
+                    ExpandableListView.getPackedPositionChild(info.packedPosition))
             else -> Position(0, 0)
         }
 
@@ -164,11 +164,11 @@ class SavedQueriesActivity : BaseActivity() {
         when (menuItem.itemId) {
             MENU_OPEN -> {
                 mOnChildClickListener.onChildClick(
-                        listview_saved_queries,
-                        null,
-                        position.groupPosition,
-                        position.childPosition,
-                        0)
+                    listview_saved_queries,
+                    null,
+                    position.groupPosition,
+                    position.childPosition,
+                    0)
                 return true
             }
             MENU_DELETE -> {
@@ -193,7 +193,7 @@ class SavedQueriesActivity : BaseActivity() {
         }
     }
 
-    private val mOnChildClickListener = OnChildClickListener { parent, v, groupPosition, childPosition, id ->
+    private val mOnChildClickListener = ExpandableListView.OnChildClickListener { parent, v, groupPosition, childPosition, id ->
         val queryToLoad = (savedQueriesAdapter.getChild(groupPosition, childPosition) as BaseNamedQuery).query
         onSavedQueryClick(queryToLoad)
         true

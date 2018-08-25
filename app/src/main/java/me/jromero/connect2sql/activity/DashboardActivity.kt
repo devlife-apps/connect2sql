@@ -2,7 +2,6 @@ package me.jromero.connect2sql.activity
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.content.res.Resources
 import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
@@ -14,18 +13,22 @@ import android.support.v7.view.ActionMode
 import android.text.InputType
 import android.text.TextUtils
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import com.crashlytics.android.answers.Answers
 import com.crashlytics.android.answers.CustomEvent
-import kotlinx.android.synthetic.main.activity_connections.*
+import com.gitlab.connect2sql.R
+import kotlinx.android.synthetic.main.activity_connections.connections_dashboard
+import kotlinx.android.synthetic.main.activity_connections.fab
 import me.jromero.connect2sql.ApplicationUtils
 import me.jromero.connect2sql.connection.ConnectionAgent
 import me.jromero.connect2sql.db.model.connection.ConnectionInfo
 import me.jromero.connect2sql.db.model.connection.ConnectionInfoSqlModel
 import me.jromero.connect2sql.db.repo.ConnectionInfoRepository
-import com.gitlab.connect2sql.R
 import me.jromero.connect2sql.loader.ConnectionInfoCursorLoader
 import me.jromero.connect2sql.sql.DriverType
 import me.jromero.connect2sql.ui.connection.ConnectionInfoDriverChooserActivity
@@ -39,7 +42,7 @@ import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import java.sql.Connection
-import java.util.*
+import java.util.ArrayList
 import javax.inject.Inject
 
 class DashboardActivity : BaseActivity() {
@@ -72,23 +75,22 @@ class DashboardActivity : BaseActivity() {
         supportLoaderManager.restartLoader(LOADER_CONNECTIONS, Bundle(), mConnectionsLoaderCallbacks)
     }
 
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.connections, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
+        when (item.itemId) {
             R.id.rate -> {
                 try {
-                    val goToMarket = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName"));
+                    val goToMarket = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName"))
                     goToMarket.addFlags(
                         Intent.FLAG_ACTIVITY_NO_HISTORY
-                        or Intent.FLAG_ACTIVITY_NEW_DOCUMENT
-                        or Intent.FLAG_ACTIVITY_MULTIPLE_TASK
+                            or Intent.FLAG_ACTIVITY_NEW_DOCUMENT
+                            or Intent.FLAG_ACTIVITY_MULTIPLE_TASK
                     )
-                    startActivity(goToMarket);
+                    startActivity(goToMarket)
                 } catch (_: ActivityNotFoundException) {
                     CustomTabsIntent.Builder()
                         .setToolbarColor(resources.getColor(R.color.blueBase, theme))
@@ -143,7 +145,6 @@ class DashboardActivity : BaseActivity() {
         progressDialog.setOnCancelListener { subscription.unsubscribe() }
         progressDialog.show()
     }
-
 
     private fun populateDashboard(connections: List<ConnectionInfo>) {
         connections_dashboard.removeAllViews()
@@ -267,7 +268,6 @@ class DashboardActivity : BaseActivity() {
                 builder.setNeutralButton("OK", null)
                 builder.create().show()
             }
-
         }
     }
 
@@ -344,7 +344,6 @@ class DashboardActivity : BaseActivity() {
                             Toast.makeText(this@DashboardActivity, "Failed to create copy", Toast.LENGTH_SHORT).show()
                             e.printStackTrace()
                         }
-
                     }
                     mode.finish()
 

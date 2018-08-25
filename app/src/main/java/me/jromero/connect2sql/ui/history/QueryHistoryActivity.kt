@@ -54,13 +54,13 @@ class QueryHistoryActivity : BaseActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.query_history, menu);
+        menuInflater.inflate(R.menu.query_history, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         val itemId = item!!.itemId
-        when(itemId) {
+        when (itemId) {
             R.id.clear -> {
                 val builder = AlertDialog.Builder(this)
                 builder.setTitle("Clear History?")
@@ -82,8 +82,11 @@ class QueryHistoryActivity : BaseActivity() {
         }
     }
 
-    override fun onCreateContextMenu(menu: ContextMenu, v: View,
-                                     menuInfo: ContextMenu.ContextMenuInfo) {
+    override fun onCreateContextMenu(
+        menu: ContextMenu,
+        v: View,
+        menuInfo: ContextMenu.ContextMenuInfo
+    ) {
 
         super.onCreateContextMenu(menu, v, menuInfo)
 
@@ -91,7 +94,6 @@ class QueryHistoryActivity : BaseActivity() {
         menu.add(0, MENU_OPEN, 0, "Open")
         menu.add(0, MENU_DELETE, 1, "Delete")
     }
-
 
     override fun onContextItemSelected(menuItem: MenuItem?): Boolean {
 
@@ -134,7 +136,6 @@ class QueryHistoryActivity : BaseActivity() {
             setResult(RESULT_OK, data)
             finish()
         }
-
     }
 
     companion object {

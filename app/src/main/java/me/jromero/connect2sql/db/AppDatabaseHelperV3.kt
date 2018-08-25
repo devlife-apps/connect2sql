@@ -16,27 +16,14 @@ import me.jromero.connect2sql.db.model.query.SavedQuery.SavedQuerySqlModel
 import me.jromero.connect2sql.log.EzLogger
 import me.jromero.connect2sql.sql.DriverType
 
-class AppDatabaseHelperV3
-/**
- * Constructor Takes and keeps a reference of the passed context in order to
- * access to the application assets and resources.
-
- * @param context
- * *
- * @param builtInQuerySqlModel
- * *
- * @param connectionInfoSqlModel
- * *
- * @param historyQuerySqlModel
- * *
- * @param savedQuerySqlModel
- */
-(context: Context,
- private val lockManager: LockManager,
- private val builtInQuerySqlModel: BuiltInQuerySqlModel,
- private val connectionInfoSqlModel: ConnectionInfoSqlModel,
- private val historyQuerySqlModel: HistoryQuerySqlModel,
- savedQuerySqlModel: SavedQuerySqlModel) : SQLiteOpenHelper(context, AppDatabaseHelperV3.DB_NAME, null, AppDatabaseHelperV3.DB_VERSION) {
+class AppDatabaseHelperV3(
+    context: Context,
+    private val lockManager: LockManager,
+    private val builtInQuerySqlModel: BuiltInQuerySqlModel,
+    private val connectionInfoSqlModel: ConnectionInfoSqlModel,
+    private val historyQuerySqlModel: HistoryQuerySqlModel,
+    savedQuerySqlModel: SavedQuerySqlModel
+) : SQLiteOpenHelper(context, AppDatabaseHelperV3.DB_NAME, null, AppDatabaseHelperV3.DB_VERSION) {
 
     private val models = arrayOf(
             builtInQuerySqlModel,
@@ -79,7 +66,6 @@ class AppDatabaseHelperV3
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-
     }
 
     private fun updateBuiltInQueries(db: SQLiteDatabase) {

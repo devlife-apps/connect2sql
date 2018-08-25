@@ -14,6 +14,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
+import com.gitlab.connect2sql.R
 import com.mobsandgeeks.saripaar.Rule
 import com.mobsandgeeks.saripaar.Validator
 import me.jromero.connect2sql.ApplicationUtils
@@ -21,10 +22,13 @@ import me.jromero.connect2sql.activity.BaseActivity
 import me.jromero.connect2sql.connection.ConnectionAgent
 import me.jromero.connect2sql.db.model.connection.ConnectionInfo
 import me.jromero.connect2sql.db.repo.ConnectionInfoRepository
-import com.gitlab.connect2sql.R
 import me.jromero.connect2sql.log.EzLogger
 import me.jromero.connect2sql.sql.driver.DriverDefaults
-import me.jromero.connect2sql.ui.connection.form.*
+import me.jromero.connect2sql.ui.connection.form.ActionBarContainer
+import me.jromero.connect2sql.ui.connection.form.BaseForm
+import me.jromero.connect2sql.ui.connection.form.Field
+import me.jromero.connect2sql.ui.connection.form.FormFactory
+import me.jromero.connect2sql.ui.connection.form.FormUtils
 import me.jromero.connect2sql.ui.widget.NotifyingScrollView
 import me.jromero.connect2sql.ui.widget.Toast
 import me.jromero.connect2sql.ui.widget.dialog.ProgressDialog
@@ -104,7 +108,7 @@ class ConnectionInfoEditorActivity : BaseActivity() {
                 val id = connectionInfoRepository.save(connectionInfo.copy(id = request.connectionInfoId))
                 return connectionInfo.copy(id = id)
             }
-            ConnectionInfoEditorRequest.Action.NEW-> {
+            ConnectionInfoEditorRequest.Action.NEW -> {
                 val id = connectionInfoRepository.save(connectionInfo)
                 return connectionInfo.copy(id = id)
             }
@@ -148,35 +152,35 @@ class ConnectionInfoEditorActivity : BaseActivity() {
 
         val connectionAgent = ConnectionAgent()
         connectionAgent
-                .connect(connectionInfo)
-                .switchMap { connection -> connectionAgent.disconnect(connection) }
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Subscriber<Unit>() {
-                    override fun onCompleted() {
-                    }
+            .connect(connectionInfo)
+            .switchMap { connection -> connectionAgent.disconnect(connection) }
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : Subscriber<Unit>() {
+                override fun onCompleted() {
+                }
 
-                    override fun onError(e: Throwable) {
-                        EzLogger.w(e.message, e)
-                        progressDialog.dismiss()
+                override fun onError(e: Throwable) {
+                    EzLogger.w(e.message, e)
+                    progressDialog.dismiss()
 
-                        val builder = AlertDialog.Builder(this@ConnectionInfoEditorActivity)
-                        builder.setTitle("Error")
-                        builder.setMessage(e.message)
-                        builder.setNeutralButton("OK", null)
-                        builder.create().show()
-                    }
+                    val builder = AlertDialog.Builder(this@ConnectionInfoEditorActivity)
+                    builder.setTitle("Error")
+                    builder.setMessage(e.message)
+                    builder.setNeutralButton("OK", null)
+                    builder.create().show()
+                }
 
-                    override fun onNext(nothing: Unit) {
-                        progressDialog.dismiss()
+                override fun onNext(nothing: Unit) {
+                    progressDialog.dismiss()
 
-                        val builder = AlertDialog.Builder(this@ConnectionInfoEditorActivity)
-                        builder.setTitle("Success")
-                        builder.setMessage("Connected to server successfully!")
-                        builder.setNeutralButton("OK", null)
-                        builder.create().show()
-                    }
-                })
+                    val builder = AlertDialog.Builder(this@ConnectionInfoEditorActivity)
+                    builder.setTitle("Success")
+                    builder.setMessage("Connected to server successfully!")
+                    builder.setNeutralButton("OK", null)
+                    builder.create().show()
+                }
+            })
     }
 
     private enum class ValidationAction {
@@ -239,7 +243,6 @@ class ConnectionInfoEditorActivity : BaseActivity() {
 
     private val nameTextWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-
         }
 
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
@@ -247,7 +250,6 @@ class ConnectionInfoEditorActivity : BaseActivity() {
         }
 
         override fun afterTextChanged(s: Editable) {
-
         }
     }
 
@@ -292,7 +294,6 @@ class ConnectionInfoEditorActivity : BaseActivity() {
             editText.inputType = FormUtils.addInputType(inputType, InputType.TYPE_TEXT_VARIATION_PASSWORD)
         }
     }
-
 
     fun onSaved(connectionInfo: ConnectionInfo) {
         setResult(RESULT_OK)
