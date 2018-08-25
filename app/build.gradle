@@ -110,7 +110,7 @@ ext {
     version_saripaar = '1.0.3'
     version_sqlcipher = '3.5.9'
     version_slf4j = '1.7.25'
-    version_support = '27.1.1'
+    version_support = '28.0.0-rc01'
 }
 
 dependencies {
