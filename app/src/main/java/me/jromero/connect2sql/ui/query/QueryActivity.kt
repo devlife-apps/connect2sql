@@ -11,11 +11,25 @@ import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatDialog
 import android.text.TextUtils
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ExpandableListView
+import android.widget.LinearLayout
+import android.widget.ListView
+import android.widget.TextView
 import com.gitlab.connect2sql.R
-import kotlinx.android.synthetic.main.activity_query.*
+import kotlinx.android.synthetic.main.activity_query.fab
+import kotlinx.android.synthetic.main.activity_query.lblCurrentDatabase
+import kotlinx.android.synthetic.main.activity_query.lblCurrentTable
+import kotlinx.android.synthetic.main.activity_query.txtQuery
 import me.jromero.connect2sql.ApplicationUtils
 import me.jromero.connect2sql.activity.BaseActivity
 import me.jromero.connect2sql.adapter.QuickKeysAdapter
@@ -44,7 +58,7 @@ import me.jromero.connect2sql.ui.widget.Toast
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
-import java.util.*
+import java.util.ArrayList
 import javax.inject.Inject
 
 class QueryActivity : BaseActivity() {
@@ -283,7 +297,6 @@ class QueryActivity : BaseActivity() {
         }
     }
 
-
     public override fun onResume() {
         super.onResume()
 
@@ -412,7 +425,6 @@ class QueryActivity : BaseActivity() {
         super.onPause()
     }
 
-
     /**
      * Remove all text from query text field
      */
@@ -514,7 +526,6 @@ class QueryActivity : BaseActivity() {
         super.onDestroy()
     }
 
-
     fun loadCurrentDatabaseTableUi() {
         if (currentDatabase == null) {
             // lets update the UI
@@ -524,7 +535,6 @@ class QueryActivity : BaseActivity() {
             // nothing else to do without a database selected
             return
         }
-
 
         lblCurrentDatabase.text = currentDatabase
 

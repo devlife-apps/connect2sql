@@ -10,8 +10,6 @@ import com.mobsandgeeks.saripaar.Validator
 import com.mobsandgeeks.saripaar.annotation.NumberRule
 import com.mobsandgeeks.saripaar.annotation.Required
 
-import java.util.HashMap
-
 import me.jromero.connect2sql.db.model.connection.ConnectionInfo
 import com.gitlab.connect2sql.R
 import me.jromero.connect2sql.sql.DriverType

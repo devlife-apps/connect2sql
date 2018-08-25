@@ -31,5 +31,4 @@ class SybaseDriverHelper : JtdsDriverHelper() {
     }
 
     override val columnNameIndex: Int = 1
-
 }

@@ -5,16 +5,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.TaskStackBuilder
 
-import com.crashlytics.android.Crashlytics
-
 import javax.inject.Inject
 
 import me.jromero.connect2sql.ApplicationUtils
 import me.jromero.connect2sql.data.LockManager
-import me.jromero.connect2sql.db.AppDatabaseHelperV3
-import me.jromero.connect2sql.db.model.connection.ConnectionInfoSqlModel
-import me.jromero.connect2sql.db.model.query.HistoryQuery
-import me.jromero.connect2sql.db.model.query.SavedQuery
 import me.jromero.connect2sql.log.EzLogger
 import me.jromero.connect2sql.ui.connection.ConnectionInfoDriverChooserActivity
 
@@ -69,7 +63,7 @@ class LaunchActivity : Activity() {
             mPendingResult = false
         } else if (requestCode == REQUEST_CODE_SET_PATTERN) {
             if (mLockManager.wasPatternSet(resultCode)) {
-                this@LaunchActivity.let {context ->
+                this@LaunchActivity.let { context ->
                     TaskStackBuilder.create(this@LaunchActivity)
                         .addNextIntent(Intent(this, DashboardActivity::class.java))
                         .addNextIntent(ConnectionInfoDriverChooserActivity.newIntent(this@LaunchActivity))

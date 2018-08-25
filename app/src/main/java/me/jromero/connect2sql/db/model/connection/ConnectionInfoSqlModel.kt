@@ -17,7 +17,6 @@ import me.jromero.connect2sql.sql.DriverType
  */
 class ConnectionInfoSqlModel : SqlModel<ConnectionInfo> {
 
-
     object Column {
         const val ID = "id"
         const val NAME = "name"
@@ -93,7 +92,6 @@ class ConnectionInfoSqlModel : SqlModel<ConnectionInfo> {
         cv.put(Column.PASSWORD, `object`.password)
         cv.put(Column.DATABASE, `object`.database)
 
-
         val jsonOptions = JSONObject()
         for (entry in `object`.options.entries) {
             try {
@@ -101,7 +99,6 @@ class ConnectionInfoSqlModel : SqlModel<ConnectionInfo> {
             } catch (e: JSONException) {
                 EzLogger.e(e.message)
             }
-
         }
 
         cv.put(Column.OPTIONS, jsonOptions.toString())

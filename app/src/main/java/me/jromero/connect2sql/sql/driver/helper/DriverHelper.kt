@@ -1,6 +1,5 @@
 package me.jromero.connect2sql.sql.driver.helper
 
-
 import me.jromero.connect2sql.db.model.connection.ConnectionInfo
 import me.jromero.connect2sql.sql.driver.agent.DriverAgent
 

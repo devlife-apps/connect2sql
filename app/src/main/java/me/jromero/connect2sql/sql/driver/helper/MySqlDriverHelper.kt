@@ -51,7 +51,6 @@ class MySqlDriverHelper : DriverHelper {
         return "USE " + safeObject(database) + ";"
     }
 
-
     override fun safeValue(value: String): String {
         return "'$value'"
     }

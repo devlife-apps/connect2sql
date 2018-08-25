@@ -2,7 +2,6 @@ package me.jromero.connect2sql.prefs
 
 import android.content.Context
 import android.content.SharedPreferences
-import java.lang.ref.WeakReference
 
 /**
 
@@ -22,7 +21,7 @@ class UserPreferences(context: Context) {
     }
 
     public fun <T> read(key: String, default: T): T {
-        val entry = sharedPreferences.all.entries.firstOrNull {it.key.equals(key)}
+        val entry = sharedPreferences.all.entries.firstOrNull { it.key.equals(key) }
         return if (entry == null) default
             else if (entry.value == null) default
             else entry.value as T

@@ -1,7 +1,6 @@
 package me.jromero.connect2sql.di
 
 import android.content.Context
-import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
 import me.jromero.connect2sql.prefs.UserPreferences

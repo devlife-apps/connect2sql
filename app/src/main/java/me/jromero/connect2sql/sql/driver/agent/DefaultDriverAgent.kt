@@ -52,7 +52,7 @@ class DefaultDriverAgent(private val mDriverHelper: DriverHelper) : DriverAgent 
                             "TABLE" ->
                                 DriverAgent.TableType.TABLE
                             else -> {
-                                EzLogger.w("Skipping table type: ${it}")
+                                EzLogger.w("Skipping table type: $it")
                                 null
                             }
                         }

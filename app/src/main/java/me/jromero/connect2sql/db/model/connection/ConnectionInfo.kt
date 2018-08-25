@@ -3,15 +3,15 @@ package me.jromero.connect2sql.db.model.connection
 import me.jromero.connect2sql.sql.DriverType
 
 data class ConnectionInfo(
-        val id: Long,
-        val name: String,
-        val driverType: DriverType,
-        val host: String,
-        val port: Int,
-        val username: String,
-        val password: String?,
-        val database: String?,
-        val options: Map<String, String>
+    val id: Long,
+    val name: String,
+    val driverType: DriverType,
+    val host: String,
+    val port: Int,
+    val username: String,
+    val password: String?,
+    val database: String?,
+    val options: Map<String, String>
 ) {
 
     companion object {
