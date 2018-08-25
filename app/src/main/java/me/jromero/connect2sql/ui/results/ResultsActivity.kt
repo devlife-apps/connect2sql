@@ -230,9 +230,9 @@ class ResultsActivity : BaseActivity() {
     }
 
     private fun showContents(rs: ResultSet) {
-        var frag: ResultsTableFragment? = null
+        val frag: ResultsTableFragment
         if (resultTableFragments.containsKey(rs)) {
-            frag = resultTableFragments[rs]
+            frag = resultTableFragments[rs]!!
         } else {
             frag = ResultsTableFragment.newInstance(rs, 0)
 

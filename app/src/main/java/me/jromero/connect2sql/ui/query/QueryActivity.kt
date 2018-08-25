@@ -55,7 +55,10 @@ import me.jromero.connect2sql.ui.history.QueryHistoryActivity
 import me.jromero.connect2sql.ui.results.ResultsActivity
 import me.jromero.connect2sql.ui.savedqueries.SavedQueriesActivity
 import me.jromero.connect2sql.ui.widget.Toast
+import me.jromero.connect2sql.util.rx.ActivityAwareSubscriber
+import rx.Observable
 import rx.Subscriber
+import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import java.util.ArrayList
@@ -86,6 +89,8 @@ class QueryActivity : BaseActivity() {
     private var mHasInlineQuickKeys: Boolean = false
     private var mIsQuickKeysHidden: Boolean = false
     private var mDialogQuickKeys: Dialog? = null
+
+    private var serverGraphSubscription: Subscription? = null
 
     @Inject
     lateinit var mConnectionAgent: ConnectionAgent
@@ -312,19 +317,29 @@ class QueryActivity : BaseActivity() {
             showQuickKeys()
         }
 
-        retrieveServerGraph()
+        if (serverGraphSubscription == null) {
+            serverGraphSubscription = retrieveServerGraph()
+        }
     }
 
-    private fun retrieveServerGraph() {
-        EzLogger.d("[retrieveServerGraph]")
+    override fun onStop() {
+        serverGraphSubscription?.unsubscribe()
+        serverGraphSubscription = null
+        super.onStop()
+    }
 
-        mConnectionAgent
-            .connect(connectionInfo).flatMap<Pair<DriverAgent.Database, DriverAgent.Table>> { connection ->
-                driverAgent
+    private fun retrieveServerGraph(): Subscription {
+        EzLogger.d("[retrieveServerGraph]")
+        return mConnectionAgent
+            .connect(connectionInfo)
+            .flatMap<Pair<DriverAgent.Database, DriverAgent.Table>> { connection ->
+                if (serverGraphSubscription == null) Observable.empty()
+                else driverAgent
                     .databases(connection)
                     .flatMap<Pair<DriverAgent.Database, DriverAgent.Table>> { database ->
                         EzLogger.v("[call] database retrieved=$database")
-                        driverAgent
+                        if (serverGraphSubscription == null) Observable.empty()
+                        else driverAgent
                             .tables(connection, database)
                             .map<Pair<DriverAgent.Database, DriverAgent.Table>> { table ->
                                 EzLogger.v("[call] table retrieved=$database/$table")
@@ -348,29 +363,32 @@ class QueryActivity : BaseActivity() {
                 }
             )
             .subscribeOn(Schedulers.newThread())
-            .observeOn(AndroidSchedulers.mainThread()).subscribe(object : Subscriber<Map<DriverAgent.Database, List<DriverAgent.Table>>>() {
-                override fun onCompleted() {
-                    EzLogger.v("[onComplete]")
-                }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(ActivityAwareSubscriber(
+                activity = this@QueryActivity,
+                delegate = object : Subscriber<Map<DriverAgent.Database, List<DriverAgent.Table>>>() {
+                    override fun onCompleted() {
+                        EzLogger.v("[onComplete]")
+                    }
 
-                override fun onError(e: Throwable) {
-                    EzLogger.e("[onError] error=" + e.message, e)
-                    val builder = AlertDialog.Builder(this@QueryActivity)
-                    builder.setTitle("Error")
-                    builder.setMessage(e.message)
-                    builder.setNeutralButton("OK", null)
-                    builder.create().show()
-                }
+                    override fun onError(e: Throwable) {
+                        EzLogger.e("[onError] error=" + e.message, e)
+                        val builder = AlertDialog.Builder(this@QueryActivity)
+                        builder.setTitle("Error")
+                        builder.setMessage(e.message)
+                        builder.setNeutralButton("OK", null)
+                        builder.create().show()
+                    }
 
-                override fun onNext(graph: Map<DriverAgent.Database, List<DriverAgent.Table>>) {
-                    EzLogger.d("[onNext] databases=" + graph.keys)
+                    override fun onNext(graph: Map<DriverAgent.Database, List<DriverAgent.Table>>) {
+                        EzLogger.d("[onNext] databases=" + graph.keys)
 
-                    serverGraph.clear()
-                    serverGraph.putAll(graph)
+                        serverGraph.clear()
+                        serverGraph.putAll(graph)
 
-                    onServerGraphRetrieved()
-                }
-            })
+                        onServerGraphRetrieved()
+                    }
+                }))
     }
 
     private fun onServerGraphRetrieved() {
