@@ -33,8 +33,10 @@ android {
 
     defaultConfig {
         applicationId "app.devlife.connect2sql"
-        versionCode 4_000_004
-        versionName "4.0.4"
+        versionName "4.0.5"
+        versionCode versionName.tokenize(".").withIndex().collect { v, index ->
+            return index == 0 ? v : String.format("%03d", Integer.parseInt(v, 10))
+        }.join().toInteger()
 
         minSdkVersion 23
         targetSdkVersion 28
