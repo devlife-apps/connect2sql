@@ -64,7 +64,6 @@ package:release:
       paths:
         - "${GRADLE_USER_HOME}/caches/"
         - "${GRADLE_USER_HOME}/wrapper/"
-  when: manual
 
 deploy:beta:
   stage: deploy
@@ -76,4 +75,3 @@ deploy:beta:
   script:
     - echo "${GPS_KEY}" > app/gps-key.json
     - bundle exec fastlane android beta gps_key_path:'app/gps-key.json' apk_path:'app/build/outputs/apk/release/app-release.apk'
-  when: manual

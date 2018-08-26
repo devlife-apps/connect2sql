@@ -15,6 +15,7 @@ RUN echo "Installing standard dependencies..." \
         ca-certificates \
         bash \
         g++ \
+        git \
         libstdc++ \
         make \
         ruby \
