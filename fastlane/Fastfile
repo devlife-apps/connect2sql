@@ -19,6 +19,14 @@ default_platform(:android)
 
 platform :android do
 
+  desc "Test"
+  lane :test do |options|
+    version_name = android_get_version_name
+    version_code = android_get_version_code
+
+
+  end
+
   desc "Prep release"
   lane :prep_release do |options|
     ensure_git_status_clean
@@ -39,7 +47,7 @@ platform :android do
     )
 
     git_commit(
-      'path': ["fastlane/#{android_changelog_file_path}", 'CHANGELOG.md'],
+      'path': [android_changelog_file_path, 'CHANGELOG.md'],
       'message': "Version: #{version_name}"
     )
 
