@@ -45,13 +45,13 @@ platform :android do
     #  track: 'beta',
     #)
 
-    add_git_tag(
-      tag: "v#{version_name}"
-    )
-
     git_commit(
       'path': 'CHANGELOG.md',
       'message': "Version: #{version_name}"
+    )
+
+    add_git_tag(
+      tag: "v#{version_name}"
     )
 
     push_to_git_remote
