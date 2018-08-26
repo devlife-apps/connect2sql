@@ -1,22 +1,40 @@
+
+# General
 */bin
 */gen
 */.settings
+
+# Mac OS X
+
 .DS_Store
 
-.gradle
+# IntelliJ
+
 .idea/*
 !.idea/runConfigurations
-
-build/
 *.iml
 
+# Build
+
+build/
 *.apk
+
+# Gradle
+
+.gradle
+
+# Properties
 
 local.*.properties
 local.properties
 
-*/fabric.properties
+# Ruby / Fastlane
 
 .bundle/
 fastlane/report.xml
 fastlane/bundle/
+*/fabric.properties
+
+# CI Files
+
+app/gps-key.json
