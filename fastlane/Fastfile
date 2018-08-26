@@ -24,18 +24,37 @@ platform :android do
 
     ensure_git_status_clean
 
-    upload_to_play_store(
-        json_key: options[:gps_key_path],
-        apk: options[:apk_path],
-        track: 'beta'
-    )
-  end
-
-  lane :release do |options|
     version_name = android_get_version_name
+    version_code = android_get_version_code
+
+    # create changelog meta data
+    changelog_contents = read_changelog
+    android_changelogs_dir_path = 'metadata/android/changelogs/en-US'
+    android_changelog_file_path = "#{android_changelogs_dir_path}/#{version_code}.txt"
+    FileUtils.mkdir_p(android_changelogs_dir_path)
+    FileUtils.touch(android_changelog_file_path)
+    File.write(android_changelog_file_path, changelog_contents)
 
     stamp_changelog(
       section_identifier: version_name
     )
+
+    #upload_to_play_store(
+    #  json_key: options[:gps_key_path],
+    #  apk: options[:apk_path],
+    #  track: 'beta',
+    #)
+
+    add_git_tag(
+      tag: "v#{version_name}"
+    )
+
+    git_commit(
+      'path': 'CHANGELOG.md',
+      'message': "Version: #{version_name}"
+    )
+
+    push_to_git_remote
+    push_git_tags
   end
 end
