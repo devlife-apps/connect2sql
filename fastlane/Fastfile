@@ -47,6 +47,23 @@ platform :android do
       tag: "v#{version_name}"
     )
 
+    # bump version number
+    next_version_code = (version_code.to_i + 1).to_s
+    next_version_name = next_version_code
+        .match(/([0-9]{1})([0-9]{3})([0-9]{3})$/)
+        .captures.map { |v| v.to_i(10) }
+        .join('.')
+
+    android_set_version_name(version_name: next_version_name)
+    android_set_version_code(version_code: next_version_code)
+
+    git_commit(
+      'path': ['app/build.gradle'],
+      'message': "Bump version to #{next_version_name}"
+    )
+
+    # push changes
+
     push_to_git_remote
     push_git_tags
   end

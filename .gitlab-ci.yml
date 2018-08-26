@@ -71,6 +71,8 @@ prepublish:tag:
   dependencies:
     - package:release
   image: registry.gitlab.com/devlife-apps/connect2sql/ci
+  before_script:
+      - bundle install --path fastlane/bundle
   script:
     - echo "${GPS_KEY}" > app/gps-key.json
     - bundle exec fastlane prep_release
