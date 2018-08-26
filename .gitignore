@@ -17,4 +17,6 @@ local.properties
 
 */fabric.properties
 
+.bundle/
 fastlane/report.xml
+fastlane/bundle/

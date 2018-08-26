@@ -5,7 +5,6 @@ ENV ANDROID_SDK_TOOLS_VERSION="3859397"
 ENV ANDROID_HOME="/usr/local/android-sdk"
 ENV ANDROID_VERSION=28
 ENV ANDROID_BUILD_TOOLS_VERSION=28.0.2
-ENV FASTLANE_VERSION=2.80.0
 ENV GLIBC_VERSION=2.28-r0
 
 ENV SDK_URL="https://dl.google.com/android/repository/sdk-tools-linux-${ANDROID_SDK_TOOLS_VERSION}.zip"
@@ -33,8 +32,8 @@ RUN echo "Installing standard dependencies..." \
     && echo "Deleting alpine apk cache..." \
     && rm -rf /var/cache/apk/* \
     # ---------------------------------------------
-    && echo "Installing fastlane..." \
-    && gem install fastlane -N -v $FASTLANE_VERSION \
+    && echo "Installing bundler..." \
+    && gem install bundler -N
     # ---------------------------------------------
     && echo "Installing Android SDK..." \
     && mkdir -p "$ANDROID_HOME" \

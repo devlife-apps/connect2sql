@@ -13,6 +13,8 @@
 # Uncomment the line if you want fastlane to automatically update itself
 # update_fastlane
 
+skip_docs
+
 default_platform(:android)
 
 platform :android do
@@ -20,12 +22,19 @@ platform :android do
   desc "Beta release to Google Play Store"
   lane :beta do |options|
 
-    # ensure_git_status_clean
+    ensure_git_status_clean
 
     upload_to_play_store(
         json_key: options[:gps_key_path],
         apk: options[:apk_path],
         track: 'beta'
+    )
+  end
+
+  lane :release do |options|
+    stamp_changelog(
+      section_identifier: 'v4.0.5',
+      git_tag: 'v4.0.5'
     )
   end
 end

@@ -65,15 +65,17 @@ package:release:
         - "${GRADLE_USER_HOME}/caches/"
         - "${GRADLE_USER_HOME}/wrapper/"
   only:
-    - tags
+    - web
 
 deploy:beta:
   stage: deploy
   dependencies:
     - package:release
   image: registry.gitlab.com/devlife-apps/connect2sql/ci
+  before_script:
+    - bundle install --path fastlane/bundle
   script:
     - echo "${GPS_KEY}" > app/gps-key.json
-    - fastlane android beta gps_key_path:'app/gps-key.json' apk_path:'app/build/outputs/apk/release/app-release.apk'
+    - bundle exec fastlane android beta gps_key_path:'app/gps-key.json' apk_path:'app/build/outputs/apk/release/app-release.apk'
   only:
-    - tags
+    - web
