@@ -77,7 +77,7 @@ prepublish:tag:
   when: manual
 
 publish:beta:
-  stage: deploy
+  stage: publish
   dependencies:
     - package:release
   image: registry.gitlab.com/devlife-apps/connect2sql/ci
