@@ -19,9 +19,8 @@ default_platform(:android)
 
 platform :android do
 
-  desc "Beta release to Google Play Store"
-  lane :beta do |options|
-
+  desc "Prep release"
+  lane :prep_release do |options|
     ensure_git_status_clean
 
     version_name = android_get_version_name
@@ -39,14 +38,8 @@ platform :android do
       section_identifier: version_name
     )
 
-    #upload_to_play_store(
-    #  json_key: options[:gps_key_path],
-    #  apk: options[:apk_path],
-    #  track: 'beta',
-    #)
-
     git_commit(
-      'path': 'CHANGELOG.md',
+      'path': [android_changelog_file_path, 'CHANGELOG.md'],
       'message': "Version: #{version_name}"
     )
 
@@ -56,5 +49,19 @@ platform :android do
 
     push_to_git_remote
     push_git_tags
+  end
+
+  desc "Publish Beta to Google Play Store"
+  lane :publish_beta do |options|
+    ensure_git_status_clean
+
+    version_name = android_get_version_name
+    version_code = android_get_version_code
+
+    upload_to_play_store(
+      json_key: options[:gps_key_path],
+      apk: options[:apk_path],
+      track: 'beta',
+    )
   end
 end

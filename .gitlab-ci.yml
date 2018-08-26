@@ -1,7 +1,8 @@
 stages:
   - ci
   - package
-  - deploy
+  - prepublish
+  - publish
 
 variables:
   GRADLE_USER_HOME: "${CI_PROJECT_DIR}/.gradle-home"
@@ -65,7 +66,17 @@ package:release:
         - "${GRADLE_USER_HOME}/caches/"
         - "${GRADLE_USER_HOME}/wrapper/"
 
-deploy:beta:
+prepublish:tag:
+  stage: prepublish
+  dependencies:
+    - package:release
+  image: registry.gitlab.com/devlife-apps/connect2sql/ci
+  script:
+    - echo "${GPS_KEY}" > app/gps-key.json
+    - bundle exec fastlane prep_release
+  when: manual
+
+publish:beta:
   stage: deploy
   dependencies:
     - package:release
@@ -74,4 +85,7 @@ deploy:beta:
     - bundle install --path fastlane/bundle
   script:
     - echo "${GPS_KEY}" > app/gps-key.json
-    - bundle exec fastlane android beta gps_key_path:'app/gps-key.json' apk_path:'app/build/outputs/apk/release/app-release.apk'
+    - bundle exec fastlane publish_beta gps_key_path:'app/gps-key.json' apk_path:'app/build/outputs/apk/release/app-release.apk'
+  when: manual
+  only:
+    - tags
