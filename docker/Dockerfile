@@ -33,7 +33,7 @@ RUN echo "Installing standard dependencies..." \
     && rm -rf /var/cache/apk/* \
     # ---------------------------------------------
     && echo "Installing bundler..." \
-    && gem install bundler -N
+    && gem install bundler -N \
     # ---------------------------------------------
     && echo "Installing Android SDK..." \
     && mkdir -p "$ANDROID_HOME" \
