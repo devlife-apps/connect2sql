@@ -32,9 +32,11 @@ platform :android do
   end
 
   lane :release do |options|
-    stamp_changelog(
-      section_identifier: 'v4.0.5',
-      git_tag: 'v4.0.5'
-    )
+
+    puts android_get_version_name
+    # stamp_changelog(
+    #   section_identifier: '4.0.5'
+    # )
+
   end
 end
