@@ -80,7 +80,6 @@ platform :android do
     #########
 
     push_to_git_remote
-    push_git_tags
   end
 
   desc "Publish Beta to Google Play Store"
