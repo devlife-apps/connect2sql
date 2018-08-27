@@ -18,6 +18,7 @@ RUN echo "Installing standard dependencies..." \
         git \
         libstdc++ \
         make \
+        openssh-client \
         ruby \
         ruby-dev \
         ruby-irb \
@@ -32,6 +33,9 @@ RUN echo "Installing standard dependencies..." \
     # ---------------------------------------------
     && echo "Deleting alpine apk cache..." \
     && rm -rf /var/cache/apk/* \
+    # ---------------------------------------------
+    && echo "Deleting tmp..." \
+    && rm -rf /tmp/* \
     # ---------------------------------------------
     && echo "Installing bundler..." \
     && gem install bundler -N \

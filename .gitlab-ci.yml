@@ -72,11 +72,14 @@ prepublish:tag:
     - package:release
   image: registry.gitlab.com/devlife-apps/connect2sql/ci
   before_script:
-      - bundle install --path fastlane/bundle
+    - bundle install --path fastlane/bundle
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$GIT_SSH_PRIV_KEY")
+    - git config --global user.email "$GIT_USER_EMAIL"
+    - git config --global user.name "$GIT_USER_NAME"
   script:
     - echo "${GPS_KEY}" > app/gps-key.json
     - bundle exec fastlane prep_release
-  when: manual
 
 publish:beta:
   stage: publish
