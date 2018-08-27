@@ -84,6 +84,10 @@ prepublish:tag:
   script:
     - echo "${GPS_KEY}" > app/gps-key.json
     - bundle exec fastlane prep_release
+  only:
+    - master
+  except:
+    - tags
 
 publish:beta:
   stage: publish
