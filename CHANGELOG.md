@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## [4.0.5] - 2018-08-27
+
 ### Added
 
 - Cancel server graph when backgrounded.
