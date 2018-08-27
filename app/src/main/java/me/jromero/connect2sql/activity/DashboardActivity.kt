@@ -98,6 +98,12 @@ class DashboardActivity : BaseActivity() {
                         .launchUrl(this, Uri.parse("http://play.google.com/store/apps/details?id=$packageName"))
                 }
             }
+            R.id.beta -> {
+                CustomTabsIntent.Builder()
+                    .setToolbarColor(resources.getColor(R.color.blueBase, theme))
+                    .build()
+                    .launchUrl(this, Uri.parse("https://play.google.com/apps/testing/$packageName"))
+            }
             R.id.about -> {
                 CustomTabsIntent.Builder()
                     .setToolbarColor(resources.getColor(R.color.blueBase, theme))
