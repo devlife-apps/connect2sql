@@ -87,7 +87,10 @@ prepublish:tag:
   only:
     - master
   except:
-    - tags
+    refs:
+      - tags
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /no-tag/
 
 publish:beta:
   stage: publish
