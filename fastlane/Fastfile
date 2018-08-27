@@ -19,14 +19,6 @@ default_platform(:android)
 
 platform :android do
 
-  desc "Test"
-  lane :test do |options|
-    version_name = android_get_version_name
-    version_code = android_get_version_code
-
-
-  end
-
   desc "Prep release"
   lane :prep_release do |options|
     ensure_git_status_clean
@@ -34,9 +26,11 @@ platform :android do
     version_name = android_get_version_name
     version_code = android_get_version_code
 
+    #########
     # create changelog meta data
+    #########
     changelog_contents = read_changelog
-    android_changelogs_dir_path = 'metadata/android/changelogs/en-US'
+    android_changelogs_dir_path = File.expand_path('metadata/android/changelogs/en-US')
     android_changelog_file_path = "#{android_changelogs_dir_path}/#{version_code}.txt"
     FileUtils.mkdir_p(android_changelogs_dir_path)
     FileUtils.touch(android_changelog_file_path)
@@ -46,8 +40,16 @@ platform :android do
       section_identifier: version_name
     )
 
+    #########
+    # add to source control
+    #########
+
+    git_add(
+      'path': [android_changelog_file_path, './CHANGELOG.md']
+    )
+
     git_commit(
-      'path': [android_changelog_file_path, 'CHANGELOG.md'],
+      'path': [android_changelog_file_path, './CHANGELOG.md'],
       'message': "Version: #{version_name}"
     )
 
@@ -55,7 +57,10 @@ platform :android do
       tag: "v#{version_name}"
     )
 
+    #########
     # bump version number
+    #########
+
     next_version_code = (version_code.to_i + 1).to_s
     next_version_name = next_version_code
         .match(/([0-9]{1})([0-9]{3})([0-9]{3})$/)
@@ -70,7 +75,9 @@ platform :android do
       'message': "Bump version to #{next_version_name}"
     )
 
+    #########
     # push changes
+    #########
 
     push_to_git_remote
     push_git_tags
