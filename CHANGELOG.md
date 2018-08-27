@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## [4.0.7] - 2018-08-27
+
 ### Added
 
 - Beta link to menu
