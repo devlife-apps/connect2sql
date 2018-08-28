@@ -33,28 +33,8 @@
         <CheckBoxPreference
             android:key="use_ssl"
             android:title="@string/use_ssl"/>
-        <!-- <CheckBoxPreference
-            android:key="require_ssl"
-            android:title="@string/require_ssl" />
-        <CheckBoxPreference
-            android:key="verify_server_certificate"
-            android:title="@string/verify_server_cert" /> -->
     </PreferenceCategory>
-    <!--
-    <PreferenceCategory android:title="@string/preference_attributes" >
-        <CheckBoxPreference
-            android:key="parent_checkbox_preference"
-            android:summary="@string/summary_parent_preference"
-            android:title="@string/title_parent_preference" />
 
-        <CheckBoxPreference
-            android:dependency="parent_checkbox_preference"
-            android:key="child_checkbox_preference"
-            android:layout="?android:attr/preferenceLayoutChild"
-            android:summary="@string/summary_child_preference"
-            android:title="@string/title_child_preference" />
-    </PreferenceCategory>
-    -->
     <PreferenceCategory
         android:key="additional_options"
         android:title="@string/additional_options">
@@ -62,11 +42,6 @@
         <EditTextPreference
             android:enabled="false"
             android:title="@string/no_options_available"/>
-        <!--
-             <app.devlife.connect2sql.ui.widget.AutoCompletePreference
-            android:key="test"
-            android:title="@string/test_connection" />
-        -->
 
     </PreferenceCategory>
 
