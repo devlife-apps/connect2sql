@@ -94,6 +94,7 @@ android {
     }
 
     lintOptions {
+        quiet false
         abortOnError true
     }
 }

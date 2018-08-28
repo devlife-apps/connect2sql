@@ -425,11 +425,12 @@ class QueryActivity : BaseActivity() {
             mQueryToLoad = mQueryToLoad!!.replace("{~cursor~}", "")
 
             EzLogger.i("Loading: " + mQueryToLoad!!)
+
             txtQuery.setText(mQueryToLoad)
 
             // set cursor position
             if (cursorPosition < 0) {
-                txtQuery.setSelection(txtQuery.text.length)
+                txtQuery.setSelection(txtQuery.text?.length ?: 0)
             } else {
                 txtQuery.setSelection(cursorPosition)
             }
@@ -448,7 +449,7 @@ class QueryActivity : BaseActivity() {
      */
     fun clearQuery() {
         // clear all text from text field
-        txtQuery.text.clear()
+        txtQuery.text?.clear()
     }
 
     fun executeQuery() {
