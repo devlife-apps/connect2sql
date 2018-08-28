@@ -1,5 +1,6 @@
 stages:
   - ci
+  - validation
   - package
   - prepublish
   - publish
@@ -29,6 +30,23 @@ ci:create:
     key: "${CI_JOB_NAME}-${CI_COMMIT_REF_SLUG}"
     paths:
       - "docker/.previous-hash"
+
+validation:lint:
+  stage: validation
+  dependencies:
+    - ci:create
+  image: registry.gitlab.com/devlife-apps/connect2sql/ci
+  script:
+    - ./gradlew --no-daemon --stacktrace :app:lint
+  artifacts:
+    name: "validation-lint-report"
+    paths:
+      - app/build/reports/lint-results.html
+  cache:
+    key: "${CI_COMMIT_REF_SLUG}"
+    paths:
+      - "${GRADLE_USER_HOME}/caches/"
+      - "${GRADLE_USER_HOME}/wrapper/"
 
 package:debug:
   stage: package
