@@ -94,8 +94,9 @@ android {
     }
 
     lintOptions {
-        quiet false
         abortOnError true
+        lintConfig file("$projectDir/lint.xml")
+        quiet false
     }
 }
 
