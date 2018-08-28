@@ -333,7 +333,7 @@ class DashboardActivity : BaseActivity() {
 
                     for (connectionItem in activatedBlockItems) {
                         val connectionInfo = connectionItem.tag as ConnectionInfo
-                        val request = ConnectionInfoEditorRequest(connectionInfo.id.toLong())
+                        val request = ConnectionInfoEditorRequest(connectionInfo.id)
                         val newIntent = ConnectionInfoEditorActivity.newIntent(this@DashboardActivity, request)
                         startActivity(newIntent)
                         break
@@ -358,7 +358,7 @@ class DashboardActivity : BaseActivity() {
                 R.id.delete -> {
                     for (connectionItem in activatedBlockItems) {
                         val connectionInfo = connectionItem.tag as ConnectionInfo
-                        connectionInfoRepository.delete(connectionInfo.id.toLong())
+                        connectionInfoRepository.delete(connectionInfo.id)
                         connections_dashboard.removeView(connectionItem)
                     }
                     mode.finish()

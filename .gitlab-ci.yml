@@ -37,11 +37,11 @@ validation:lint:
     - ci:create
   image: registry.gitlab.com/devlife-apps/connect2sql/ci
   script:
-    - ./gradlew --no-daemon --stacktrace :app:lint
+    - ./gradlew --no-daemon --stacktrace :app:lint :app:detektCheck
   artifacts:
-    name: "validation-lint-report"
+    name: "validation-lint-reports"
     paths:
-      - app/build/reports/lint-results.html
+      - app/build/reports/
   cache:
     key: "${CI_COMMIT_REF_SLUG}"
     paths:

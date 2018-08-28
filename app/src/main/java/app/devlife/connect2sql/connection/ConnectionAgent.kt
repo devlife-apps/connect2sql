@@ -61,7 +61,7 @@ class ConnectionAgent {
                         mActiveConnections.put(connectionInfo, connection)
                     } catch (e: ClassNotFoundException) {
                         throw SQLException("Class not found: " + e.message, e)
-                    } catch (e: Exception) {
+                    } catch (@Suppress("TooGenericExceptionCaught") e: Exception) {
                         throw SQLException(e.message, e)
                     }
                 }

@@ -16,6 +16,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'org.jlleitschuh.gradle.ktlint'
+apply plugin: 'io.gitlab.arturbosch.detekt'
 
 if (!fabricApiKey.isEmpty()) {
     apply plugin: 'io.fabric'
@@ -97,6 +98,14 @@ android {
         abortOnError true
         lintConfig file("$projectDir/lint.xml")
         quiet false
+    }
+
+    detekt {
+        defaultProfile {
+            config = file("$projectDir/detekt.yml")
+            output = file("$buildDir/reports/")
+            outputName = "detekt-report"
+        }
     }
 }
 
