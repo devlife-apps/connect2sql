@@ -129,31 +129,7 @@
     <string name="next">Next</string>
 
     <!-- About -->
-    <string name="author">Author</string>
-    <string name="author_name">Javier Romero</string>
-    <string name="author_email">j.romero.1214@gmail.com</string>
-    <string name="author_site">www.jromero.me</string>
-    <string name="author_bio">Full-time LAMP developer, hobbiest Android developer.</string>
     <string name="application">Application</string>
-    <string name="feature_requests_">"Feature Requests: "</string>
-    <string name="feature_requests_site">jromero.uservoice.com</string>
-    <string name="dev_null">/dev/null</string>
-    <string name="libraries">Libraries</string>
-    <string name="name_">"Name: "</string>
-    <string name="description_">"Description: "</string>
-    <string name="license_">"License: "</string>
-    <string name="site_">"Site: "</string>
-    <string name="jtds">jTDS</string>
-    <string name="jtds_desc">MsSQL and Sybase JDBC drivers</string>
-    <string name="jtds_license">LGPL</string>
-    <string name="jtds_site">jtds.sourceforge.net</string>
-    <string name="postgresql_driver_desc">PostgreSQL JDBC Driver</string>
-    <string name="postgresql_driver_license">BSD</string>
-    <string name="postgresql_driver_site">jdbc.postgresql.org</string>
-    <string name="mysql_connector">MySQL Connector/J</string>
-    <string name="mysql_connector_desc">MySQL JDBC driver</string>
-    <string name="mysql_connector_license">GPL</string>
-    <string name="mysql_connector_site">dev.mysql.com/downloads/connector/j/</string>
     <string name="title_activity_results">Results</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
