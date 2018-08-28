@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 
 import android.content.Context;
 import android.os.Handler;
+import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Spannable;
@@ -16,7 +17,7 @@ import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
 import android.widget.EditText;
 
-public class SqlEditText extends EditText {
+public class SqlEditText extends AppCompatEditText {
     public interface OnTextChangedListener {
         public void onTextChanged(String text);
     }
