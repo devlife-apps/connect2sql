@@ -1,4 +1,4 @@
-package me.jromero.connect2sql.test
+package app.devlife.connect2sql.test
 
 import io.selendroid.client.SelendroidDriver
 import io.selendroid.client.TouchAction

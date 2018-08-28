@@ -1,14 +1,14 @@
-package me.jromero.connect2sql.query.mysql
+package app.devlife.connect2sql.query.mysql
 
-import me.jromero.connect2sql.TestServer
-import me.jromero.connect2sql.connection.*
-import me.jromero.connect2sql.lock.doSetUnlockPattern
-import me.jromero.connect2sql.query.*
-import me.jromero.connect2sql.results.doWaitAndDismissSuccessAlert
-import me.jromero.connect2sql.test.*
-import me.jromero.connect2sql.test.Matcher.withId
-import me.jromero.connect2sql.test.Matcher.withText
-import me.jromero.connect2sql.test.db.MySqlTestSpec
+import app.devlife.connect2sql.TestServer
+import app.devlife.connect2sql.connection.*
+import app.devlife.connect2sql.lock.doSetUnlockPattern
+import app.devlife.connect2sql.query.*
+import app.devlife.connect2sql.results.doWaitAndDismissSuccessAlert
+import app.devlife.connect2sql.test.*
+import app.devlife.connect2sql.test.Matcher.withId
+import app.devlife.connect2sql.test.Matcher.withText
+import app.devlife.connect2sql.test.db.MySqlTestSpec
 import org.junit.Test
 import org.openqa.selenium.By
 import java.util.*

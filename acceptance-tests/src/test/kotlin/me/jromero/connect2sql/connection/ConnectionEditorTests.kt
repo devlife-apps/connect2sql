@@ -1,10 +1,10 @@
-package me.jromero.connect2sql.connection
+package app.devlife.connect2sql.connection
 
 import io.selendroid.client.waiter.TestWaiter
-import me.jromero.connect2sql.TestServer
-import me.jromero.connect2sql.connection.*
-import me.jromero.connect2sql.lock.*
-import me.jromero.connect2sql.test.ApplicationDriverFactory
+import app.devlife.connect2sql.TestServer
+import app.devlife.connect2sql.connection.*
+import app.devlife.connect2sql.lock.*
+import app.devlife.connect2sql.test.ApplicationDriverFactory
 import org.junit.Test
 import org.openqa.selenium.By
 

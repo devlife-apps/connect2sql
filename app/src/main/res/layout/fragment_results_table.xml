@@ -4,12 +4,12 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-    <me.jromero.connect2sql.ui.widget.TableGrid
+    <app.devlife.connect2sql.ui.widget.TableGrid
         android:id="@+id/tg_results"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/pagination_bar">
-    </me.jromero.connect2sql.ui.widget.TableGrid>
+    </app.devlife.connect2sql.ui.widget.TableGrid>
 
     <LinearLayout
         android:id="@+id/pagination_bar"

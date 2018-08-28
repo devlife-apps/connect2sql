@@ -1,4 +1,4 @@
-package me.jromero.connect2sql.test
+package app.devlife.connect2sql.test
 
 import io.selendroid.client.SelendroidDriver
 import io.selendroid.common.SelendroidCapabilities
@@ -17,7 +17,7 @@ object ApplicationDriverFactory {
         val launcher = SelendroidLauncher(config)
         launcher.launchSelendroid()
 
-        val capabilities = SelendroidCapabilities("me.jromero.connect2sql.donate")
+        val capabilities = SelendroidCapabilities("app.devlife.connect2sql.donate")
 
         val driver = SelendroidDriver(capabilities)
         driver.switchTo().window("NATIVE_APP")

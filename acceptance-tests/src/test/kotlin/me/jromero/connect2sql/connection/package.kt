@@ -1,7 +1,7 @@
-package me.jromero.connect2sql.connection
+package app.devlife.connect2sql.connection
 
 import io.selendroid.client.SelendroidDriver
-import me.jromero.connect2sql.TestServer
+import app.devlife.connect2sql.TestServer
 import org.openqa.selenium.By
 
 fun SelendroidDriver.doGoToAddConnection(type: ConnectionType) {

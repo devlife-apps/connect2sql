@@ -1,4 +1,4 @@
-package me.jromero.connect2sql.lock
+package app.devlife.connect2sql.lock
 
 import io.selendroid.client.SelendroidDriver
 import io.selendroid.client.TouchActionBuilder

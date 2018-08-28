@@ -1,4 +1,4 @@
-package me.jromero.connect2sql.connection
+package app.devlife.connect2sql.connection
 
 enum class ConnectionType {
     MYSQL,

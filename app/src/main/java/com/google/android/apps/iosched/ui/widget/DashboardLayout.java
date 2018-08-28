@@ -16,7 +16,7 @@
 
 package com.google.android.apps.iosched.ui.widget;
 
-import me.jromero.connect2sql.log.EzLogger;
+import app.devlife.connect2sql.log.EzLogger;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;

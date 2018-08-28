@@ -1,9 +1,9 @@
-package me.jromero.connect2sql.test.db
+package app.devlife.connect2sql.test.db
 
 import kdbc.execute
 import kdbc.list
 import kdbc.query
-import me.jromero.connect2sql.TestServer
+import app.devlife.connect2sql.TestServer
 import org.junit.Before
 import java.sql.Connection
 import java.sql.DriverManager

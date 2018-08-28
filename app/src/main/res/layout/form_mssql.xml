@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <me.jromero.connect2sql.ui.widget.NotifyingScrollView
+    <app.devlife.connect2sql.ui.widget.NotifyingScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -86,7 +86,7 @@
 
             </LinearLayout>
         </LinearLayout>
-    </me.jromero.connect2sql.ui.widget.NotifyingScrollView>
+    </app.devlife.connect2sql.ui.widget.NotifyingScrollView>
 
     <include
         android:id="@+id/form_buttons"
@@ -96,7 +96,7 @@
         android:layout_height="wrap_content"/>
 
     <!-- Placed last to have greatest z-index value-->
-    <me.jromero.connect2sql.ui.connection.form.ActionBarContainer
+    <app.devlife.connect2sql.ui.connection.form.ActionBarContainer
         android:id="@+id/form_actionbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

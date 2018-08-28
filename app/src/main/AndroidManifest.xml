@@ -8,14 +8,14 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name="me.jromero.connect2sql.Connect2SqlApplication"
+        android:name="app.devlife.connect2sql.Connect2SqlApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/Theme.C2SQL.ActionBar"
         tools:replace="android:icon">
         <activity
-            android:name="me.jromero.connect2sql.activity.LaunchActivity"
+            android:name="app.devlife.connect2sql.activity.LaunchActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,45 +24,45 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="me.jromero.connect2sql.ui.lock.UnlockActivity"
+            android:name="app.devlife.connect2sql.ui.lock.UnlockActivity"
             android:label="@string/activity_lock" />
         <activity
-            android:name="me.jromero.connect2sql.ui.lock.SetLockActivity"
+            android:name="app.devlife.connect2sql.ui.lock.SetLockActivity"
             android:label="@string/activity_set_lock" />
         <activity
-            android:name="me.jromero.connect2sql.ui.lock.ForgotLockActivity"
+            android:name="app.devlife.connect2sql.ui.lock.ForgotLockActivity"
             android:label="@string/title_activity_forgot_lock" />
         <activity
-            android:name="me.jromero.connect2sql.activity.DashboardActivity"
+            android:name="app.devlife.connect2sql.activity.DashboardActivity"
             android:configChanges="screenSize|orientation|keyboardHidden"
             android:label="@string/activity_home" />
         <activity
-            android:name="me.jromero.connect2sql.ui.connection.ConnectionInfoDriverChooserActivity"
+            android:name="app.devlife.connect2sql.ui.connection.ConnectionInfoDriverChooserActivity"
             android:label="@string/activity_select_driver" />
         <activity
-            android:name="me.jromero.connect2sql.ui.connection.ConnectionInfoEditorActivity"
+            android:name="app.devlife.connect2sql.ui.connection.ConnectionInfoEditorActivity"
             android:label="@string/activity_configure_connection"
             android:theme="@style/Theme.C2SQL.NoActionBar" />
         <activity
-            android:name="me.jromero.connect2sql.ui.query.QueryActivity"
+            android:name="app.devlife.connect2sql.ui.query.QueryActivity"
             android:configChanges="orientation|uiMode|screenSize|smallestScreenSize|keyboardHidden"
             android:label="@string/activity_query"
             android:uiOptions="splitActionBarWhenNarrow"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="me.jromero.connect2sql.ui.savedqueries.SavedQueriesActivity"
+            android:name="app.devlife.connect2sql.ui.savedqueries.SavedQueriesActivity"
             android:label="@string/activity_saved_queries" />
         <activity
-            android:name="me.jromero.connect2sql.ui.history.QueryHistoryActivity"
+            android:name="app.devlife.connect2sql.ui.history.QueryHistoryActivity"
             android:label="@string/activity_query_history" />
         <activity
-            android:name="me.jromero.connect2sql.ui.results.ResultsActivity"
+            android:name="app.devlife.connect2sql.ui.results.ResultsActivity"
             android:configChanges="orientation|uiMode|screenSize|smallestScreenSize|keyboardHidden"
             android:label="@string/activity_query_results" />
 
         <provider
-            android:name="me.jromero.connect2sql.db.provider.AppContentProvider"
-            android:authorities="me.jromero.connect2sql.db.provider.AppContentProvider"
+            android:name="app.devlife.connect2sql.db.provider.AppContentProvider"
+            android:authorities="app.devlife.connect2sql.db.provider.AppContentProvider"
             android:exported="false" />
 
         <meta-data

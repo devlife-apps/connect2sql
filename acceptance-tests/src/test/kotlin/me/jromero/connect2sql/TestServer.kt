@@ -1,6 +1,6 @@
-package me.jromero.connect2sql
+package app.devlife.connect2sql
 
-import me.jromero.connect2sql.connection.ConnectionType
+import app.devlife.connect2sql.connection.ConnectionType
 
 /**
  *

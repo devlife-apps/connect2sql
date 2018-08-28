@@ -1,4 +1,4 @@
-package me.jromero.connect2sql.query
+package app.devlife.connect2sql.query
 
 import io.selendroid.client.SelendroidDriver
 import io.selendroid.client.waiter.TestWaiter

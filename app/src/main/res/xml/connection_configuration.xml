@@ -63,7 +63,7 @@
             android:enabled="false"
             android:title="@string/no_options_available"/>
         <!--
-             <me.jromero.connect2sql.ui.widget.AutoCompletePreference
+             <app.devlife.connect2sql.ui.widget.AutoCompletePreference
             android:key="test"
             android:title="@string/test_connection" />
         -->

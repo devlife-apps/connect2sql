@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <me.jromero.connect2sql.ui.widget.NotifyingScrollView
+    <app.devlife.connect2sql.ui.widget.NotifyingScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -79,7 +79,7 @@
                     android:textSize="20dp"
                     android:background="@drawable/form_header_underline"/>
 
-                <me.jromero.connect2sql.ui.widget.FloatLabelPlusLayout
+                <app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/float_label_use_ssl"
@@ -105,9 +105,9 @@
                         android:layout_marginBottom="5dp"
                         android:layout_gravity="right|bottom"
                         style="@style/Form.Action.Help"/>
-                </me.jromero.connect2sql.ui.widget.FloatLabelPlusLayout>
+                </app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout>
 
-                <me.jromero.connect2sql.ui.widget.FloatLabelPlusLayout
+                <app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/float_label_bypass_cert_validation"
@@ -133,10 +133,10 @@
                         android:layout_marginBottom="5dp"
                         android:layout_gravity="right|bottom"
                         style="@style/Form.Action.Help"/>
-                </me.jromero.connect2sql.ui.widget.FloatLabelPlusLayout>
+                </app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout>
             </LinearLayout>
         </LinearLayout>
-    </me.jromero.connect2sql.ui.widget.NotifyingScrollView>
+    </app.devlife.connect2sql.ui.widget.NotifyingScrollView>
 
     <include
         android:id="@+id/form_buttons"
@@ -146,7 +146,7 @@
         android:layout_height="wrap_content"/>
 
     <!-- Placed last to have greatest z-index value-->
-    <me.jromero.connect2sql.ui.connection.form.ActionBarContainer
+    <app.devlife.connect2sql.ui.connection.form.ActionBarContainer
         android:id="@+id/form_actionbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

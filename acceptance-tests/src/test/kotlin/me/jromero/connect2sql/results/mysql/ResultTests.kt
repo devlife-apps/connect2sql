@@ -1,18 +1,18 @@
-package me.jromero.connect2sql.results.mysql
+package app.devlife.connect2sql.results.mysql
 
 import io.selendroid.client.waiter.TestWaiter
 import kdbc.execute
 import kdbc.insert
-import me.jromero.connect2sql.TestServer
-import me.jromero.connect2sql.connection.*
-import me.jromero.connect2sql.lock.doSetUnlockPattern
-import me.jromero.connect2sql.query.doAttemptToSelectDatabase
-import me.jromero.connect2sql.query.doExecuteSql
-import me.jromero.connect2sql.query.doWaitForDatabasesToBeDetected
-import me.jromero.connect2sql.query.doWaitForQueryScreen
-import me.jromero.connect2sql.results.doWaitAndDismissSuccessAlert
-import me.jromero.connect2sql.test.ApplicationDriverFactory
-import me.jromero.connect2sql.test.db.MySqlTestSpec
+import app.devlife.connect2sql.TestServer
+import app.devlife.connect2sql.connection.*
+import app.devlife.connect2sql.lock.doSetUnlockPattern
+import app.devlife.connect2sql.query.doAttemptToSelectDatabase
+import app.devlife.connect2sql.query.doExecuteSql
+import app.devlife.connect2sql.query.doWaitForDatabasesToBeDetected
+import app.devlife.connect2sql.query.doWaitForQueryScreen
+import app.devlife.connect2sql.results.doWaitAndDismissSuccessAlert
+import app.devlife.connect2sql.test.ApplicationDriverFactory
+import app.devlife.connect2sql.test.db.MySqlTestSpec
 import org.junit.Test
 import java.util.*
 

@@ -5,7 +5,7 @@
        android:layout_height="wrap_content">
 
 
-    <me.jromero.connect2sql.ui.widget.FloatLabelPlusLayout
+    <app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/float_label_domain"
@@ -22,9 +22,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/Form.Action.Help"/>
-    </me.jromero.connect2sql.ui.widget.FloatLabelPlusLayout>
+    </app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout>
 
-    <me.jromero.connect2sql.ui.widget.FloatLabelPlusLayout
+    <app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/float_label_instance"
@@ -41,6 +41,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/Form.Action.Help"/>
-    </me.jromero.connect2sql.ui.widget.FloatLabelPlusLayout>
+    </app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout>
 
 </merge>
