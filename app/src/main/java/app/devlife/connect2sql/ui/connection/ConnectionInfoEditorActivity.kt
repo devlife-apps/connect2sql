@@ -32,7 +32,9 @@ import app.devlife.connect2sql.ui.connection.form.FormUtils
 import app.devlife.connect2sql.ui.widget.NotifyingScrollView
 import app.devlife.connect2sql.ui.widget.Toast
 import app.devlife.connect2sql.ui.widget.dialog.ProgressDialog
+import app.devlife.connect2sql.util.rx.ActivityAwareSubscriber
 import rx.Subscriber
+import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import javax.inject.Inject
@@ -48,9 +50,12 @@ class ConnectionInfoEditorActivity : BaseActivity() {
         drawable
     }
 
+    private lateinit var nameBarContainer: ActionBarContainer
+    private lateinit var form: BaseForm
+
     private var doOnValidationSuccess: ValidationAction? = null
-    lateinit var nameBarContainer: ActionBarContainer
-    lateinit var form: BaseForm
+    private var progressDialog: ProgressDialog? = null
+    private var subscription: Subscription? = null
 
     @Inject
     lateinit var connectionInfoRepository: ConnectionInfoRepository
@@ -96,6 +101,11 @@ class ConnectionInfoEditorActivity : BaseActivity() {
         }
 
         setContentView(form.view)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        cancelTest()
     }
 
     private fun saveConnection(): ConnectionInfo {
@@ -147,22 +157,23 @@ class ConnectionInfoEditorActivity : BaseActivity() {
     }
 
     private fun executeTestConnection(connectionInfo: ConnectionInfo) {
-        val progressDialog = ProgressDialog(this, "Testing", "Testing configuration...")
-        progressDialog.show()
+        progressDialog = ProgressDialog(this, "Testing", "Testing configuration...")
+        progressDialog?.setOnCancelListener { cancelTest() }
+        progressDialog?.show()
 
         val connectionAgent = ConnectionAgent()
-        connectionAgent
+        subscription = connectionAgent
             .connect(connectionInfo)
             .switchMap { connection -> connectionAgent.disconnect(connection) }
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : Subscriber<Unit>() {
+            .subscribe(ActivityAwareSubscriber(this@ConnectionInfoEditorActivity, object : Subscriber<Unit>() {
                 override fun onCompleted() {
                 }
 
                 override fun onError(e: Throwable) {
                     EzLogger.w(e.message, e)
-                    progressDialog.dismiss()
+                    progressDialog?.dismiss()
 
                     val builder = AlertDialog.Builder(this@ConnectionInfoEditorActivity)
                     builder.setTitle("Error")
@@ -172,7 +183,7 @@ class ConnectionInfoEditorActivity : BaseActivity() {
                 }
 
                 override fun onNext(nothing: Unit) {
-                    progressDialog.dismiss()
+                    progressDialog?.dismiss()
 
                     val builder = AlertDialog.Builder(this@ConnectionInfoEditorActivity)
                     builder.setTitle("Success")
@@ -180,7 +191,12 @@ class ConnectionInfoEditorActivity : BaseActivity() {
                     builder.setNeutralButton("OK", null)
                     builder.create().show()
                 }
-            })
+            }))
+    }
+
+    private fun cancelTest() {
+        progressDialog?.dismiss()
+        subscription?.unsubscribe()
     }
 
     private enum class ValidationAction {
@@ -192,7 +208,11 @@ class ConnectionInfoEditorActivity : BaseActivity() {
         override fun onValidationSucceeded() {
             when (doOnValidationSuccess) {
                 ValidationAction.TEST -> testConnection()
-                ValidationAction.SAVE -> onSaved(saveConnection())
+                ValidationAction.SAVE -> {
+                    saveConnection()
+                    setResult(RESULT_OK)
+                    finish()
+                }
             }
         }
 
@@ -293,11 +313,6 @@ class ConnectionInfoEditorActivity : BaseActivity() {
         } else {
             editText.inputType = FormUtils.addInputType(inputType, InputType.TYPE_TEXT_VARIATION_PASSWORD)
         }
-    }
-
-    fun onSaved(connectionInfo: ConnectionInfo) {
-        setResult(RESULT_OK)
-        finish()
     }
 
     companion object {

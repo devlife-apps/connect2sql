@@ -34,9 +34,9 @@ class ConnectionAgent {
                             s.close()
                         }
                     } catch (e: IllegalArgumentException) {
-                        throw SQLException(e.message)
+                        throw SQLException(e.message, e)
                     } catch (e: IOException) {
-                        throw SQLException(e.message)
+                        throw SQLException(e.message, e)
                     }
 
                     val driverHelper = DriverHelperFactory.create(connectionInfo.driverType)

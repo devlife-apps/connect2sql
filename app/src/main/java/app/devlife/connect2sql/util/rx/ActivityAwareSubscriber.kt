@@ -3,11 +3,14 @@ package app.devlife.connect2sql.util.rx
 import android.app.Activity
 import app.devlife.connect2sql.log.EzLogger
 import rx.Subscriber
+import java.lang.ref.WeakReference
 
 class ActivityAwareSubscriber<T>(
-    private val activity: Activity,
+    activity: Activity,
     private val delegate: Subscriber<T>
 ) : Subscriber<T>() {
+
+    private val activityRef: WeakReference<Activity> = WeakReference(activity)
 
     override fun onStart() {
         if (isValid()) delegate.onStart()
@@ -30,6 +33,8 @@ class ActivityAwareSubscriber<T>(
     }
 
     private fun isValid(): Boolean {
-        return !activity.isDestroyed && !activity.isFinishing && activity.window.decorView.isShown
+        return activityRef.get()?.let {  activity ->
+            !activity.isDestroyed && !activity.isFinishing && activity.window.decorView.isShown
+        } ?: false
     }
 }
