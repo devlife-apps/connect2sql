@@ -7,7 +7,6 @@
     <app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/float_label_host"
         style="@style/Form.FloatLabelLayout">
 
         <EditText
@@ -33,7 +32,6 @@
     <app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/float_label_port"
         style="@style/Form.FloatLabelLayout">
 
         <EditText
@@ -52,7 +50,6 @@
     <app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/float_label_username"
         style="@style/Form.FloatLabelLayout">
 
 
@@ -72,7 +69,6 @@
     <app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/float_label_password"
         style="@style/Form.FloatLabelLayout">
 
         <EditText
@@ -97,7 +93,6 @@
     <app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/float_label_database"
         style="@style/Form.FloatLabelLayout">
 
 

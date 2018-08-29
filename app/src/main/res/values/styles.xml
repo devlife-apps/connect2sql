@@ -16,14 +16,6 @@
 
     <style name="Theme.C2SQL.ActionBar"></style>
 
-    <style name="Theme.C2SQL.ActionBar.Overlay">
-        <item name="android:windowActionBarOverlay">true</item>
-    </style>
-
-    <style name="Theme.C2SQL.ActionBar.Overlay.Transparent">
-        <item name="android:actionBarStyle">@style/Widget.ActionBar.Transparent</item>
-    </style>
-
     <style name="Form"></style>
 
     <style name="Form.SectionLayout">
@@ -31,9 +23,6 @@
         <item name="android:paddingRight">@dimen/form_padding_vertical</item>
         <item name="android:paddingBottom">@dimen/form_section_padding_bottom</item>
         <item name="android:paddingTop">@dimen/form_section_padding_top</item>
-    </style>
-
-    <style name="TextAppearance.MockActionBar.Title" parent="android:TextAppearance.Holo.Widget.ActionBar.Title">
     </style>
 
     <style name="Form.FloatLabelLayout">
@@ -91,22 +80,6 @@
         <item name="android:textStyle">normal</item>
     </style>
 
-    <style name="TransparentDialog" parent="@android:style/Theme.Translucent">
-        <item name="android:windowBackground">@color/transparent</item>
-        <item name="android:windowIsFloating">false</item>
-        <item name="android:windowNoTitle">true</item>
-    </style>
-
     <style name="Widget"></style>
-
-    <style name="Widget.ActionBar" parent="@style/Widget.AppCompat.ActionBar">
-        <item name="android:background">@drawable/action_bar_background</item>
-        <item name="android:backgroundSplit">@drawable/action_bar_background_reversed</item>
-    </style>
-
-    <style name="Widget.ActionBar.Transparent" parent="@style/Widget.AppCompat.ActionBar">
-        <item name="android:background">@color/transparent</item>
-        <item name="android:backgroundSplit">@color/transparent</item>
-    </style>
 
 </resources>

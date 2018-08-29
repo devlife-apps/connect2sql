@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="help_title">Help</string>
     <string name="help_positive_btn_label">Okay, got it!</string>
 
     <!-- Help: field specific -->

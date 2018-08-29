@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="menu_import">Import</string>
-    <string name="menu_export">Export</string>
     <string name="menu_name_only">View names only</string>
 
 </resources>

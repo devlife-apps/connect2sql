@@ -7,7 +7,6 @@
     <app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/float_label_name"
         style="@style/Form.FloatLabelLayout">
 
         <EditText

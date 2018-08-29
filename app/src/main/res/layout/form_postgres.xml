@@ -82,7 +82,6 @@
                 <app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/float_label_use_ssl"
                     style="@style/Form.FloatLabelLayout">
 
                     <Switch
@@ -110,7 +109,6 @@
                 <app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/float_label_bypass_cert_validation"
                     style="@style/Form.FloatLabelLayout">
 
                     <Switch

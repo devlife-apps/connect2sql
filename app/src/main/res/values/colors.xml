@@ -5,32 +5,14 @@
     <color name="white">#FFF</color>
     <color name="greyLightest">#EEE</color>
     <color name="greyLighter">#DDD</color>
-    <color name="greyLight">#CCC</color>
     <color name="grey">#b2b2b2</color>
     <color name="greyDark">#888</color>
     <color name="greyDarker">#555</color>
-    <color name="greyDarkest">#202020</color>
-    <color name="blueLightest">#00ddff</color>
     <color name="blueLight">#00bbee</color>
     <color name="blueBase">#33B5E5</color>
     <color name="blueDark">#0099cc</color>
     <color name="blueDarkest">#1A99C7</color>
-    <color name="redLightest">#F07F7F</color>
-    <color name="redLight">#F24E4E</color>
-    <color name="redBase">#E02424</color>
-    <color name="redDark">#C41616</color>
-    <color name="redDarkest">#750909</color>
-    <color name="black">#000000</color>
-    <color name="themeBgSubtitle">#D111</color>
-    <color name="themeBgLight">#333</color>
-    <color name="themeBg">#222</color>
-    <color name="themeBgDark">#111</color>
-    <color name="themeButtonColor">#CCC</color>
-    <color name="themeDialogBg">#7111</color>
-    <color name="themeBgLightTransparent">#7333</color>
-    <color name="themeBgTransparent">#7222</color>
     <color name="themeBgDarkTransparent">#7111</color>
-    <color name="themeButtonColorTransparent">#7CCC</color>
     <color name="themeDialogBgTransparent">#4111</color>
 
 </resources>

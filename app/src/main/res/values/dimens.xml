@@ -9,7 +9,6 @@
     <dimen name="form_fllp_action_padding_vertical">16dp</dimen>
     <dimen name="form_fllp_action_margin_right_2">40dp</dimen>
     <dimen name="form_fllp_action_padding_bottom">14dp</dimen>
-    <dimen name="form_buttons_shadow_size">10dp</dimen>
     <dimen name="form_buttons_shadow_size_negative">-10dp</dimen>
     <dimen name="form_content_padding_bottom">10dp</dimen>
     <dimen name="form_padding_vertical">10dp</dimen>
