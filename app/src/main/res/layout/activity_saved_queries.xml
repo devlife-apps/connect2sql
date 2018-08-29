@@ -5,6 +5,7 @@
               android:orientation="vertical">
 
     <ExpandableListView
+        android:id="@+id/listview_saved_queries"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     </ExpandableListView>
