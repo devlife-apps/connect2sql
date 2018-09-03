@@ -72,7 +72,7 @@ platform :android do
 
     git_commit(
       'path': ['app/build.gradle'],
-      'message': "Bump version to #{next_version_name} - no-tag"
+      'message': "Bump version to #{next_version_name}"
     )
 
     #########

@@ -102,13 +102,12 @@ prepublish:tag:
   script:
     - echo "${GPS_KEY}" > app/gps-key.json
     - bundle exec fastlane prep_release
+  when: manual
   only:
     - master
   except:
     refs:
       - tags
-    variables:
-      - $CI_COMMIT_MESSAGE =~ /no-tag/
 
 publish:beta:
   stage: publish
@@ -120,6 +119,5 @@ publish:beta:
   script:
     - echo "${GPS_KEY}" > app/gps-key.json
     - bundle exec fastlane publish_beta gps_key_path:'app/gps-key.json' apk_path:'app/build/outputs/apk/release/app-release.apk'
-  when: manual
   only:
     - tags
