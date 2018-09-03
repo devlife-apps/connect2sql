@@ -29,11 +29,7 @@ class PostgresForm(context: Context, view: View) : BaseForm(context, view) {
         val errorMessage = context.resources.getString(R.string.form_error_database_required)
         validator.put(databaseEditTextView, object : Rule<EditText>(errorMessage) {
             override fun isValid(databaseEditTextView: EditText): Boolean {
-                if (TextUtils.isEmpty(databaseEditTextView.text)) {
-                    return false
-                } else {
-                    return true
-                }
+                return !TextUtils.isEmpty(databaseEditTextView.text)
             }
         })
     }
@@ -57,10 +53,10 @@ class PostgresForm(context: Context, view: View) : BaseForm(context, view) {
     }
 
     override fun getHelpMessageResource(view: View): Int {
-        when (view.id) {
-            R.id.form_swtch_use_ssl -> return R.string.help_use_ssl
-            R.id.form_swtch_trust_cert -> return R.string.help_trust_cert
-            else -> return super.getHelpMessageResource(view)
+        return when (view.id) {
+            R.id.form_swtch_use_ssl -> R.string.help_use_ssl
+            R.id.form_swtch_trust_cert -> R.string.help_trust_cert
+            else -> super.getHelpMessageResource(view)
         }
     }
 }

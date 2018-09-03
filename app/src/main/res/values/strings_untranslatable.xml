@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string-array name="operators">
+        <item>=</item>
+        <item>!=</item>
+        <item>&lt;</item>
+        <item>&lt;=</item>
+        <item>&gt;</item>
+        <item>&gt;=</item>
+        <item>LIKE</item>
+        <item>LIKE %</item>
+        <item>NOT LIKE</item>
+        <item>NOT LIKE %</item>
+        <item>IS NULL</item>
+        <item>IS NOT NULL</item>
+    </string-array>
+    <string-array name="snippets">
+        <item>SELECT</item>
+        <item>*</item>
+        <item>COUNT(*)</item>
+        <item>FROM</item>
+        <item>WHERE</item>
+        <item>IN ()</item>
+        <item>AND</item>
+        <item>OR</item>
+        <item>GROUP BY</item>
+        <item>ORDER BY</item>
+        <item>LIMIT</item>
+        <item>INSERT INTO</item>
+        <item>LEFT JOIN</item>
+        <item>INNER JOIN</item>
+        <item>RIGHT JOIN</item>
+        <item>ON</item>
+        <item>UPDATE</item>
+        <item>SET</item>
+        <item>--</item>
+    </string-array>
+</resources>

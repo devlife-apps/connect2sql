@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="error_no_detected_databases">No databases detected.</string>
-    <string name="error_no_detected_tables">No tables detected.</string>
-    <string name="error_select_database">Please select a database.</string>
-    <string name="postgres_changing_databases">Postgres doesn\'t support changing databases once connected.</string>
-    <string name="none_placeholder">[None]</string>
-    <string name="loading_placeholder">[Loading]</string>
-</resources>

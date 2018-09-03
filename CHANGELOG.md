@@ -1,5 +1,10 @@
 ## [Unreleased]
 
+### Added
+
+- Spanish (es) translation
+
+
 ## [4.0.8] - 2018-09-03
 
 ### Added

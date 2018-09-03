@@ -51,7 +51,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/ic_form_header_connection"
-                    android:text="Connection Details"
+                    android:text="@string/connection_details"
                     android:drawablePadding="10dp"
                     android:textSize="20dp"
                     android:background="@drawable/form_header_underline"/>
@@ -74,7 +74,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/ic_form_header_gears"
-                    android:text="Advanced Options"
+                    android:text="@string/advanced_options"
                     android:drawablePadding="10dp"
                     android:textSize="20dp"
                     android:background="@drawable/form_header_underline"/>
@@ -87,14 +87,14 @@
                     <Switch
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Use SSL?"
+                        android:text="@string/use_ssl"
                         android:id="@+id/form_swtch_use_ssl"
                         android:layout_marginLeft="12dp"
                         android:focusable="true"
                         android:textSize="@dimen/form_field_text_size"
                         android:textColor="@color/greyDark"
-                        android:textOn="YES"
-                        android:textOff="NO"
+                        android:textOn="@string/yes"
+                        android:textOff="@string/no"
                         android:layout_gravity="left"/>
 
                     <ImageView
@@ -114,14 +114,14 @@
                     <Switch
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Trust Cert.?"
+                        android:text="@string/trust_cert"
                         android:id="@+id/form_swtch_trust_cert"
                         android:layout_marginLeft="12dp"
                         android:focusable="true"
                         android:textSize="@dimen/form_field_text_size"
                         android:textColor="@color/greyDark"
-                        android:textOn="YES"
-                        android:textOff="NO"
+                        android:textOn="@string/yes"
+                        android:textOff="@string/no"
                         android:layout_gravity="left"/>
 
                     <ImageView
