@@ -13,7 +13,7 @@
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/name"
+            android:text="@string/dialog_name"
             android:textAppearance="?android:attr/textAppearanceMedium"/>
 
         <EditText
@@ -35,7 +35,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/query"
+            android:text="@string/dialog_query"
             android:textAppearance="?android:attr/textAppearanceMedium"/>
 
         <EditText

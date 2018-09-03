@@ -203,8 +203,8 @@ class QueryActivity : BaseActivity() {
         /*****************************
          * Set view display
          */
-        lblCurrentDatabase.setText(R.string.loading_placeholder)
-        lblCurrentTable.setText(R.string.loading_placeholder)
+        lblCurrentDatabase.setText(R.string.query_loading)
+        lblCurrentTable.setText(R.string.query_loading)
 
         mQuickKeysList!!.setAdapter(quickKeysAdapter)
 
@@ -214,7 +214,7 @@ class QueryActivity : BaseActivity() {
 
         lblCurrentDatabase.setOnClickListener {
             if (connectionInfo.driverType == DriverType.POSTGRES) {
-                Toast.makeText(this@QueryActivity, getString(R.string.postgres_changing_databases), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@QueryActivity, getString(R.string.error_postgres_changing_databases), Toast.LENGTH_SHORT).show()
             } else if (databaseAdapter.isEmpty) {
                 Toast.makeText(this@QueryActivity, getString(R.string.error_no_detected_databases), Toast.LENGTH_SHORT).show()
             } else {
@@ -553,8 +553,8 @@ class QueryActivity : BaseActivity() {
     fun loadCurrentDatabaseTableUi() {
         if (currentDatabase == null) {
             // lets update the UI
-            lblCurrentDatabase.setText(R.string.none_placeholder)
-            lblCurrentTable.setText(R.string.none_placeholder)
+            lblCurrentDatabase.setText(R.string.query_none)
+            lblCurrentTable.setText(R.string.query_none)
 
             // nothing else to do without a database selected
             return
@@ -564,7 +564,7 @@ class QueryActivity : BaseActivity() {
 
         if (currentTable == null) {
             // update ui display of current table
-            lblCurrentTable.setText(R.string.none_placeholder)
+            lblCurrentTable.setText(R.string.query_none)
         } else {
             lblCurrentTable.text = currentTable
         }

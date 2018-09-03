@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:text="@string/clear"/>
+            android:text="@string/qk_clear"/>
     </RelativeLayout>
 
 </LinearLayout>

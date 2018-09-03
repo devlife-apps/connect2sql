@@ -31,7 +31,7 @@
             android:label="@string/activity_set_lock" />
         <activity
             android:name="app.devlife.connect2sql.ui.lock.ForgotLockActivity"
-            android:label="@string/title_activity_forgot_lock" />
+            android:label="@string/activity_forgot_lock" />
         <activity
             android:name="app.devlife.connect2sql.activity.DashboardActivity"
             android:configChanges="screenSize|orientation|keyboardHidden"

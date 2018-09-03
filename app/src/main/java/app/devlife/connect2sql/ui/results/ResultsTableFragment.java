@@ -7,7 +7,6 @@ import java.util.List;
 import com.gitlab.connect2sql.R;
 import app.devlife.connect2sql.fragment.BaseFragment;
 import app.devlife.connect2sql.log.EzLogger;
-import app.devlife.connect2sql.ui.results.ResultSetPullTask.CallbackListener;
 import app.devlife.connect2sql.ui.widget.TableGrid;
 import app.devlife.connect2sql.ui.widget.TableGrid.OnCellEventListener;
 import app.devlife.connect2sql.ui.widget.Toast;
@@ -53,7 +52,7 @@ public class ResultsTableFragment extends BaseFragment implements
         super.onCreate(savedInstanceState);
 
         mPagingString = getResources().getString(
-                R.string.showing_records_to);
+                R.string.results_showing_records_to);
     }
 
     @Override

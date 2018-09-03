@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@string/database"/>
+            android:text="@string/query_database"/>
 
         <TextView
             android:id="@+id/lblCurrentDatabase"
@@ -32,7 +32,7 @@
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:singleLine="true"
-            android:text="@string/database"
+            android:text="@string/query_database"
             android:textColor="@color/blueLight"/>
 
         <TextView
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@string/table"/>
+            android:text="@string/query_table"/>
 
         <TextView
             android:id="@+id/lblCurrentTable"
@@ -51,7 +51,7 @@
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:singleLine="true"
-            android:text="@string/table"
+            android:text="@string/query_table"
             android:textColor="@color/blueLight"/>
     </LinearLayout>
 
@@ -63,7 +63,7 @@
         android:layout_toLeftOf="@+id/elvQuickKeys"
         android:ems="10"
         android:gravity="top"
-        android:hint="@string/sample_query"
+        android:hint="@string/query_hint"
         android:inputType="textMultiLine|textNoSuggestions"
         android:textColorHint="@color/greyDarker">
 

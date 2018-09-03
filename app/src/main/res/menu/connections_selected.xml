@@ -4,17 +4,17 @@
 
     <item
         android:id="@+id/configure"
-        android:title="@string/configure"
+        android:title="@string/menu_configure"
         app:showAsAction="ifRoom">
     </item>
     <item
         android:id="@+id/duplicate"
-        android:title="@string/duplicate"
+        android:title="@string/menu_duplicate"
         app:showAsAction="ifRoom">
     </item>
     <item
         android:id="@+id/delete"
-        android:title="@string/delete_connection"
+        android:title="@string/menu_delete_connection"
         app:showAsAction="ifRoom">
     </item>
 

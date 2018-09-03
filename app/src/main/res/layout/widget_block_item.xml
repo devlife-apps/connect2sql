@@ -23,7 +23,6 @@
         android:singleLine="true"
         android:gravity="center"
         android:tag="textTitle"
-        android:text="@string/name"
         android:ellipsize="end"
         android:textColor="@color/white"
         android:textAppearance="?android:attr/textAppearanceMedium"/>

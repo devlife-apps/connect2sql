@@ -6,17 +6,17 @@
 
     <item
         android:id="@+id/rate"
-        android:title="@string/rate_app"
+        android:title="@string/menu_rate_app"
         app:showAsAction="never">
     </item>
     <item
         android:id="@+id/beta"
-        android:title="@string/join_beta"
+        android:title="@string/menu_join_beta"
         app:showAsAction="never">
     </item>
     <item
         android:id="@+id/about"
-        android:title="@string/about_app"
+        android:title="@string/menu_about_app"
         app:showAsAction="never">
     </item>
 

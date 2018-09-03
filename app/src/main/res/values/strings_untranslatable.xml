@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
+    <string name="app_name">Connect2SQL</string>
     <string-array name="operators">
         <item>=</item>
         <item>!=</item>
