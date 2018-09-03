@@ -25,11 +25,6 @@ import android.widget.ExpandableListView
 import android.widget.LinearLayout
 import android.widget.ListView
 import android.widget.TextView
-import com.gitlab.connect2sql.R
-import kotlinx.android.synthetic.main.activity_query.fab
-import kotlinx.android.synthetic.main.activity_query.lblCurrentDatabase
-import kotlinx.android.synthetic.main.activity_query.lblCurrentTable
-import kotlinx.android.synthetic.main.activity_query.txtQuery
 import app.devlife.connect2sql.ApplicationUtils
 import app.devlife.connect2sql.activity.BaseActivity
 import app.devlife.connect2sql.adapter.QuickKeysAdapter
@@ -56,11 +51,17 @@ import app.devlife.connect2sql.ui.results.ResultsActivity
 import app.devlife.connect2sql.ui.savedqueries.SavedQueriesActivity
 import app.devlife.connect2sql.ui.widget.Toast
 import app.devlife.connect2sql.util.rx.ActivityAwareSubscriber
+import com.gitlab.connect2sql.R
+import kotlinx.android.synthetic.main.activity_query.fab
+import kotlinx.android.synthetic.main.activity_query.lblCurrentDatabase
+import kotlinx.android.synthetic.main.activity_query.lblCurrentTable
+import kotlinx.android.synthetic.main.activity_query.txtQuery
 import rx.Observable
 import rx.Subscriber
 import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
+import java.sql.Connection
 import java.util.ArrayList
 import javax.inject.Inject
 
@@ -332,19 +333,23 @@ class QueryActivity : BaseActivity() {
         EzLogger.d("[retrieveServerGraph]")
         return mConnectionAgent
             .connect(connectionInfo)
-            .flatMap<Pair<DriverAgent.Database, DriverAgent.Table>> { connection ->
+            .flatMap<Pair<Connection, DriverAgent.Database>> { connection ->
+                when {
+                    serverGraphSubscription == null -> Observable.empty()
+                    !connectionInfo.database.isNullOrBlank() -> {
+                        Observable.just(Pair(connection, DriverAgent.Database(connectionInfo.database!!)))
+                    }
+                    else -> driverAgent.databases(connection).map { Pair(connection, it) }
+                }
+            }
+            .flatMap<Pair<DriverAgent.Database, DriverAgent.Table>> { (connection, database) ->
+                EzLogger.v("[call] database retrieved=$database")
                 if (serverGraphSubscription == null) Observable.empty()
                 else driverAgent
-                    .databases(connection)
-                    .flatMap<Pair<DriverAgent.Database, DriverAgent.Table>> { database ->
-                        EzLogger.v("[call] database retrieved=$database")
-                        if (serverGraphSubscription == null) Observable.empty()
-                        else driverAgent
-                            .tables(connection, database)
-                            .map<Pair<DriverAgent.Database, DriverAgent.Table>> { table ->
-                                EzLogger.v("[call] table retrieved=$database/$table")
-                                Pair(database, table)
-                            }
+                    .tables(connection, database)
+                    .map<Pair<DriverAgent.Database, DriverAgent.Table>> { table ->
+                        EzLogger.v("[call] table retrieved=$database/$table")
+                        Pair(database, table)
                     }
             }
             .collect<MutableMap<DriverAgent.Database, MutableList<DriverAgent.Table>>>(

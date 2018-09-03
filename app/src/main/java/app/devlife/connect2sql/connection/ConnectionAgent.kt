@@ -17,12 +17,12 @@ import java.util.concurrent.ConcurrentHashMap
  */
 class ConnectionAgent {
 
-    private val mActiveConnections = ConcurrentHashMap<ConnectionInfo, Connection>()
+    private val activeConnections = ConcurrentHashMap<ConnectionInfo, Connection>()
 
     fun connect(connectionInfo: ConnectionInfo): Observable<Connection> {
         return Observable.create { subscriber ->
             try {
-                if (!mActiveConnections.containsKey(connectionInfo) || mActiveConnections[connectionInfo]?.isClosed() == true) {
+                if (!activeConnections.containsKey(connectionInfo) || activeConnections[connectionInfo]?.isClosed() == true) {
                     try {
                         val s = Socket()
                         val address = InetSocketAddress(
@@ -58,7 +58,7 @@ class ConnectionAgent {
                             connectionInfo.username,
                             connectionInfo.password)
 
-                        mActiveConnections.put(connectionInfo, connection)
+                        activeConnections.put(connectionInfo, connection)
                     } catch (e: ClassNotFoundException) {
                         throw SQLException("Class not found: " + e.message, e)
                     } catch (@Suppress("TooGenericExceptionCaught") e: Exception) {
@@ -66,7 +66,7 @@ class ConnectionAgent {
                     }
                 }
 
-                subscriber.onNext(mActiveConnections[connectionInfo])
+                subscriber.onNext(activeConnections[connectionInfo])
                 subscriber.onCompleted()
             } catch (e: SQLException) {
                 subscriber.onError(e)

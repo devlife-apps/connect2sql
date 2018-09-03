@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+### Added
+
+- Don't attempt to lookup all databases when database set
+
 ### Fixed
 
 - Crash: http://crashes.to/s/de660f491cc
