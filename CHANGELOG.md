@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## [4.0.8] - 2018-09-03
+
 ### Added
 
 - Don't attempt to lookup all databases when database set
