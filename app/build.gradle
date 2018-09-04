@@ -117,7 +117,7 @@ ext {
     version_logback_android = '1.1.1-12'
     version_mariadb = '1.7.4'
     version_dexmaker_mockito = '2.19.0'
-    version_patternlock = '2.0.1'
+    version_patternlock = '2.1.2'
     version_rx = '1.1.0'
     version_saripaar = '1.0.3'
     version_sqlcipher = '3.5.9'
