@@ -1,0 +1,7 @@
+Added
+
+- Spanish (es) translation
+
+Fixed
+
+- Crash: http://crashes.to/s/3cfd4558aaa
