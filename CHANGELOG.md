@@ -4,6 +4,9 @@
 
 - Spanish (es) translation
 
+### Fixed
+
+- Crash: http://crashes.to/s/3cfd4558aaa
 
 ## [4.0.8] - 2018-09-03
 
