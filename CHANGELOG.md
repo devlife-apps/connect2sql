@@ -1,5 +1,11 @@
 ## [Unreleased]
 
+
+### Fixed
+
+- Landscape lock screen:
+https://gitlab.com/devlife-apps/connect2sql/issues/11
+
 ## [4.0.9] - 2018-09-04
 
 ### Added
