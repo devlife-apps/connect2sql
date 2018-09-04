@@ -103,5 +103,5 @@
 
     <string name="results_next">Next</string>
     <string name="results_previous">Prev</string>
-    <string name="results_showing_records_to">records %1$s-%1$s (%1$s)</string>
+    <string name="results_showing_records_to">records %1$d - %2$d (%3$d)</string>
 </resources>

@@ -1,15 +1,5 @@
 package app.devlife.connect2sql.ui.results;
 
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.gitlab.connect2sql.R;
-import app.devlife.connect2sql.fragment.BaseFragment;
-import app.devlife.connect2sql.log.EzLogger;
-import app.devlife.connect2sql.ui.widget.TableGrid;
-import app.devlife.connect2sql.ui.widget.TableGrid.OnCellEventListener;
-import app.devlife.connect2sql.ui.widget.Toast;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -24,15 +14,26 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.gitlab.connect2sql.R;
+
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+
+import app.devlife.connect2sql.fragment.BaseFragment;
+import app.devlife.connect2sql.log.EzLogger;
+import app.devlife.connect2sql.ui.widget.TableGrid;
+import app.devlife.connect2sql.ui.widget.TableGrid.OnCellEventListener;
+import app.devlife.connect2sql.ui.widget.Toast;
+
 public class ResultsTableFragment extends BaseFragment implements
-        OnCellEventListener, android.view.View.OnClickListener {
+    OnCellEventListener, android.view.View.OnClickListener {
 
     private static final String TAG = ResultsTableFragment.class.getSimpleName();
 
     private TableGrid mResultsTable;
-    private List<String[]> mData = new ArrayList<String[]>();
+    private List<String[]> mData = new ArrayList<>();
     private int mNormalFrozenColumnWidth = 0;
-    private String mPagingString;
     private TextView mPagingTextView;
     private ResultSet mResultSet;
 
@@ -48,16 +49,8 @@ public class ResultsTableFragment extends BaseFragment implements
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        mPagingString = getResources().getString(
-                R.string.results_showing_records_to);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         EzLogger.d("Creating fragment...");
         if (container == null) {
             return null;
@@ -74,7 +67,7 @@ public class ResultsTableFragment extends BaseFragment implements
         mResultsTable.setOnCellEventListener(this);
 
         LinearLayout paginationBar = (LinearLayout) v
-                .findViewById(R.id.pagination_bar);
+            .findViewById(R.id.pagination_bar);
         mPagingTextView = (TextView) paginationBar.findViewById(R.id.text1);
 
         mPagingPrevButton = ((ImageButton) paginationBar.findViewById(R.id.button1));
@@ -92,7 +85,7 @@ public class ResultsTableFragment extends BaseFragment implements
         super.onStart();
         if (mResultSet != null) {
             new ResultSetPullTask(mResultSet, mStartIndex, mDisplayLimit,
-                    mResultSetPullListener).execute((Void) null);
+                mResultSetPullListener).execute((Void) null);
         } else {
             getActivity().finish();
         }
@@ -104,7 +97,7 @@ public class ResultsTableFragment extends BaseFragment implements
             if (mNormalFrozenColumnWidth == 0) {
                 EzLogger.d("Resizing frozen column...");
                 mNormalFrozenColumnWidth = mResultsTable
-                        .resizeFrozenColumn(100);
+                    .resizeFrozenColumn(100);
             } else {
                 EzLogger.d("Resizing (to original) frozen column...");
                 mResultsTable.resizeFrozenColumn(mNormalFrozenColumnWidth);
@@ -116,15 +109,15 @@ public class ResultsTableFragment extends BaseFragment implements
     @Override
     @SuppressWarnings("deprecation")
     public void onCellLongClick(View cell, boolean isHeader,
-            boolean isFrozenColumn) {
+                                boolean isFrozenColumn) {
         String text = ((TextView) cell).getText().toString();
 
         ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
         clipboard.setText(text);
 
         Toast.makeText(getActivity(),
-                "'" + text + "' has been copied to clipboard.",
-                Toast.LENGTH_LONG).show();
+            "'" + text + "' has been copied to clipboard.",
+            Toast.LENGTH_LONG).show();
     }
 
     public float increaseFontSize(int i) {
@@ -149,11 +142,7 @@ public class ResultsTableFragment extends BaseFragment implements
     }
 
     protected void setPaginationText(int from, int to, int total) {
-        String newString = mPagingString.replace("{start}", "" + from);
-        newString = newString.replace("{end}", "" + to);
-        newString = newString.replace("{total}", "" + total);
-
-        mPagingTextView.setText(newString);
+        mPagingTextView.setText(getString(R.string.results_showing_records_to, from, to, total));
     }
 
     /***
@@ -200,7 +189,7 @@ public class ResultsTableFragment extends BaseFragment implements
 
         @Override
         public void onComplete(String[] columnsNames, List<String[]> data,
-                int totalRecords) {
+                               int totalRecords) {
             Log.d(TAG, "columnsNames count: " + columnsNames.length);
             Log.d(TAG, "data count: " + data.size());
             Log.d(TAG, "totalRecords: " + totalRecords);
@@ -273,7 +262,7 @@ public class ResultsTableFragment extends BaseFragment implements
                 mResultsTable.clear();
                 mData.clear();
                 new ResultSetPullTask(mResultSet, mStartIndex, mDisplayLimit,
-                        mResultSetPullListener).execute((Void) null);
+                    mResultSetPullListener).execute((Void) null);
                 break;
             case R.id.button2:
                 // next button
@@ -281,7 +270,7 @@ public class ResultsTableFragment extends BaseFragment implements
                 mResultsTable.clear();
                 mData.clear();
                 new ResultSetPullTask(mResultSet, mStartIndex, mDisplayLimit,
-                        mResultSetPullListener).execute((Void) null);
+                    mResultSetPullListener).execute((Void) null);
                 break;
             default:
                 Log.wtf(TAG, "What does this button do? " + id);
