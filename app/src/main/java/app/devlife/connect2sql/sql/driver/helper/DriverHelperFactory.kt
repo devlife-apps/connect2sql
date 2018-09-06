@@ -9,10 +9,10 @@ object DriverHelperFactory {
     private val driverHelpers = hashMapOf<DriverType, DriverHelper>()
 
     init {
-        driverHelpers.put(DriverType.MSSQL, MsSqlDriverHelper())
-        driverHelpers.put(DriverType.MYSQL, MySqlDriverHelper())
-        driverHelpers.put(DriverType.POSTGRES, PostgresDriverHelper())
-        driverHelpers.put(DriverType.SYBASE, SybaseDriverHelper())
+        driverHelpers[DriverType.MSSQL] = MsSqlDriverHelper()
+        driverHelpers[DriverType.MYSQL] = MySqlDriverHelper()
+        driverHelpers[DriverType.POSTGRES] = PostgresDriverHelper()
+        driverHelpers[DriverType.SYBASE] = SybaseDriverHelper()
     }
 
     fun create(driverType: DriverType): DriverHelper? {

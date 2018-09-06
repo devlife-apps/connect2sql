@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.util.SparseArray
 import android.view.Menu
 import android.view.MenuItem
-import com.gitlab.connect2sql.R
 import app.devlife.connect2sql.ApplicationUtils
 import app.devlife.connect2sql.activity.BaseActivity
 import app.devlife.connect2sql.connection.ConnectionAgent
@@ -22,6 +21,7 @@ import app.devlife.connect2sql.sql.driver.helper.DriverHelper
 import app.devlife.connect2sql.sql.driver.helper.DriverHelperFactory
 import app.devlife.connect2sql.ui.widget.dialog.ProgressDialog
 import app.devlife.connect2sql.util.rx.ActivityAwareSubscriber
+import com.gitlab.connect2sql.R
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -32,18 +32,17 @@ import javax.inject.Inject
 
 class ResultsActivity : BaseActivity() {
 
-    private val connectionInfo: ConnectionInfo by lazy {
-        val id = intent?.extras?.getLong(EXTRA_CONNECTION_INFO_ID).ensure({ t -> t != null && t > 0 })!!
-        connectionInfoRepo.getConnectionInfo(id)
-    }
 
     private val sqlString: String by lazy { intent?.extras?.getString(EXTRA_SQL_STRING)!! }
     private val databaseName: String? by lazy { intent?.extras?.getString(EXTRA_DATABASE) }
-
     private val resultsSets = SparseArray<ResultSet>()
     private val resultTableFragments = HashMap<ResultSet, ResultsTableFragment>()
 
     private var progressDialog: ProgressDialog? = null
+    private val connectionInfo: ConnectionInfo by lazy {
+        val id = intent?.extras?.getLong(EXTRA_CONNECTION_INFO_ID).ensure { t -> t != null && t > 0 }!!
+        connectionInfoRepo.getConnectionInfo(id)
+    }
 
     private lateinit var driverHelper: DriverHelper
     private lateinit var driverAgent: DriverAgent
@@ -234,10 +233,8 @@ class ResultsActivity : BaseActivity() {
         if (resultTableFragments.containsKey(rs)) {
             frag = resultTableFragments[rs]!!
         } else {
-            frag = ResultsTableFragment.newInstance(rs, 0)
-
-            // store reference to table fragments
-            resultTableFragments.put(rs, frag)
+            frag = ResultsTableFragment.newInstance(driverAgent, rs, 0)
+            resultTableFragments[rs] = frag
         }
 
         val transaction = supportFragmentManager.beginTransaction()
@@ -249,7 +246,7 @@ class ResultsActivity : BaseActivity() {
      * Clears our list of results sets and closes them
      */
     private fun clearResultSets() {
-        for (i in 0..resultsSets.size() - 1) {
+        for (i in 0 until resultsSets.size()) {
             Thread(ResultSetClosingRunnable(resultsSets.get(resultsSets.keyAt(i)))).start()
         }
 

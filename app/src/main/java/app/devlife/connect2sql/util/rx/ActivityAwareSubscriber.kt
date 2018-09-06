@@ -6,11 +6,11 @@ import rx.Subscriber
 import java.lang.ref.WeakReference
 
 class ActivityAwareSubscriber<T>(
-    activity: Activity,
+    activity: Activity?,
     private val delegate: Subscriber<T>
 ) : Subscriber<T>() {
 
-    private val activityRef: WeakReference<Activity> = WeakReference(activity)
+    private val activityRef: WeakReference<Activity?> = WeakReference(activity)
 
     override fun onStart() {
         if (isValid()) delegate.onStart()
