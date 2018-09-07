@@ -1,5 +1,8 @@
 ## [Unreleased]
 
+### Changed
+- Update Fabric libraries
+
 ### Fixed
 - Landscape lock screen: https://gitlab.com/devlife-apps/connect2sql/issues/11
 - Crash: http://crashes.to/s/a5ca59edd6f

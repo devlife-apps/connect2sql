@@ -110,8 +110,8 @@ android {
 }
 
 ext {
-    version_answers = '1.4.2'
-    version_crashlytcs = '2.9.4'
+    version_answers = '1.4.3'
+    version_crashlytcs = '2.9.5'
     version_dagger = '2.16'
     version_jsr250 = '1.0'
     version_logback_android = '1.1.1-12'
@@ -136,7 +136,7 @@ dependencies {
     implementation "com.android.support:design:${version_support}"
     implementation "com.android.support:recyclerview-v7:${version_support}"
     implementation("com.crashlytics.sdk.android:answers:${version_answers}@aar") {
-        transitive = true;
+        transitive = true
     }
     implementation("com.crashlytics.sdk.android:crashlytics:${version_crashlytcs}@aar") {
         transitive = true
