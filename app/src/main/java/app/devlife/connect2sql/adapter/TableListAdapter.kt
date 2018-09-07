@@ -45,7 +45,7 @@ class TableListAdapter(private val context: Context, private val tableList: Muta
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        val view = convertView ?: mInflater.inflate(R.layout.item_table, parent).apply {
+        val view = convertView ?: mInflater.inflate(R.layout.item_table, null).apply {
             this.tag = ViewHolder(
                 this.findViewById(R.id.imageView1),
                 this.findViewById(R.id.text1),

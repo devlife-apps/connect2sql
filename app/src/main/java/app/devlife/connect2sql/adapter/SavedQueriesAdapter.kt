@@ -15,7 +15,7 @@ class SavedQueriesAdapter(private val context: Context) : BaseExpandableListAdap
     var titleOnly = false
     private val inflator = LayoutInflater.from(context)
     private val builtInText = context.getString(R.string.saved_queries_built_in)
-    private val savedText = context.getString(R.string.saved_queries_built_in)
+    private val savedText = context.getString(R.string.saved_queries_saved)
     private val queries: List<MutableList<BaseNamedQuery>> = listOf(arrayListOf(), arrayListOf())
 
     fun addToBuiltInQueries(query: BuiltInQuery) {

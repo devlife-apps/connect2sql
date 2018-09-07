@@ -94,7 +94,7 @@
     <string name="pl_wrong_pattern">Patrón incorrecto, inténtelo de nuevo.</string>
 
     <string name="qk_clear">Borrar</string>
-    <string name="qk_section_column"/>
+    <string name="qk_section_column">Columnas</string>
     <string name="qk_section_databases">Bases de datos</string>
     <string name="qk_section_operators">Operadores</string>
     <string name="qk_section_snippets">Fragmentos</string>
