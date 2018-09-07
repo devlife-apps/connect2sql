@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
+import com.gitlab.connect2sql.R;
+
 public class QuickKeysAdapter extends BaseExpandableListAdapter {
 
     public static final int SECTION_SNIPPETS = 0;
@@ -116,19 +118,19 @@ public class QuickKeysAdapter extends BaseExpandableListAdapter {
 
         switch (groupPosition) {
         case SECTION_COLUMNS:
-            textView.setText("Columns");
+            textView.setText(R.string.qk_section_column);
             break;
         case SECTION_DATABASES:
-            textView.setText("Databases");
+            textView.setText(R.string.qk_section_databases);
             break;
         case SECTION_TABLES:
-            textView.setText("Tables");
+            textView.setText(R.string.qk_section_tables);
             break;
         case SECTION_SNIPPETS:
-            textView.setText("Snippets");
+            textView.setText(R.string.qk_section_snippets);
             break;
         case SECTION_OPERATORS:
-            textView.setText("Operators");
+            textView.setText(R.string.qk_section_operators);
             break;
         default:
             textView.setText("");

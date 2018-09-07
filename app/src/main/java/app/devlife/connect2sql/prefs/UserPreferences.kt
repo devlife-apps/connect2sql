@@ -8,41 +8,46 @@ import android.content.SharedPreferences
  */
 class UserPreferences(context: Context) {
 
-    private val sharedPreferences: SharedPreferences
     private val onChangeListeners: MutableMap<(String, Any?) -> Unit, String> = hashMapOf()
-    private val sharedPrefsChangeListenerDelegate: (SharedPreferences, String) -> Unit = { sharedPreferences, s ->
+    private val sharedPreferences: SharedPreferences = context.applicationContext.getSharedPreferences(
+        "user.prefs", Context.MODE_PRIVATE)
+    private val sharedPrefsChangeListenerDelegate: (SharedPreferences, String) -> Unit = { _, s ->
         onChangeListeners.entries.filter { it.value.equals(s) }.forEach { it ->
             it.key(s, read(s, null))
         }
     }
 
-    init {
-        sharedPreferences = context.applicationContext.getSharedPreferences("user.prefs", Context.MODE_PRIVATE)
-    }
-
-    public fun <T> read(key: String, default: T): T {
+    fun <T> read(key: String, default: T): T {
         val entry = sharedPreferences.all.entries.firstOrNull { it.key.equals(key) }
-        return if (entry == null) default
-            else if (entry.value == null) default
-            else entry.value as T
-    }
-
-    public fun <T> save(option: Option<T>) {
-        when (option) {
-            is Option.BooleanOption -> sharedPreferences.edit().putBoolean(option.key, option.value).apply()
-            is Option.LongOption -> sharedPreferences.edit().putLong(option.key, option.value).apply()
-            is Option.StringOption -> sharedPreferences.edit().putString(option.key, option.value).apply()
+        return when {
+            entry == null -> default
+            entry.value == null -> default
+            else -> entry.value as T
         }
     }
 
-    public fun <T> registerListener(key: String, onPreferenceChangeListener: (String, T?) -> Unit) {
+    fun <T> save(option: Option<T>) {
+        when (option) {
+            is Option.BooleanOption ->
+                sharedPreferences.edit().putBoolean(option.key, option.value).apply()
+            is Option.LongOption ->
+                sharedPreferences.edit().putLong(option.key, option.value).apply()
+            is Option.StringOption ->
+                sharedPreferences.edit().putString(option.key, option.value).apply()
+        }
+    }
+
+    fun <T> registerListener(key: String, onPreferenceChangeListener: (String, T?) -> Unit) {
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPrefsChangeListenerDelegate)
         onChangeListeners.put(onPreferenceChangeListener as (String, Any?) -> Unit, key)
     }
 
-    public fun <T> unregisterListener(onPreferenceChangeListener: (String, T?) -> Unit) {
+    fun <T> unregisterListener(onPreferenceChangeListener: (String, T?) -> Unit) {
         onChangeListeners.remove(onPreferenceChangeListener as (String, Any?) -> Unit)
-        if (onChangeListeners.isEmpty()) sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPrefsChangeListenerDelegate)
+        if (onChangeListeners.isEmpty()) {
+            sharedPreferences.unregisterOnSharedPreferenceChangeListener(
+                sharedPrefsChangeListenerDelegate)
+        }
     }
 
     sealed class Option<T>(val key: String, val value: T) {

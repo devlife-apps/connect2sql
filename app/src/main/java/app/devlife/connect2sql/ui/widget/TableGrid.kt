@@ -45,16 +45,10 @@ class TableGrid : FrameLayout, HorizontalScrollViewListener {
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
         init(context)
-        readAttributes(context, attrs)
     }
 
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {
         init(context)
-        readAttributes(context, attrs)
-    }
-
-    private fun readAttributes(context: Context, attrs: AttributeSet) {
-
     }
 
     private fun init(context: Context) {

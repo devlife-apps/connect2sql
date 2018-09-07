@@ -31,7 +31,8 @@ class DefaultDriverAgent(private val driverHelper: DriverHelper) : DriverAgent {
         }
     }
 
-    override fun tables(connection: Connection, databaseName: DriverAgent.Database): Observable<DriverAgent.Table> {
+    override fun tables(connection: Connection,
+                        databaseName: DriverAgent.Database): Observable<DriverAgent.Table> {
         EzLogger.v("[tables] databaseName=$databaseName")
         return Observable.create { subscriber ->
             try {
@@ -71,7 +72,9 @@ class DefaultDriverAgent(private val driverHelper: DriverHelper) : DriverAgent {
         }
     }
 
-    override fun columns(connection: Connection, databaseName: DriverAgent.Database, tableName: DriverAgent.Table): Observable<DriverAgent.Column> {
+    override fun columns(connection: Connection,
+                         databaseName: DriverAgent.Database,
+                         tableName: DriverAgent.Table): Observable<DriverAgent.Column> {
         EzLogger.v("[columns] databaseName=$databaseName, tableName=$tableName")
         return Observable.create { subscriber ->
             try {
@@ -96,14 +99,19 @@ class DefaultDriverAgent(private val driverHelper: DriverHelper) : DriverAgent {
         }
     }
 
-    override fun execute(connection: Connection, databaseName: DriverAgent.Database?, sql: String): Observable<Statement> {
+    override fun execute(connection: Connection,
+                         databaseName: DriverAgent.Database?,
+                         sql: String): Observable<Statement> {
         return Observable.create { subscriber ->
             try {
                 if (databaseName != null) {
                     useDatabase(connection, databaseName)
                 }
 
-                val statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)
+                val statement = connection.createStatement(
+                    ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY)
+
                 statement.execute(sql)
                 subscriber.onNext(statement)
                 subscriber.onCompleted()
@@ -113,7 +121,9 @@ class DefaultDriverAgent(private val driverHelper: DriverHelper) : DriverAgent {
         }
     }
 
-    override fun extract(resultSet: ResultSet, startIndex: Int, displayLimit: Int): Observable<DriverAgent.DisplayResults> {
+    override fun extract(resultSet: ResultSet,
+                         startIndex: Int,
+                         displayLimit: Int): Observable<DriverAgent.DisplayResults> {
         return Observable.create { subscriber ->
             try {
                 val metaData = resultSet.metaData
@@ -123,10 +133,12 @@ class DefaultDriverAgent(private val driverHelper: DriverHelper) : DriverAgent {
                 val totalRows = resultSet.row
 
 
-                val columnNameAndTypes = (0 until columnCount).map { i ->  Pair(
-                    metaData.getColumnLabel(i + 1),
-                    metaData.getColumnType(i + 1)
-                )}
+                val columnNameAndTypes = (0 until columnCount).map { i ->
+                    Pair(
+                        metaData.getColumnLabel(i + 1),
+                        metaData.getColumnType(i + 1)
+                    )
+                }
 
                 val startRow = startIndex + 1
                 val lastDisplayedRow = when {
@@ -138,7 +150,7 @@ class DefaultDriverAgent(private val driverHelper: DriverHelper) : DriverAgent {
                     resultSet.absolute(row)
 
                     (0 until columnCount).map { columnIndex ->
-                        when(columnNameAndTypes[columnIndex].second) {
+                        when (columnNameAndTypes[columnIndex].second) {
                             Types.BLOB, Types.LONGVARBINARY -> "[blob]"
                             else -> resultSet.getString(columnIndex + 1) ?: "[null]"
                         }

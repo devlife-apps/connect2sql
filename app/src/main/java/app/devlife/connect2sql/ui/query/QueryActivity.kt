@@ -68,7 +68,7 @@ import javax.inject.Inject
 class QueryActivity : BaseActivity() {
 
     private val connectionInfo: ConnectionInfo by lazy {
-        val id = intent?.extras?.getLong(EXTRA_CONNECTION_INFO_ID).ensure({ t -> t != null && t > 0 })!!
+        val id = intent?.extras?.getLong(EXTRA_CONNECTION_INFO_ID).ensure { t -> t != null && t > 0 }!!
         connectionInfoRepo.getConnectionInfo(id)
     }
 
@@ -188,7 +188,7 @@ class QueryActivity : BaseActivity() {
             mDialogQuickKeys!!.setTitle("Quick Keys")
             mDialogQuickKeys!!.setOnShowListener { dialog ->
                 val d = dialog as Dialog
-                d.window.setBackgroundDrawable(ColorDrawable(0))
+                d.window?.setBackgroundDrawable(ColorDrawable(0))
             }
 
             val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_quick_keys, null)
@@ -214,9 +214,13 @@ class QueryActivity : BaseActivity() {
 
         lblCurrentDatabase.setOnClickListener {
             if (connectionInfo.driverType == DriverType.POSTGRES) {
-                Toast.makeText(this@QueryActivity, getString(R.string.error_postgres_changing_databases), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@QueryActivity,
+                    getString(R.string.error_postgres_changing_databases),
+                    Toast.LENGTH_SHORT).show()
             } else if (databaseAdapter.isEmpty) {
-                Toast.makeText(this@QueryActivity, getString(R.string.error_no_detected_databases), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@QueryActivity,
+                    getString(R.string.error_no_detected_databases),
+                    Toast.LENGTH_SHORT).show()
             } else {
                 databaseDialog.show()
             }
@@ -224,9 +228,13 @@ class QueryActivity : BaseActivity() {
 
         lblCurrentTable.setOnClickListener {
             if (currentDatabase == null) {
-                Toast.makeText(this@QueryActivity, getString(R.string.error_select_database), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@QueryActivity,
+                    getString(R.string.error_select_database),
+                    Toast.LENGTH_SHORT).show()
             } else if (tableAdapter.isEmpty) {
-                Toast.makeText(this@QueryActivity, getString(R.string.error_no_detected_tables), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@QueryActivity,
+                    getString(R.string.error_no_detected_tables),
+                    Toast.LENGTH_SHORT).show()
             } else {
                 tableDialog.show()
             }
@@ -284,11 +292,13 @@ class QueryActivity : BaseActivity() {
                 return true
             }
             R.id.open_saved -> {
-                startActivityForResult(SavedQueriesActivity.newIntent(this, connectionInfo.id), REQUEST_SAVED_QUERY)
+                startActivityForResult(SavedQueriesActivity.newIntent(this, connectionInfo.id),
+                    REQUEST_SAVED_QUERY)
                 return true
             }
             R.id.open_history -> {
-                startActivityForResult(QueryHistoryActivity.newIntent(this, connectionInfo.id), REQUEST_HISTORY_QUERY)
+                startActivityForResult(QueryHistoryActivity.newIntent(this, connectionInfo.id),
+                    REQUEST_HISTORY_QUERY)
                 return true
             }
             R.id.quick_keys -> {
@@ -337,7 +347,8 @@ class QueryActivity : BaseActivity() {
                 when {
                     serverGraphSubscription == null -> Observable.empty()
                     !connectionInfo.database.isNullOrBlank() -> {
-                        Observable.just(Pair(connection, DriverAgent.Database(connectionInfo.database!!)))
+                        Observable.just(Pair(connection,
+                            DriverAgent.Database(connectionInfo.database!!)))
                     }
                     else -> driverAgent.databases(connection).map { Pair(connection, it) }
                 }
@@ -406,9 +417,13 @@ class QueryActivity : BaseActivity() {
 
     private fun loadQueryIfAny() {
         if (!TextUtils.isEmpty(mQueryToLoad)) {
-            val databaseName = currentDatabase?.let { DriverAgent.Database(it) }?.let { driverHelper.safeObject(it) }
+            val databaseName = currentDatabase?.let { DriverAgent.Database(it) }?.let {
+                driverHelper.safeObject(it)
+            }
                 ?: ""
-            val tableName = currentTable?.let { DriverAgent.Table(it) }?.let { driverHelper.safeObject(it) }
+            val tableName = currentTable?.let { DriverAgent.Table(it) }?.let {
+                driverHelper.safeObject(it)
+            }
                 ?: ""
 
             var columnsCsv = ""
@@ -497,8 +512,9 @@ class QueryActivity : BaseActivity() {
         mIsQuickKeysHidden = true
     }
 
-    fun showSaveQueryDialog() {
-        val saveQueryDialogView = LayoutInflater.from(this).inflate(R.layout.dialog_save_query, null)
+    private fun showSaveQueryDialog() {
+        val saveQueryDialogView = LayoutInflater.from(this)
+            .inflate(R.layout.dialog_save_query, null)
 
         val txtQueryName = saveQueryDialogView.findViewById(R.id.txtQueryName) as EditText
         val txtQueryText = saveQueryDialogView.findViewById(R.id.txtQueryText) as EditText
@@ -629,7 +645,8 @@ class QueryActivity : BaseActivity() {
         serverGraph.entries.firstOrNull { it ->
             it.key.name == currentDatabase
         }?.value?.forEach { it ->
-            tableAdapter.add(Table(it.name, if (it.type == VIEW) Table.TYPE_VIEW else Table.TYPE_TABLE))
+            tableAdapter.add(Table(it.name,
+                if (it.type == VIEW) Table.TYPE_VIEW else Table.TYPE_TABLE))
         }
     }
 
@@ -680,24 +697,30 @@ class QueryActivity : BaseActivity() {
             val databaseName = DriverAgent.Database(currentDatabase!!)
             val tableName = DriverAgent.Table(currentTable!!)
 
-            mConnectionAgent.connect(connectionInfo).flatMap { connection -> driverAgent.columns(connection, databaseName, tableName) }.collect({ arrayListOf<DriverAgent.Column>() }) { columns, column -> columns.add(column) }.observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.newThread()).subscribe(object : Subscriber<List<DriverAgent.Column>>() {
-                override fun onCompleted() {
-                    EzLogger.v("[onCompleted]")
-                }
+            mConnectionAgent.connect(connectionInfo)
+                .flatMap { connection -> driverAgent.columns(connection, databaseName, tableName) }
+                .collect({ arrayListOf<DriverAgent.Column>() }) { columns, column ->
+                    columns.add(column)
+                }.observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.newThread())
+                .subscribe(object : Subscriber<List<DriverAgent.Column>>() {
+                    override fun onCompleted() {
+                        EzLogger.v("[onCompleted]")
+                    }
 
-                override fun onError(e: Throwable) {
-                    EzLogger.e("[onError] e=" + e.message, e)
-                    Toast.makeText(this@QueryActivity, "Error: " + e.message, Toast.LENGTH_LONG).show()
-                }
+                    override fun onError(e: Throwable) {
+                        EzLogger.e("[onError] e=" + e.message, e)
+                        Toast.makeText(this@QueryActivity, "Error: " + e.message, Toast.LENGTH_LONG)
+                            .show()
+                    }
 
-                override fun onNext(columns: List<DriverAgent.Column>) {
-                    EzLogger.v("[onNext] columns.size=" + columns.size)
-                    currentColumns.clear()
-                    currentColumns.addAll(columns)
+                    override fun onNext(columns: List<DriverAgent.Column>) {
+                        EzLogger.v("[onNext] columns.size=" + columns.size)
+                        currentColumns.clear()
+                        currentColumns.addAll(columns)
 
-                    onColumnsRetrieved()
-                }
-            })
+                        onColumnsRetrieved()
+                    }
+                })
         }
     }
 

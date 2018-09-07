@@ -153,7 +153,8 @@ class ResultsActivity : BaseActivity() {
             .map { statement ->
                 val resultSet = statement.resultSet
                 if (resultSet != null) {
-                    fun extractResults(statement: Statement, list: List<ResultSet>): List<ResultSet> {
+                    fun extractResults(statement: Statement,
+                                       list: List<ResultSet>): List<ResultSet> {
                         if (statement.getMoreResults(Statement.KEEP_CURRENT_RESULT))
                             return extractResults(statement, list + statement.resultSet)
                         else
@@ -167,41 +168,45 @@ class ResultsActivity : BaseActivity() {
             }
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(ActivityAwareSubscriber(this@ResultsActivity, object : Subscriber<Results>() {
-                override fun onCompleted() {}
+            .subscribe(ActivityAwareSubscriber(this@ResultsActivity,
+                object : Subscriber<Results>() {
+                    override fun onCompleted() {}
 
-                override fun onError(e: Throwable) {
-                    EzLogger.e(e.message, e)
-                    progressDialog?.dismiss()
+                    override fun onError(e: Throwable) {
+                        EzLogger.e(e.message, e)
+                        progressDialog?.dismiss()
 
-                    val builder = AlertDialog.Builder(this@ResultsActivity)
-                    builder.setTitle("Error")
-                    builder.setMessage(e.message)
-                    builder.setPositiveButton("OK") { dialog, which -> onBackPressed() }
-                    builder.create().show()
-                }
+                        val builder = AlertDialog.Builder(this@ResultsActivity)
+                        builder.setTitle("Error")
+                        builder.setMessage(e.message)
+                        builder.setPositiveButton("OK") { dialog, which -> onBackPressed() }
+                        builder.create().show()
+                    }
 
-                override fun onNext(results: Results) {
-                    progressDialog?.dismiss()
+                    override fun onNext(results: Results) {
+                        progressDialog?.dismiss()
 
-                    when (results) {
-                        is ViewableResults -> {
-                            results.resultSets.forEachIndexed { i, resultSet -> resultsSets.append(i, resultSet) }
-                            EzLogger.i("Total result sets: $resultsSets")
-                            displayResults()
-                        }
-                        is UpdateResults -> {
-                            val builder = AlertDialog.Builder(this@ResultsActivity)
-                            builder.setTitle("Success")
-                            builder.setMessage("Records updated: ${results.updatedRecords}")
-                            builder.setPositiveButton("OK") { dialog, which ->
-                                onBackPressed()
+                        when (results) {
+                            is ViewableResults -> {
+                                results.resultSets.forEachIndexed { i, resultSet ->
+                                    resultsSets.append(i,
+                                        resultSet)
+                                }
+                                EzLogger.i("Total result sets: $resultsSets")
+                                displayResults()
                             }
-                            builder.create().show()
+                            is UpdateResults -> {
+                                val builder = AlertDialog.Builder(this@ResultsActivity)
+                                builder.setTitle("Success")
+                                builder.setMessage("Records updated: ${results.updatedRecords}")
+                                builder.setPositiveButton("OK") { dialog, which ->
+                                    onBackPressed()
+                                }
+                                builder.create().show()
+                            }
                         }
                     }
-                }
-            }))
+                }))
     }
 
     private fun populateTabs() {
@@ -212,7 +217,8 @@ class ResultsActivity : BaseActivity() {
         if (totalResultSets > 1) {
             supportActionBar?.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS)
             for (i in 0..totalResultSets - 1) {
-                val tab = supportActionBar?.newTab()?.setText("Result " + i)?.setTag(resultsSets.get(i))?.setTabListener(tabListener)
+                val tab = supportActionBar?.newTab()?.setText("Result " + i)
+                    ?.setTag(resultsSets.get(i))?.setTabListener(tabListener)
                 supportActionBar?.addTab(tab, i == 0)
             }
         }
@@ -253,12 +259,16 @@ class ResultsActivity : BaseActivity() {
         resultsSets.clear()
     }
 
-    private val tabListener: android.support.v7.app.ActionBar.TabListener = object : android.support.v7.app.ActionBar.TabListener {
-        override fun onTabReselected(tab: android.support.v7.app.ActionBar.Tab?, ft: android.support.v4.app.FragmentTransaction?) = Unit
+    private val tabListener: android.support.v7.app.ActionBar.TabListener = object :
+        android.support.v7.app.ActionBar.TabListener {
+        override fun onTabReselected(tab: android.support.v7.app.ActionBar.Tab?,
+                                     ft: android.support.v4.app.FragmentTransaction?) = Unit
 
-        override fun onTabUnselected(tab: android.support.v7.app.ActionBar.Tab?, ft: android.support.v4.app.FragmentTransaction?) = Unit
+        override fun onTabUnselected(tab: android.support.v7.app.ActionBar.Tab?,
+                                     ft: android.support.v4.app.FragmentTransaction?) = Unit
 
-        override fun onTabSelected(tab: android.support.v7.app.ActionBar.Tab?, ft: android.support.v4.app.FragmentTransaction?) = Unit
+        override fun onTabSelected(tab: android.support.v7.app.ActionBar.Tab?,
+                                   ft: android.support.v4.app.FragmentTransaction?) = Unit
     }
 
     class ResultSetClosingRunnable(private val mResultSet: ResultSet) : Runnable {
@@ -278,7 +288,10 @@ class ResultsActivity : BaseActivity() {
         private val EXTRA_DATABASE = "EXTRA_DATABASE"
         private val EXTRA_SQL_STRING = "EXTRA_SQL_STRING"
 
-        fun newIntent(context: Context, connectionInfoId: Long, sql: String, databaseName: String?): Intent {
+        fun newIntent(context: Context,
+                      connectionInfoId: Long,
+                      sql: String,
+                      databaseName: String?): Intent {
             val intent = Intent(context, ResultsActivity::class.java)
 
             intent.putExtra(EXTRA_CONNECTION_INFO_ID, connectionInfoId)

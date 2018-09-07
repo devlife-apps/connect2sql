@@ -14,6 +14,8 @@ import app.devlife.connect2sql.db.model.query.SavedQuery
 class SavedQueriesAdapter(private val context: Context) : BaseExpandableListAdapter() {
     var titleOnly = false
     private val inflator = LayoutInflater.from(context)
+    private val builtInText = context.getString(R.string.saved_queries_built_in)
+    private val savedText = context.getString(R.string.saved_queries_built_in)
     private val queries: List<MutableList<BaseNamedQuery>> = listOf(arrayListOf(), arrayListOf())
 
     fun addToBuiltInQueries(query: BuiltInQuery) {
@@ -100,8 +102,8 @@ class SavedQueriesAdapter(private val context: Context) : BaseExpandableListAdap
 
         val textView = view.findViewById(android.R.id.text1) as TextView
         when (groupPosition) {
-            GROUP_BUILTIN -> textView.text = "Built In"
-            else -> textView.text = "Saved"
+            GROUP_BUILTIN -> textView.text = builtInText
+            else -> textView.text = savedText
         }
 
         return view
@@ -116,9 +118,7 @@ class SavedQueriesAdapter(private val context: Context) : BaseExpandableListAdap
     }
 
     companion object {
-
-        // This is basically the position of each group
-        val GROUP_BUILTIN = 0
-        val GROUP_SAVED = 1
+        const val GROUP_BUILTIN = 0
+        const val GROUP_SAVED = 1
     }
 }

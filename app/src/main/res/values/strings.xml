@@ -94,6 +94,11 @@
     <string name="pl_wrong_pattern">Wrong pattern, please retry</string>
 
     <string name="qk_clear">Clear</string>
+    <string name="qk_section_column">Columns</string>
+    <string name="qk_section_databases">Databases</string>
+    <string name="qk_section_operators">Operators</string>
+    <string name="qk_section_snippets">Snippets</string>
+    <string name="qk_section_tables">Tables</string>
 
     <string name="query_database">Database</string>
     <string name="query_hint">SELECT * FROM table;</string>
@@ -104,4 +109,10 @@
     <string name="results_next">Next</string>
     <string name="results_previous">Prev</string>
     <string name="results_showing_records_to">records %1$d - %2$d (%3$d)</string>
+
+    <string name="saved_queries_built_in">Built-In</string>
+    <string name="saved_queries_saved">Saved</string>
+
+    <string name="table_list_type_table">(Table)</string>
+    <string name="table_list_type_view">(View)</string>
 </resources>
