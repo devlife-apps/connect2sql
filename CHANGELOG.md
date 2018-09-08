@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## [4.0.10] - 2018-09-08
+
 ### Changed
 - Update Fabric libraries
 
