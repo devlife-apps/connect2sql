@@ -16,13 +16,12 @@ abstract class BaseMsSqlForm(context: Context, view: View) : BaseForm(context, v
     val instanceEditTextView: EditText
 
     init {
-
         domainEditTextView = view.findViewById(R.id.form_txt_domain) as EditText
         instanceEditTextView = view.findViewById(R.id.form_txt_instance) as EditText
     }
 
-    override fun generateConnectionInfo(): ConnectionInfo {
-        val connectionInfo = super.generateConnectionInfo()
+    override fun compileConnectionInfo(): ConnectionInfo {
+        val connectionInfo = super.compileConnectionInfo()
 
         val options = connectionInfo.options + hashMapOf(
                 Pair(ConnectionInfo.OPTION_DOMAIN, domainEditTextView.text.toString()),

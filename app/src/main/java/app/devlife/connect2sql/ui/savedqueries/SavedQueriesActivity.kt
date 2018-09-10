@@ -97,7 +97,7 @@ class SavedQueriesActivity : BaseActivity() {
         savedQueriesAdapter.titleOnly = userPreferences.read(OPTION_SAVED_QUERY_NAMES_ONLY, false)
         savedQueriesAdapter.notifyDataSetChanged()
 
-        userPreferences.registerListener<Boolean>(OPTION_SAVED_QUERY_NAMES_ONLY) { key, value ->
+        userPreferences.registerListener<Boolean>(OPTION_SAVED_QUERY_NAMES_ONLY) { _, value ->
             savedQueriesAdapter.titleOnly = value == true
             savedQueriesAdapter.notifyDataSetChanged()
         }
@@ -175,7 +175,7 @@ class SavedQueriesActivity : BaseActivity() {
                 val builder = AlertDialog.Builder(this)
                 builder.setTitle("Delete: " + query.name)
                 builder.setMessage("Are you sure you want to delete this query?")
-                builder.setPositiveButton("Yes") { dialog, which ->
+                builder.setPositiveButton("Yes") { dialog, _ ->
                     if (savedQueryRepository.deleteSavedQuery(this@SavedQueriesActivity, query.id)) {
                         Toast.makeText(this@SavedQueriesActivity, "Query Deleted!", Toast.LENGTH_SHORT).show()
                         savedQueriesAdapter.removeSavedQuery(query as SavedQuery)
@@ -193,7 +193,7 @@ class SavedQueriesActivity : BaseActivity() {
         }
     }
 
-    private val mOnChildClickListener = ExpandableListView.OnChildClickListener { parent, v, groupPosition, childPosition, id ->
+    private val mOnChildClickListener = ExpandableListView.OnChildClickListener { _, _, groupPosition, childPosition, _ ->
         val queryToLoad = (savedQueriesAdapter.getChild(groupPosition, childPosition) as BaseNamedQuery).query
         onSavedQueryClick(queryToLoad)
         true

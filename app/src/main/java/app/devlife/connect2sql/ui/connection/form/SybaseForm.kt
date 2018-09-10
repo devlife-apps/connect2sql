@@ -7,7 +7,7 @@ import app.devlife.connect2sql.db.model.connection.ConnectionInfo
 import app.devlife.connect2sql.sql.DriverType
 
 class SybaseForm(context: Context, view: View) : BaseMsSqlForm(context, view) {
-    override fun generateConnectionInfo(): ConnectionInfo {
-        return super.generateConnectionInfo().copy(driverType = DriverType.SYBASE)
+    override fun compileConnectionInfo(): ConnectionInfo {
+        return super.compileConnectionInfo().copy(driverType = DriverType.SYBASE)
     }
 }

@@ -63,6 +63,28 @@
                     android:layout_height="wrap_content"/>
 
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                style="@style/Form.SectionLayout">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_form_header_gears"
+                    android:text="@string/form_ssh_tunnel"
+                    android:drawablePadding="10dp"
+                    android:textSize="20dp"
+                    android:background="@drawable/form_header_underline"/>
+
+                <include
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    layout="@layout/form_base_ssh_tunnel"/>
+
+            </LinearLayout>
         </LinearLayout>
     </app.devlife.connect2sql.ui.widget.NotifyingScrollView>
 

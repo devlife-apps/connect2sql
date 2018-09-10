@@ -11,6 +11,8 @@
     <string name="activity_set_lock">Set Pattern</string>
 
     <string name="dialog_name">Name</string>
+    <string name="dialog_ok_button">OK</string>
+    <string name="dialog_password">Password?</string>
     <string name="dialog_query">Query</string>
 
     <string name="error_no_detected_databases">No databases detected.</string>
@@ -35,9 +37,19 @@
     <string name="form_hint_name">Name (Required)</string>
     <string name="form_hint_password">Password</string>
     <string name="form_hint_port">Port (Required)</string>
+    <string name="form_hint_ssh_host">Host (Required)</string>
+    <string name="form_hint_ssh_password">Password (Required)</string>
+    <string name="form_hint_ssh_port">Port (Required)</string>
+    <string name="form_hint_ssh_private_key">Private Key (Contents)</string>
+    <string name="form_hint_ssh_username">Username (Required)</string>
     <string name="form_hint_username">Username (Required)</string>
     <string name="form_no">NO</string>
     <string name="form_save">Save</string>
+    <string name="form_ssh_auth_type">Authentication Type:</string>
+    <string name="form_ssh_auth_type_none">None</string>
+    <string name="form_ssh_auth_type_password">Password</string>
+    <string name="form_ssh_auth_type_private_key">Private Key</string>
+    <string name="form_ssh_tunnel">SSH Tunnel</string>
     <string name="form_test">Test</string>
     <string name="form_trust_cert">Trust Cert.?</string>
     <string name="form_use_ssl">Use SSL?</string>

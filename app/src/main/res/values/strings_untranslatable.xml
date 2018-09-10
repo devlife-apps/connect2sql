@@ -1,6 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <resources>
     <string name="app_name" translatable="false">Connect2SQL</string>
+
+    <string-array name="form_ssh_auth_types">
+        <item>@string/form_ssh_auth_type_none</item>
+        <item>@string/form_ssh_auth_type_password</item>
+        <item>@string/form_ssh_auth_type_private_key</item>
+    </string-array>
+
     <string-array name="operators">
         <item>=</item>
         <item>!=</item>
@@ -15,6 +21,7 @@
         <item>IS NULL</item>
         <item>IS NOT NULL</item>
     </string-array>
+
     <string-array name="snippets">
         <item>SELECT</item>
         <item>*</item>

@@ -11,7 +11,7 @@ import app.devlife.connect2sql.sql.DriverType
  */
 class MySqlForm(context: Context, view: View) : BaseForm(context, view) {
 
-    override fun generateConnectionInfo(): ConnectionInfo {
-        return super.generateConnectionInfo().copy(driverType = DriverType.MYSQL)
+    override fun compileConnectionInfo(): ConnectionInfo {
+        return super.compileConnectionInfo().copy(driverType = DriverType.MYSQL)
     }
 }

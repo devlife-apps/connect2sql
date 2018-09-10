@@ -31,7 +31,7 @@ public class FormFactory {
 
     public static class FormConfigNotFound extends Exception {
 
-        public FormConfigNotFound(DriverType driverType) {
+        FormConfigNotFound(DriverType driverType) {
             super("No FormConfig for driver " + driverType.name() + " found!");
         }
     }

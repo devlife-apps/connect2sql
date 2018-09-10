@@ -11,7 +11,7 @@ import app.devlife.connect2sql.sql.DriverType
  */
 class MsSqlForm(context: Context, view: View) : BaseMsSqlForm(context, view) {
 
-    override fun generateConnectionInfo(): ConnectionInfo {
-        return super.generateConnectionInfo().copy(driverType = DriverType.MSSQL)
+    override fun compileConnectionInfo(): ConnectionInfo {
+        return super.compileConnectionInfo().copy(driverType = DriverType.MSSQL)
     }
 }

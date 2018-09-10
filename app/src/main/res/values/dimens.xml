@@ -12,6 +12,7 @@
     <dimen name="form_buttons_shadow_size_negative">-10dp</dimen>
     <dimen name="form_content_padding_bottom">10dp</dimen>
     <dimen name="form_padding_vertical">10dp</dimen>
+    <dimen name="form_content_padding_horizontal">5dp</dimen>
     <dimen name="form_section_padding_bottom">20dp</dimen>
     <dimen name="form_section_padding_top">20dp</dimen>
     <dimen name="form_actionbar_logo_width">100dp</dimen>

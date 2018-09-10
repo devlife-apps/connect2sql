@@ -112,7 +112,7 @@ class ConnectionInfoEditorActivity : BaseActivity() {
         /**
          * Save connection
          */
-        val connectionInfo = form.generateConnectionInfo()
+        val connectionInfo = form.compileConnectionInfo()
         when (request.action) {
             ConnectionInfoEditorRequest.Action.EDIT -> {
                 val id = connectionInfoRepository.save(connectionInfo.copy(id = request.connectionInfoId))
@@ -127,7 +127,7 @@ class ConnectionInfoEditorActivity : BaseActivity() {
 
     private fun testConnection(): Boolean {
 
-        val connectionInfo = form.generateConnectionInfo()
+        val connectionInfo = form.compileConnectionInfo()
 
         /**
          * Ask for password if empty
@@ -142,10 +142,9 @@ class ConnectionInfoEditorActivity : BaseActivity() {
             passwordText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
 
             val alertBuilder = AlertDialog.Builder(this)
-            alertBuilder.setTitle("Password?")
+            alertBuilder.setTitle(R.string.dialog_password)
             alertBuilder.setView(promptDialogView)
-            alertBuilder.setPositiveButton("OK") { dialog, which ->
-                // execute testing of connection
+            alertBuilder.setPositiveButton(R.string.dialog_ok_button) { dialog, which ->
                 executeTestConnection(connectionInfo.copy(password = passwordText.text.toString()))
             }
             alertBuilder.create().show()
@@ -275,14 +274,12 @@ class ConnectionInfoEditorActivity : BaseActivity() {
 
     private val onTestButtonClickListener = View.OnClickListener {
         doOnValidationSuccess = ValidationAction.TEST
-        form.validator.validationListener = validationListener
-        form.validator.validate()
+        form.validate(validationListener)
     }
 
     private val onSaveButtonClickListener = View.OnClickListener {
         doOnValidationSuccess = ValidationAction.SAVE
-        form.validator.validationListener = validationListener
-        form.validator.validate()
+        form.validate(validationListener)
     }
 
     private fun toggleAlphaToNumeric(editText: EditText, strict: Boolean, signed: Boolean) {
@@ -317,7 +314,7 @@ class ConnectionInfoEditorActivity : BaseActivity() {
 
     companion object {
 
-        private val EXTRA_CONNECTION_INFO_REQUEST = "EXTRA_CONNECTION_INFO_REQUEST"
+        private const val EXTRA_CONNECTION_INFO_REQUEST = "EXTRA_CONNECTION_INFO_REQUEST"
 
         fun newIntent(context: Context, request: ConnectionInfoEditorRequest): Intent {
             val intent = Intent(context, ConnectionInfoEditorActivity::class.java)
