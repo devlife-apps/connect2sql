@@ -15,13 +15,11 @@ abstract class JtdsDriverHelper : DriverHelper {
     abstract val serverType: String
 
     override fun createConnectionString(connectionInfo: ConnectionInfo): String {
-
-        var connectionPath = "jdbc:jtds:" + serverType + "://" + connectionInfo.host
-        connectionPath += ":" + connectionInfo.port
+        var connectionPath = "jdbc:jtds:$serverType://${connectionInfo.host}:${connectionInfo.port}"
 
         val database = connectionInfo.database
         if (!TextUtils.isEmpty(database)) {
-            connectionPath += "/" + database
+            connectionPath += "/$database"
         }
 
         connectionPath += ";"

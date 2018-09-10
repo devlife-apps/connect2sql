@@ -148,7 +148,10 @@ abstract class BaseForm(val context: Context, view: View) {
             R.id.form_txt_username -> R.string.help_username
             R.id.form_txt_password -> R.string.help_password
             R.id.form_txt_database -> R.string.help_database
-            else -> 0
+            else -> {
+                EzLogger.e("No help message associated with view.id = ${view.id}")
+                0
+            }
         }
     }
 

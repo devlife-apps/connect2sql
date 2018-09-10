@@ -114,6 +114,7 @@ ext {
     version_crashlytcs = '2.9.5'
     version_dagger = '2.16'
     version_jsr250 = '1.0'
+    version_jsch = '0.1.54'
     version_logback_android = '1.1.1-12'
     version_mariadb = '1.7.4'
     version_dexmaker_mockito = '2.19.0'
@@ -127,7 +128,6 @@ ext {
 
 dependencies {
     implementation fileTree(include: '*.jar', dir: 'libs')
-    implementation "com.mobsandgeeks:android-saripaar:${version_saripaar}"
     implementation "com.android.support:support-v4:${version_support}"
     implementation "com.android.support:support-annotations:${version_support}"
     implementation "com.android.support:appcompat-v7:${version_support}"
@@ -147,14 +147,15 @@ dependencies {
     implementation "com.google.dagger:dagger:${version_dagger}"
     implementation "com.google.dagger:dagger-android:${version_dagger}"
     implementation "com.google.dagger:dagger-android-support:${version_dagger}"
+    implementation "com.jcraft:jsch:${version_jsch}"
     implementation "com.linkedin.dexmaker:dexmaker-mockito:${version_dexmaker_mockito}"
+    implementation "com.mobsandgeeks:android-saripaar:${version_saripaar}"
     implementation "javax.annotation:jsr250-api:${version_jsr250}"
     implementation "io.reactivex:rxandroid:${version_rx}"
     implementation "io.reactivex:rxjava:${version_rx}"
     implementation "me.zhanghai.android.patternlock:library:${version_patternlock}"
     implementation "net.zetetic:android-database-sqlcipher:${version_sqlcipher}"
-    implementation "org.mariadb.jdbc:mariadb-java-client:${version_mariadb}"
-
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${version_kotlin}"
+    implementation "org.mariadb.jdbc:mariadb-java-client:${version_mariadb}"
     implementation "org.slf4j:slf4j-api:${version_slf4j}"
 }
