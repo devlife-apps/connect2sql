@@ -1,29 +1,52 @@
 package app.devlife.connect2sql.connection
 
 import app.devlife.connect2sql.db.model.connection.Address
-import app.devlife.connect2sql.db.model.connection.BasicAuth
 import app.devlife.connect2sql.db.model.connection.ConnectionInfo
-import app.devlife.connect2sql.db.model.connection.PrivateKey
 import app.devlife.connect2sql.db.model.connection.SshTunnelConfig
 import app.devlife.connect2sql.log.EzLogger
 import app.devlife.connect2sql.sql.driver.helper.DriverHelperFactory
-import com.jcraft.jsch.JSch
 import rx.Observable
 import java.io.IOException
 import java.net.InetSocketAddress
-import java.net.ServerSocket
 import java.net.Socket
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.SQLException
-import java.util.Properties
 import java.util.concurrent.ConcurrentHashMap
+import javax.inject.Inject
 
-class ConnectionAgent {
+class ConnectionAgent(private val sshTunnelAgent: SshTunnelAgent) {
 
     private val activeConnections = ConcurrentHashMap<ConnectionInfo, Connection>()
 
     fun connect(connectionInfo: ConnectionInfo): Observable<Connection> {
+        return if (connectionInfo.sshConfig != null) {
+            val serviceAddress = Address(connectionInfo.host, connectionInfo.port)
+            val sshTunnelConfig = SshTunnelConfig(connectionInfo.sshConfig, serviceAddress)
+            sshTunnelAgent.startSshTunnel(sshTunnelConfig).flatMap { (_, tunnelAddress) ->
+                doConnect(connectionInfo, tunnelAddress)
+            }
+        } else {
+            doConnect(connectionInfo, null)
+        }
+    }
+
+    fun disconnect(connection: Connection): Observable<Unit> {
+        return Observable.create { subscriber ->
+            try {
+                if (!connection.isClosed) {
+                    connection.close()
+                }
+                subscriber.onNext(Unit)
+                subscriber.onCompleted()
+            } catch (e: SQLException) {
+                subscriber.onError(e)
+            }
+        }
+    }
+
+    private fun doConnect(connectionInfo: ConnectionInfo,
+                          tunnelAddress: Address?): Observable<Connection> {
         return Observable.create { subscriber ->
             try {
                 if (!activeConnections.containsKey(connectionInfo) || activeConnections[connectionInfo]?.isClosed == true) {
@@ -37,12 +60,7 @@ class ConnectionAgent {
 
                         // determine the final connection info (if tunnel is configured)
                         val finalConnectionInfo = when {
-                            connectionInfo.sshConfig != null -> {
-                                val tunnelAddress = startSshTunnel(SshTunnelConfig(
-                                    connectionInfo.sshConfig,
-                                    Address(connectionInfo.host, connectionInfo.port)
-                                ))
-
+                            tunnelAddress != null -> {
                                 connectionInfo.copy(
                                     host = tunnelAddress.host,
                                     port = tunnelAddress.port
@@ -91,67 +109,5 @@ class ConnectionAgent {
                 subscriber.onError(e)
             }
         }
-    }
-
-    fun disconnect(connection: Connection): Observable<Unit> {
-        return Observable.create { subscriber ->
-            try {
-                if (!connection.isClosed) {
-                    connection.close()
-                }
-                subscriber.onNext(Unit)
-                subscriber.onCompleted()
-            } catch (e: SQLException) {
-                subscriber.onError(e)
-            }
-        }
-    }
-
-    private fun startSshTunnel(sshTunnelConfig: SshTunnelConfig): Address {
-        val jSch = JSch()
-        val sshConfig = sshTunnelConfig.proxy
-        val serviceAddress = sshTunnelConfig.serviceAddress
-
-        val session = jSch.getSession(
-            sshConfig.authentication.username,
-            sshConfig.address.host,
-            sshConfig.address.port)
-
-        // FIXME: Ask user to accept host
-        session.setConfig(Properties().apply {
-            this["StrictHostKeyChecking"] = "no"
-        })
-
-        when (sshConfig.authentication) {
-            is PrivateKey ->
-                jSch.addIdentity(
-                    "${sshConfig.authentication.username}@${sshConfig.address.host}:${sshConfig.address.port}",
-                    sshConfig.authentication.privateKeyContents.toByteArray(),
-                    null,
-                    null
-                )
-            is BasicAuth ->
-                session.setPassword(sshConfig.authentication.password)
-        }
-
-        session.connect()
-        val boundPort = session.setPortForwardingL(
-            LOCALHOST,
-            unusedPort,
-            serviceAddress.host,
-            serviceAddress.port)
-
-        return Address(LOCALHOST, boundPort)
-    }
-
-    private val unusedPort: Int
-        get() = ServerSocket(0).let {
-            val port = it.localPort
-            it.close()
-            port
-        }
-
-    companion object {
-        private const val LOCALHOST = "127.0.0.1"
     }
 }

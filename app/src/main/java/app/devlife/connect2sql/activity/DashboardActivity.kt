@@ -19,13 +19,9 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
-import com.crashlytics.android.answers.Answers
-import com.crashlytics.android.answers.CustomEvent
-import com.gitlab.connect2sql.R
-import kotlinx.android.synthetic.main.activity_connections.connections_dashboard
-import kotlinx.android.synthetic.main.activity_connections.fab
 import app.devlife.connect2sql.ApplicationUtils
 import app.devlife.connect2sql.connection.ConnectionAgent
+import app.devlife.connect2sql.connection.SshTunnelAgent
 import app.devlife.connect2sql.db.model.connection.ConnectionInfo
 import app.devlife.connect2sql.db.model.connection.ConnectionInfoSqlModel
 import app.devlife.connect2sql.db.repo.ConnectionInfoRepository
@@ -34,10 +30,17 @@ import app.devlife.connect2sql.sql.DriverType
 import app.devlife.connect2sql.ui.connection.ConnectionInfoDriverChooserActivity
 import app.devlife.connect2sql.ui.connection.ConnectionInfoEditorActivity
 import app.devlife.connect2sql.ui.connection.ConnectionInfoEditorRequest
+import app.devlife.connect2sql.ui.hostkeys.HostKeysActivity
 import app.devlife.connect2sql.ui.query.QueryActivity
 import app.devlife.connect2sql.ui.widget.BlockItem
 import app.devlife.connect2sql.ui.widget.Toast
 import app.devlife.connect2sql.ui.widget.dialog.ProgressDialog
+import com.crashlytics.android.answers.Answers
+import com.crashlytics.android.answers.CustomEvent
+import com.gitlab.connect2sql.R
+import com.jcraft.jsch.JSch
+import kotlinx.android.synthetic.main.activity_connections.connections_dashboard
+import kotlinx.android.synthetic.main.activity_connections.fab
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -49,6 +52,8 @@ class DashboardActivity : BaseActivity() {
 
     private var actionMode: ActionMode? = null
 
+    @Inject
+    lateinit var jSch: JSch
     @Inject
     lateinit var connectionAgent: ConnectionAgent
     @Inject
@@ -72,7 +77,9 @@ class DashboardActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
 
-        supportLoaderManager.restartLoader(LOADER_CONNECTIONS, Bundle(), mConnectionsLoaderCallbacks)
+        supportLoaderManager.restartLoader(LOADER_CONNECTIONS,
+            Bundle(),
+            mConnectionsLoaderCallbacks)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -82,9 +89,12 @@ class DashboardActivity : BaseActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            R.id.host_keys ->
+                startActivity(HostKeysActivity.newIntent(this))
             R.id.rate -> {
                 try {
-                    val goToMarket = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName"))
+                    val goToMarket = Intent(Intent.ACTION_VIEW,
+                        Uri.parse("market://details?id=$packageName"))
                     goToMarket.addFlags(
                         Intent.FLAG_ACTIVITY_NO_HISTORY
                             or Intent.FLAG_ACTIVITY_NEW_DOCUMENT
@@ -95,7 +105,8 @@ class DashboardActivity : BaseActivity() {
                     CustomTabsIntent.Builder()
                         .setToolbarColor(resources.getColor(R.color.blueBase, theme))
                         .build()
-                        .launchUrl(this, Uri.parse("http://play.google.com/store/apps/details?id=$packageName"))
+                        .launchUrl(this,
+                            Uri.parse("http://play.google.com/store/apps/details?id=$packageName"))
                 }
             }
             R.id.beta -> {
@@ -115,7 +126,8 @@ class DashboardActivity : BaseActivity() {
     }
 
     private fun connect(connectionInfo: ConnectionInfo) {
-        mAnswers.logCustom(CustomEvent("connect").putCustomAttribute("DriverType", connectionInfo.driverType.toString()))
+        mAnswers.logCustom(CustomEvent("connect").putCustomAttribute("DriverType",
+            connectionInfo.driverType.toString()))
 
         // define a progress dialog to display
         val progressDialog = ProgressDialog(
@@ -134,17 +146,36 @@ class DashboardActivity : BaseActivity() {
                 override fun onError(e: Throwable?) {
                     progressDialog.dismiss()
 
-                    val builder = AlertDialog.Builder(this@DashboardActivity)
-                    builder.setTitle("Error")
-                    builder.setMessage("Application Error: ${e?.message}")
-                    builder.setNeutralButton("OK", null)
-                    builder.create().show()
+                    when (e) {
+                        is SshTunnelAgent.UnknownHostException -> AlertDialog.Builder(this@DashboardActivity)
+                            .setTitle(R.string.dialog_add_host_key)
+                            .setMessage(getString(
+                                R.string.dialog_host_fingerprint,
+                                e.hostKey.host,
+                                e.hostKey.getFingerPrint(jSch)
+                            ))
+                            .setNegativeButton(R.string.dialog_no, null)
+                            .setPositiveButton(R.string.dialog_yes) { dialog, _ ->
+                                dialog.dismiss()
+                                jSch.hostKeyRepository.add(e.hostKey, null)
+                                connect(connectionInfo)
+                            }
+                            .create()
+                            .show()
+                        else -> AlertDialog.Builder(this@DashboardActivity)
+                            .setTitle(R.string.dialog_error)
+                            .setMessage("Couldn't connect:\n\n${e?.message}")
+                            .setNeutralButton(R.string.dialog_ok, null)
+                            .create()
+                            .show()
+                    }
                 }
 
                 override fun onNext(t: Connection?) {
                     progressDialog.dismiss()
 
-                    startActivity(QueryActivity.newIntent(this@DashboardActivity, connectionInfo.id))
+                    startActivity(QueryActivity.newIntent(this@DashboardActivity,
+                        connectionInfo.id))
                 }
             })
 
@@ -187,7 +218,7 @@ class DashboardActivity : BaseActivity() {
         val activatedItems = ArrayList<BlockItem>()
         val totalChildren = connections_dashboard.childCount
 
-        for (i in 0..totalChildren - 1) {
+        for (i in 0 until totalChildren) {
             val item = connections_dashboard.getChildAt(i) as BlockItem
             if (item.isActivated) {
                 activatedItems.add(item)
@@ -247,7 +278,8 @@ class DashboardActivity : BaseActivity() {
                 val connectionInfo = (item.tag as ConnectionInfo)
 
                 if (TextUtils.isEmpty(connectionInfo.password)) {
-                    val promptDialogView = LayoutInflater.from(this@DashboardActivity).inflate(R.layout.dialog_prompt, null)
+                    val promptDialogView = LayoutInflater.from(this@DashboardActivity)
+                        .inflate(R.layout.dialog_prompt, null)
 
                     (promptDialogView.findViewById(R.id.textView1) as TextView).visibility = View.GONE
 
@@ -302,7 +334,6 @@ class DashboardActivity : BaseActivity() {
     private val mActionModeCallback = object : ActionMode.Callback {
 
         override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
-            // TODO Auto-generated method stub
             return false
         }
 
@@ -334,7 +365,8 @@ class DashboardActivity : BaseActivity() {
                     for (connectionItem in activatedBlockItems) {
                         val connectionInfo = connectionItem.tag as ConnectionInfo
                         val request = ConnectionInfoEditorRequest(connectionInfo.id)
-                        val newIntent = ConnectionInfoEditorActivity.newIntent(this@DashboardActivity, request)
+                        val newIntent = ConnectionInfoEditorActivity.newIntent(this@DashboardActivity,
+                            request)
                         startActivity(newIntent)
                         break
                     }
@@ -345,9 +377,12 @@ class DashboardActivity : BaseActivity() {
                     for (connectionItem in activatedBlockItems) {
                         try {
                             val connectionInfo = connectionItem.tag as ConnectionInfo
-                            connectionInfoRepository.save(connectionInfo.copy(id = -1, name = "Copy: " + connectionInfo.name))
+                            connectionInfoRepository.save(connectionInfo.copy(id = -1,
+                                name = "Copy: " + connectionInfo.name))
                         } catch (e: CloneNotSupportedException) {
-                            Toast.makeText(this@DashboardActivity, "Failed to create copy", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@DashboardActivity,
+                                "Failed to create copy",
+                                Toast.LENGTH_SHORT).show()
                             e.printStackTrace()
                         }
                     }

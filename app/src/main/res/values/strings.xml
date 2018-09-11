@@ -2,6 +2,7 @@
     <string name="activity_configure_connection">Configure Connection</string>
     <string name="activity_forgot_lock">Forgot Pattern</string>
     <string name="activity_home">@string/app_name</string>
+    <string name="activity_host_keys">Host Keys</string>
     <string name="activity_lock">@string/app_name</string>
     <string name="activity_query">Query</string>
     <string name="activity_query_history">Query History</string>
@@ -10,10 +11,15 @@
     <string name="activity_select_driver">Select Server</string>
     <string name="activity_set_lock">Set Pattern</string>
 
+    <string name="dialog_add_host_key">Add Host Key?</string>
+    <string name="dialog_error">Error</string>
+    <string name="dialog_host_fingerprint">Host: %1$s\nFingerprint: %2$s</string>
     <string name="dialog_name">Name</string>
-    <string name="dialog_ok_button">OK</string>
+    <string name="dialog_no">No</string>
+    <string name="dialog_ok">OK</string>
     <string name="dialog_password">Password?</string>
     <string name="dialog_query">Query</string>
+    <string name="dialog_yes">Yes</string>
 
     <string name="error_no_detected_databases">No databases detected.</string>
     <string name="error_no_detected_tables">No tables detected.</string>
@@ -67,17 +73,24 @@
     <string name="help_use_ssl">Specify whether the connection should be made over a secure connection. Note: SSL must be enabled and configured properly on your server.</string>
     <string name="help_username">Specify the username necessary to authenticate with against the server.</string>
 
+    <string name="item_host_key_fingerprint_sample">00:00:00:00:00:00:00:00:00:00:00</string>
+    <string name="item_host_key_host_sample">localhost</string>
+    <string name="item_host_key_icon_sample">L</string>
+
     <string name="lock_clear_data">Open App Info</string>
     <string name="lock_forgot_instructions">
         <b>Sorry you forgot your pattern.</b>\n\nUnfortunately, for your security, the only way to continue using this application is to clear all data.</string>
 
-    <string name="menu_about_app">About...</string>
+    <string name="menu_about_app">About</string>
     <string name="menu_clear">Clear</string>
     <string name="menu_configure">Configure</string>
+    <string name="menu_delete">Delete</string>
+    <string name="menu_delete_all">Delete All</string>
     <string name="menu_delete_connection">Delete</string>
     <string name="menu_duplicate">Duplicate</string>
     <string name="menu_history">History</string>
-    <string name="menu_join_beta">Join Beta</string>
+    <string name="menu_host_keys">Manage Host Keys</string>
+    <string name="menu_join_beta">Beta</string>
     <string name="menu_name_only">View names only</string>
     <string name="menu_open_">Open…</string>
     <string name="menu_quick_keys">Quick Keys</string>

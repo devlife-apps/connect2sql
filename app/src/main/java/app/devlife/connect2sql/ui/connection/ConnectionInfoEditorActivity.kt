@@ -14,12 +14,10 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
-import com.gitlab.connect2sql.R
-import com.mobsandgeeks.saripaar.Rule
-import com.mobsandgeeks.saripaar.Validator
 import app.devlife.connect2sql.ApplicationUtils
 import app.devlife.connect2sql.activity.BaseActivity
 import app.devlife.connect2sql.connection.ConnectionAgent
+import app.devlife.connect2sql.connection.SshTunnelAgent
 import app.devlife.connect2sql.db.model.connection.ConnectionInfo
 import app.devlife.connect2sql.db.repo.ConnectionInfoRepository
 import app.devlife.connect2sql.log.EzLogger
@@ -33,6 +31,10 @@ import app.devlife.connect2sql.ui.widget.NotifyingScrollView
 import app.devlife.connect2sql.ui.widget.Toast
 import app.devlife.connect2sql.ui.widget.dialog.ProgressDialog
 import app.devlife.connect2sql.util.rx.ActivityAwareSubscriber
+import com.gitlab.connect2sql.R
+import com.jcraft.jsch.JSch
+import com.mobsandgeeks.saripaar.Rule
+import com.mobsandgeeks.saripaar.Validator
 import rx.Subscriber
 import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
@@ -58,7 +60,11 @@ class ConnectionInfoEditorActivity : BaseActivity() {
     private var subscription: Subscription? = null
 
     @Inject
+    lateinit var connectionAgent: ConnectionAgent
+    @Inject
     lateinit var connectionInfoRepository: ConnectionInfoRepository
+    @Inject
+    lateinit var jSch: JSch
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,7 +84,10 @@ class ConnectionInfoEditorActivity : BaseActivity() {
         form = FormFactory.get(activity, layoutInflater, request.driverType)
 
         // ensure we bring up the keyboard at startup
-        form.nameEditText.post { inputMethodManager.showSoftInput(form.nameEditText, InputMethodManager.SHOW_IMPLICIT) }
+        form.nameEditText.post {
+            inputMethodManager.showSoftInput(form.nameEditText,
+                InputMethodManager.SHOW_IMPLICIT)
+        }
 
         // setup actionbar
         nameBarContainer = form.actionBarContainer
@@ -144,7 +153,7 @@ class ConnectionInfoEditorActivity : BaseActivity() {
             val alertBuilder = AlertDialog.Builder(this)
             alertBuilder.setTitle(R.string.dialog_password)
             alertBuilder.setView(promptDialogView)
-            alertBuilder.setPositiveButton(R.string.dialog_ok_button) { dialog, which ->
+            alertBuilder.setPositiveButton(R.string.dialog_ok) { dialog, which ->
                 executeTestConnection(connectionInfo.copy(password = passwordText.text.toString()))
             }
             alertBuilder.create().show()
@@ -160,37 +169,55 @@ class ConnectionInfoEditorActivity : BaseActivity() {
         progressDialog?.setOnCancelListener { cancelTest() }
         progressDialog?.show()
 
-        val connectionAgent = ConnectionAgent()
         subscription = connectionAgent
             .connect(connectionInfo)
             .switchMap { connection -> connectionAgent.disconnect(connection) }
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(ActivityAwareSubscriber(this@ConnectionInfoEditorActivity, object : Subscriber<Unit>() {
-                override fun onCompleted() {
-                }
+            .subscribe(ActivityAwareSubscriber(this@ConnectionInfoEditorActivity,
+                object : Subscriber<Unit>() {
+                    override fun onCompleted() {
+                    }
 
-                override fun onError(e: Throwable) {
-                    EzLogger.w(e.message, e)
-                    progressDialog?.dismiss()
+                    override fun onError(e: Throwable) {
+                        EzLogger.w(e.message, e)
+                        progressDialog?.dismiss()
 
-                    val builder = AlertDialog.Builder(this@ConnectionInfoEditorActivity)
-                    builder.setTitle("Error")
-                    builder.setMessage(e.message)
-                    builder.setNeutralButton("OK", null)
-                    builder.create().show()
-                }
+                        when (e) {
+                            is SshTunnelAgent.UnknownHostException -> AlertDialog.Builder(this@ConnectionInfoEditorActivity)
+                                .setTitle(R.string.dialog_add_host_key)
+                                .setMessage(getString(
+                                    R.string.dialog_host_fingerprint,
+                                    e.hostKey.host,
+                                    e.hostKey.getFingerPrint(jSch)
+                                ))
+                                .setNegativeButton(R.string.dialog_no, null)
+                                .setPositiveButton(R.string.dialog_yes) { dialog, _ ->
+                                    dialog.dismiss()
+                                    jSch.hostKeyRepository.add(e.hostKey, null)
+                                    executeTestConnection(connectionInfo)
+                                }
+                                .create()
+                                .show()
+                            else -> AlertDialog.Builder(this@ConnectionInfoEditorActivity)
+                                .setTitle(R.string.dialog_error)
+                                .setMessage("Couldn't connect:\n\n${e?.message}")
+                                .setNeutralButton(R.string.dialog_ok, null)
+                                .create()
+                                .show()
+                        }
+                    }
 
-                override fun onNext(nothing: Unit) {
-                    progressDialog?.dismiss()
+                    override fun onNext(nothing: Unit) {
+                        progressDialog?.dismiss()
 
-                    val builder = AlertDialog.Builder(this@ConnectionInfoEditorActivity)
-                    builder.setTitle("Success")
-                    builder.setMessage("Connected to server successfully!")
-                    builder.setNeutralButton("OK", null)
-                    builder.create().show()
-                }
-            }))
+                        val builder = AlertDialog.Builder(this@ConnectionInfoEditorActivity)
+                        builder.setTitle("Success")
+                        builder.setMessage("Connected to server successfully!")
+                        builder.setNeutralButton("OK", null)
+                        builder.create().show()
+                    }
+                }))
     }
 
     private fun cancelTest() {
@@ -216,7 +243,9 @@ class ConnectionInfoEditorActivity : BaseActivity() {
         }
 
         override fun onValidationFailed(failedView: View, failedRule: Rule<*>) {
-            Toast.makeText(this@ConnectionInfoEditorActivity, failedRule.failureMessage, Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@ConnectionInfoEditorActivity,
+                failedRule.failureMessage,
+                Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -288,7 +317,8 @@ class ConnectionInfoEditorActivity : BaseActivity() {
             var inputType1 = FormUtils.addInputType(inputType, InputType.TYPE_CLASS_TEXT)
             inputType1 = FormUtils.removeInputType(inputType1, InputType.TYPE_CLASS_NUMBER)
             if (signed) {
-                inputType1 = FormUtils.removeInputType(inputType1, InputType.TYPE_NUMBER_FLAG_SIGNED)
+                inputType1 = FormUtils.removeInputType(inputType1,
+                    InputType.TYPE_NUMBER_FLAG_SIGNED)
             }
             editText.inputType = inputType1
         } else {
@@ -306,9 +336,11 @@ class ConnectionInfoEditorActivity : BaseActivity() {
     private fun togglePasswordVisibility(editText: EditText) {
         val inputType = editText.inputType
         if (FormUtils.hasInputType(inputType, InputType.TYPE_TEXT_VARIATION_PASSWORD)) {
-            editText.inputType = FormUtils.removeInputType(inputType, InputType.TYPE_TEXT_VARIATION_PASSWORD)
+            editText.inputType = FormUtils.removeInputType(inputType,
+                InputType.TYPE_TEXT_VARIATION_PASSWORD)
         } else {
-            editText.inputType = FormUtils.addInputType(inputType, InputType.TYPE_TEXT_VARIATION_PASSWORD)
+            editText.inputType = FormUtils.addInputType(inputType,
+                InputType.TYPE_TEXT_VARIATION_PASSWORD)
         }
     }
 

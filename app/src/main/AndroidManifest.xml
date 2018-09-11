@@ -44,6 +44,9 @@
             android:label="@string/activity_configure_connection"
             android:theme="@style/Theme.C2SQL.NoActionBar" />
         <activity
+            android:name="app.devlife.connect2sql.ui.hostkeys.HostKeysActivity"
+            android:label="@string/activity_host_keys" />
+        <activity
             android:name="app.devlife.connect2sql.ui.query.QueryActivity"
             android:configChanges="orientation|uiMode|screenSize|smallestScreenSize|keyboardHidden"
             android:label="@string/activity_query"
@@ -68,6 +71,7 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="${fabricApiKey}" />
+
     </application>
 
 </manifest>
