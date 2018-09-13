@@ -6,7 +6,7 @@
         <item name="colorPrimary">@color/blueDark</item>
         <item name="colorPrimaryDark">@color/blueDarkest</item>
         <item name="colorAccent">@color/blueBase</item>
-
+        <item name="materialCardViewStyle">@style/Widget.MaterialComponents.CardView</item>
     </style>
 
     <style name="Theme.C2SQL.NoActionBar">
@@ -37,6 +37,16 @@
         <item name="floatLabelSidePadding">4dp</item>
         <item name="android:paddingBottom">@dimen/form_padding_vertical</item>
         <item name="floatLabelTextAppearance">@style/TextAppearance.C2SQL.FloatLabel</item>
+    </style>
+
+    <style name="Form.Switch">
+        <item name="android:focusable">true</item>
+        <item name="android:textColor">@color/greyDark</item>
+        <item name="android:textOff">@string/form_no</item>
+        <item name="android:textOn">@string/form_yes</item>
+        <item name="android:textSize">@dimen/form_field_text_size</item>
+        <item name="track">@drawable/widget_switch_track_thin</item>
+        <item name="switchPadding">12dp</item>
     </style>
 
     <style name="Form.Label">
@@ -90,6 +100,13 @@
         <item name="type">obscure</item>
     </style>
 
+    <style name="Form.SectionTitle">
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingBottom">@dimen/form_padding_vertical</item>
+        <item name="android:textAppearance">@style/TextAppearance.C2SQL.Form.SectionTitle</item>
+    </style>
+
     <style name="Form.TextIcon">
         <item name="android:background">@drawable/form_text_icon</item>
         <item name="android:textSize" tools:ignore="SpUsage">22dp</item>
@@ -99,14 +116,16 @@
         <item name="android:textAlignment">gravity</item>
     </style>
 
+    <style name="TextAppearance.C2SQL.Link" parent="android:TextAppearance.Material.Body1">
+        <item name="android:textColor">@color/blueLight</item>
+    </style>
+
     <style name="TextAppearance.C2SQL.Title" parent="android:TextAppearance.Material.Large" />
 
     <style name="TextAppearance.C2SQL.Body" parent="android:TextAppearance.Material.Body1" />
 
     <style name="TextAppearance.C2SQL.Form.SectionTitle" parent="TextAppearance.MaterialComponents.Subtitle1">
         <item name="android:textSize">18sp</item>
-        <item name="android:paddingLeft">10dp</item>
-        <item name="android:paddingBottom">@dimen/form_padding_vertical</item>
     </style>
 
     <style name="TextAppearance.C2SQL.FloatLabel" parent="android:TextAppearance.Small">

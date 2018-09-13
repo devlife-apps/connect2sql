@@ -5,7 +5,6 @@ import android.support.v7.app.AlertDialog
 import android.text.InputType
 import android.util.AttributeSet
 import android.widget.EditText
-import android.widget.ImageView
 import app.devlife.connect2sql.ui.widget.Toast
 import app.devlife.connect2sql.util.ext.findSiblingById
 import app.devlife.connect2sql.util.ext.stringValue
@@ -15,7 +14,7 @@ class ActionImageView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : ImageView(context, attrs, defStyleAttr) {
+) : android.support.v7.widget.AppCompatImageView(context, attrs, defStyleAttr) {
 
     private val action: Action?
     private val helpMessage: String?

@@ -2,8 +2,8 @@ package app.devlife.connect2sql.ui.connection.form.section
 
 import android.content.Context
 import android.view.View
+import android.widget.CompoundButton
 import android.widget.EditText
-import android.widget.Switch
 import app.devlife.connect2sql.db.model.connection.ConnectionInfo
 import com.gitlab.connect2sql.R
 import com.mobsandgeeks.saripaar.annotation.Required
@@ -16,8 +16,8 @@ class PostgresFormSection(
 ) :
     FormSection {
 
-    private val useSslSwitch: Switch = view.findViewById(R.id.form_swtch_use_ssl)
-    private val trustCertSwitch: Switch = view.findViewById(R.id.form_swtch_trust_cert)
+    private val useSslSwitch: CompoundButton = view.findViewById(R.id.form_switch_use_ssl)
+    private val trustCertSwitch: CompoundButton = view.findViewById(R.id.form_switch_trust_cert)
 
     override fun compileConnectionInfo(connectionInfo: ConnectionInfo): ConnectionInfo {
         return connectionInfo.copy(

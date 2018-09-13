@@ -14,11 +14,27 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            style="@style/TextAppearance.C2SQL.Form.SectionTitle"
+        <RelativeLayout
+            style="@style/Form.SectionTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/form_ssh_tunnel" />
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/TextAppearance.C2SQL.Form.SectionTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@+id/form_switch_ssh_tunnel"
+                android:text="@string/form_ssh_tunnel" />
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/form_switch_ssh_tunnel"
+                style="@style/Form.Switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true" />
+        </RelativeLayout>
 
         <android.support.design.card.MaterialCardView
             style="@style/Form.SectionCardLayout"
@@ -26,13 +42,15 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
+                android:id="@+id/form_fields_ssh"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/activity_vertical_margin"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout
                     style="@style/Form.FloatLabelLayout"
@@ -218,6 +236,36 @@
                         app:helpText="@string/help_ssh_private_key" />
 
                 </app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/form_help_ssh"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/form_content_padding_horizontal"
+                android:paddingRight="@dimen/form_content_padding_horizontal"
+                android:visibility="visible">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/help_ssh_tunnel"
+                    android:textSize="@dimen/form_field_text_size" />
+
+                <TextView
+                    android:id="@+id/form_link_ssh"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/form_padding_vertical"
+                    android:text="@string/help_ssh_tunnel_learn_more"
+                    android:textAppearance="@style/TextAppearance.C2SQL.Link"
+                    android:textSize="@dimen/form_field_text_size" />
 
             </LinearLayout>
 

@@ -15,7 +15,7 @@
         android:orientation="vertical">
 
         <TextView
-            style="@style/TextAppearance.C2SQL.Form.SectionTitle"
+            style="@style/Form.SectionTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/form_advanced_options" />

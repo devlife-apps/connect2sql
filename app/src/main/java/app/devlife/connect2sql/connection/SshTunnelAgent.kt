@@ -32,7 +32,7 @@ class SshTunnelAgent(private val jSch: JSch) {
                             "${sshConfig.authentication.username}@${sshConfig.address.host}:${sshConfig.address.port}",
                             sshConfig.authentication.privateKeyContents.toByteArray(),
                             null,
-                            null
+                            sshConfig.authentication.passphrase?.toByteArray()
                         )
                         is BasicAuth -> session.setPassword(sshConfig.authentication.password)
                     }

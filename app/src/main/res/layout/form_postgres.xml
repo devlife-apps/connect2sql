@@ -35,7 +35,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    style="@style/TextAppearance.C2SQL.Form.SectionTitle"
+                    style="@style/Form.SectionTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/form_advanced_options" />
@@ -59,18 +59,13 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
-                            <Switch
-                                android:id="@+id/form_swtch_use_ssl"
+                            <android.support.v7.widget.SwitchCompat
+                                android:id="@+id/form_switch_use_ssl"
+                                style="@style/Form.Switch"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="left"
-                                android:layout_marginLeft="12dp"
-                                android:focusable="true"
-                                android:text="@string/form_use_ssl"
-                                android:textColor="@color/greyDark"
-                                android:textOff="@string/form_no"
-                                android:textOn="@string/form_yes"
-                                android:textSize="@dimen/form_field_text_size" />
+                                android:text="@string/form_use_ssl" />
 
                             <app.devlife.connect2sql.ui.connection.form.ActionImageView
                                 style="@style/Form.Action.Help"
@@ -88,18 +83,13 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
-                            <Switch
-                                android:id="@+id/form_swtch_trust_cert"
+                            <android.support.v7.widget.SwitchCompat
+                                android:id="@+id/form_switch_trust_cert"
+                                style="@style/Form.Switch"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="left"
-                                android:layout_marginLeft="12dp"
-                                android:focusable="true"
-                                android:text="@string/form_trust_cert"
-                                android:textColor="@color/greyDark"
-                                android:textOff="@string/form_no"
-                                android:textOn="@string/form_yes"
-                                android:textSize="@dimen/form_field_text_size" />
+                                android:text="@string/form_trust_cert" />
 
                             <app.devlife.connect2sql.ui.connection.form.ActionImageView
                                 style="@style/Form.Action.Help"
