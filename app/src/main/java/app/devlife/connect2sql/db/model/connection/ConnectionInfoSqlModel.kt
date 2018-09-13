@@ -140,6 +140,7 @@ class ConnectionInfoSqlModel : SqlModel<ConnectionInfo> {
                 }
                 is PrivateKey -> {
                     cv.put(Column.SSH_USERNAME, this.authentication.username)
+                    cv.put(Column.SSH_PASSWORD, this.authentication.passphrase)
                     cv.put(Column.SSH_PRIVATE_KEY, this.authentication.privateKeyContents)
                 }
                 is None -> {
