@@ -9,7 +9,11 @@ interface FormSection {
 
     fun populate(connectionInfo: ConnectionInfo)
 
-    fun populate(driverDefaults: DriverDefaults)
+    fun populate(driverDefaults: DriverDefaults) {}
 
-    fun onPreValidate(validator: Validator) {}
+    fun validate(listener: Validator.ValidationListener) {
+        Validator(this)
+            .also { it.validationListener = listener }
+            .validate()
+    }
 }

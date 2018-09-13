@@ -2,7 +2,6 @@ package app.devlife.connect2sql.ui.connection.form
 
 import android.content.Context
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import app.devlife.connect2sql.db.model.connection.ConnectionInfo
@@ -13,14 +12,14 @@ import app.devlife.connect2sql.ui.connection.form.section.MsSqlFormSection
 import app.devlife.connect2sql.ui.connection.form.section.PostgresFormSection
 import app.devlife.connect2sql.ui.connection.form.section.SshFormSection
 import app.devlife.connect2sql.ui.widget.NotifyingScrollView
+import app.devlife.connect2sql.util.ext.stringValue
 import com.gitlab.connect2sql.R
+import com.mobsandgeeks.saripaar.Rule
 import com.mobsandgeeks.saripaar.Validator
 import com.mobsandgeeks.saripaar.annotation.Required
 
 open class Form(val context: Context, val view: View, private val driverType: DriverType) {
 
-    private val viewGroup: ViewGroup = view as ViewGroup
-    private val validator: Validator by lazy { Validator(this@Form) }
     val actionBarContainer: ActionBarContainer = view.findViewById(R.id.form_actionbar)
     val scrollView: NotifyingScrollView = view.findViewById(R.id.scroll_view)
 
@@ -51,7 +50,7 @@ open class Form(val context: Context, val view: View, private val driverType: Dr
     open fun compileConnectionInfo(): ConnectionInfo {
         return ConnectionInfo(
             -1,
-            "",
+            nameEditText.stringValue,
             driverType,
             "",
             0,
@@ -74,13 +73,35 @@ open class Form(val context: Context, val view: View, private val driverType: Dr
         sections.forEach { it.populate(driverDefaults) }
     }
 
-    open fun onPreValidate(validator: Validator) {
-        sections.forEach { it.onPreValidate(validator) }
+    fun validate(listener: Validator.ValidationListener) {
+        val firstFailingValidation = AggregatingValidationListener()
+            .also { aggregateListener ->
+                Validator(this@Form)
+                    .also { it.validationListener = aggregateListener }
+                    .validate()
+
+                sections.forEach { it.validate(aggregateListener) }
+            }
+            .failedValidations
+            .firstOrNull()
+
+        if (firstFailingValidation == null) {
+            listener.onValidationSucceeded()
+        } else {
+            listener.onValidationFailed(firstFailingValidation.first, firstFailingValidation.second)
+        }
     }
 
-    fun validate(listener: Validator.ValidationListener) {
-        validator.validationListener = listener
-        onPreValidate(validator)
-        validator.validate()
+    private class AggregatingValidationListener : Validator.ValidationListener {
+        val failedValidations = mutableListOf<Pair<View?, Rule<*>?>>()
+
+        override fun onValidationFailed(failedView: View?, failedRule: Rule<*>?) {
+            failedValidations.add(Pair(failedView, failedRule))
+        }
+
+        override fun onValidationSucceeded() {
+            // ignored
+        }
+
     }
 }

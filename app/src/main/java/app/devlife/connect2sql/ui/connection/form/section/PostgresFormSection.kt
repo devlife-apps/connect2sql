@@ -1,19 +1,17 @@
 package app.devlife.connect2sql.ui.connection.form.section
 
 import android.content.Context
-import android.text.TextUtils
 import android.view.View
 import android.widget.EditText
 import android.widget.Switch
 import app.devlife.connect2sql.db.model.connection.ConnectionInfo
-import app.devlife.connect2sql.sql.driver.DriverDefaults
 import com.gitlab.connect2sql.R
-import com.mobsandgeeks.saripaar.Rule
-import com.mobsandgeeks.saripaar.Validator
+import com.mobsandgeeks.saripaar.annotation.Required
 
 class PostgresFormSection(
     private val context: Context,
     private val view: View,
+    @Required(order = 9, messageResId = R.string.form_error_database_required)
     private val databaseEditTextView: EditText
 ) :
     FormSection {
@@ -33,19 +31,5 @@ class PostgresFormSection(
     override fun populate(connectionInfo: ConnectionInfo) {
         useSslSwitch.isChecked = connectionInfo.options[ConnectionInfo.OPTION_USE_SSL]?.toBoolean() ?: false
         trustCertSwitch.isChecked = connectionInfo.options[ConnectionInfo.OPTION_TRUST_CERT]?.toBoolean() ?: false
-    }
-
-    override fun populate(driverDefaults: DriverDefaults) {
-        // ignore
-    }
-
-    override fun onPreValidate(validator: Validator) {
-        val errorMessage = context.resources.getString(R.string.form_error_database_required)
-        validator.put(databaseEditTextView,
-            object : Rule<EditText>(errorMessage) {
-                override fun isValid(databaseEditTextView: EditText): Boolean {
-                    return !TextUtils.isEmpty(databaseEditTextView.text)
-                }
-            })
     }
 }
