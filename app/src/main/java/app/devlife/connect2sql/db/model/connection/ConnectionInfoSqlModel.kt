@@ -145,9 +145,6 @@ class ConnectionInfoSqlModel : SqlModel<ConnectionInfo> {
                 is None -> {
                     cv.put(Column.SSH_USERNAME, this.authentication.username)
                 }
-                else -> throw UnsupportedOperationException(
-                    "Authentication type ${this.authentication.javaClass} not supported."
-                )
             }
         }
 

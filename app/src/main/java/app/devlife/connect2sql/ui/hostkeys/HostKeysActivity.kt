@@ -114,7 +114,7 @@ class HostKeysActivity : AppCompatActivity() {
         }
     }
 
-    private inner class Adapter() :
+    private inner class Adapter :
         RecyclerView.Adapter<ViewHolder>() {
 
         override fun onBindViewHolder(viewHolder: ViewHolder, index: Int) {

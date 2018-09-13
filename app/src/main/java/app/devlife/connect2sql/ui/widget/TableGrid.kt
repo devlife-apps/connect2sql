@@ -132,7 +132,7 @@ class TableGrid : FrameLayout, HorizontalScrollViewListener {
             frozenColumnRow.layoutParams = tableRowParams
             val frozenColumnCell = TextView(mContext)
 
-            // FIXME: allow for multi-line cells
+            // TODO: allow for multi-line cells
             // frozen column should match content cell height
             frozenColumnCell.setSingleLine(true)
             frozenColumnCell.text = data[i][0]

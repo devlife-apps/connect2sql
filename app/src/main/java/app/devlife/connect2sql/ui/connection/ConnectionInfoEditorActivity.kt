@@ -175,27 +175,29 @@ class ConnectionInfoEditorActivity : BaseActivity() {
                         progressDialog?.dismiss()
 
                         when (e) {
-                            is SshTunnelAgent.UnknownHostException -> AlertDialog.Builder(this@ConnectionInfoEditorActivity)
-                                .setTitle(R.string.dialog_add_host_key)
-                                .setMessage(getString(
-                                    R.string.dialog_host_fingerprint,
-                                    e.hostKey.host,
-                                    e.hostKey.getFingerPrint(jSch)
-                                ))
-                                .setNegativeButton(R.string.dialog_no, null)
-                                .setPositiveButton(R.string.dialog_yes) { dialog, _ ->
-                                    dialog.dismiss()
-                                    jSch.hostKeyRepository.add(e.hostKey, null)
-                                    executeTestConnection(connectionInfo)
-                                }
-                                .create()
-                                .show()
-                            else -> AlertDialog.Builder(this@ConnectionInfoEditorActivity)
-                                .setTitle(R.string.dialog_error)
-                                .setMessage("Couldn't connect:\n\n${e?.message}")
-                                .setNeutralButton(R.string.dialog_ok, null)
-                                .create()
-                                .show()
+                            is SshTunnelAgent.UnknownHostException ->
+                                AlertDialog.Builder(this@ConnectionInfoEditorActivity)
+                                    .setTitle(R.string.dialog_add_host_key)
+                                    .setMessage(getString(
+                                        R.string.dialog_host_fingerprint,
+                                        e.hostKey.host,
+                                        e.hostKey.getFingerPrint(jSch)
+                                    ))
+                                    .setNegativeButton(R.string.dialog_no, null)
+                                    .setPositiveButton(R.string.dialog_yes) { dialog, _ ->
+                                        dialog.dismiss()
+                                        jSch.hostKeyRepository.add(e.hostKey, null)
+                                        executeTestConnection(connectionInfo)
+                                    }
+                                    .create()
+                                    .show()
+                            else ->
+                                AlertDialog.Builder(this@ConnectionInfoEditorActivity)
+                                    .setTitle(R.string.dialog_error)
+                                    .setMessage("Couldn't connect:\n\n${e?.message}")
+                                    .setNeutralButton(R.string.dialog_ok, null)
+                                    .create()
+                                    .show()
                         }
                     }
 

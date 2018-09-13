@@ -50,7 +50,9 @@ class ConnectionAgent(private val sshTunnelAgent: SshTunnelAgent) {
     ): Observable<Connection> {
         return Observable.create { subscriber ->
             try {
-                if (!activeConnections.containsKey(connectionInfo) || activeConnections[connectionInfo]?.isClosed == true) {
+                if (!activeConnections.containsKey(connectionInfo)
+                    || activeConnections[connectionInfo]?.isClosed == true) {
+
                     val driverHelper = DriverHelperFactory.create(connectionInfo.driverType)
                         ?: throw SQLException("Driver not found for ${connectionInfo.driverType}")
 
