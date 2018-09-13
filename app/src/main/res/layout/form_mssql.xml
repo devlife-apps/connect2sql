@@ -17,50 +17,25 @@
             android:orientation="vertical"
             android:paddingBottom="@dimen/form_content_padding_bottom">
 
-
             <include
                 layout="@layout/form_section_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-
-            <LinearLayout
-                style="@style/Form.SectionLayout"
+            <include
+                layout="@layout/form_section_connection"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="wrap_content" />
 
-                <include
-                    layout="@layout/form_section_connection"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                style="@style/Form.SectionLayout"
+            <include
+                layout="@layout/form_section_mssql"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="wrap_content" />
 
-                <include
-                    layout="@layout/form_section_mssql"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                style="@style/Form.SectionLayout"
+            <include
+                layout="@layout/form_section_ssh_tunnel"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <include
-                    layout="@layout/form_section_ssh_tunnel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
     </app.devlife.connect2sql.ui.widget.NotifyingScrollView>

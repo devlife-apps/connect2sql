@@ -202,11 +202,12 @@ class ConnectionInfoEditorActivity : BaseActivity() {
                     override fun onNext(nothing: Unit) {
                         progressDialog?.dismiss()
 
-                        val builder = AlertDialog.Builder(this@ConnectionInfoEditorActivity)
-                        builder.setTitle("Success")
-                        builder.setMessage("Connected to server successfully!")
-                        builder.setNeutralButton("OK", null)
-                        builder.create().show()
+                        AlertDialog.Builder(this@ConnectionInfoEditorActivity)
+                            .setTitle("Success")
+                            .setMessage("Connected to server successfully!")
+                            .setNeutralButton("OK", null)
+                            .create()
+                            .show()
                     }
                 }))
     }

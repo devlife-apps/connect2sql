@@ -13,9 +13,8 @@ public class FormFactory {
             case MYSQL:
                 return new Form(context, layoutInflater.inflate(R.layout.form_mysql, null), driverType);
             case MSSQL:
-                return new Form(context, layoutInflater.inflate(R.layout.form_mssql, null), driverType);
             case SYBASE:
-                return new Form(context, layoutInflater.inflate(R.layout.form_sybase, null), driverType);
+                return new Form(context, layoutInflater.inflate(R.layout.form_mssql, null), driverType);
             case POSTGRES:
                 return new Form(context, layoutInflater.inflate(R.layout.form_postgres, null), driverType);
             default:

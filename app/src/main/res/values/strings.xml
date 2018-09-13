@@ -28,7 +28,7 @@
 
     <string name="form_action_help">Help</string>
     <string name="form_action_keyboard_input">Toggle keyboard input</string>
-    <string name="form_action_visible">Toggle visibility</string>
+    <string name="form_action_obscure">Toggle visibility</string>
     <string name="form_advanced_options">Advanced Options</string>
     <string name="form_connection_details">Connection Details</string>
     <string name="form_error_database_required">Please enter a database name.</string>
@@ -70,8 +70,14 @@
     <string name="help_password">Specify the password necessary to authenticate with against the server. If left empty, we will ask you every time you attempt to connect.</string>
     <string name="help_port">Specify the port which your server is listening on.</string>
     <string name="help_positive_btn_label">Okay, got it!</string>
+    <string name="help_ssh_host">Specify host of the SSH server to tunnel through.</string>
+    <string name="help_ssh_passphrase">Specify SSH passphrase of the private key provided.</string>
+    <string name="help_ssh_password">Specify SSH password for the SSH server to tunnel through.</string>
+    <string name="help_ssh_port">Specify port of the SSH server to tunnel through.</string>
+    <string name="help_ssh_private_key">Specify SSH private key to use for the SSH server to tunnel through.</string>
+    <string name="help_ssh_username">Specify SSH username for the SSH server to tunnel through.</string>
     <string name="help_trust_cert">Bypass validation of certificate when using SSL.</string>
-    <string name="help_use_ssl">Specify whether the connection should be made over a secure connection. Note: SSL must be enabled and configured properly on your server.</string>
+    <string name="help_use_ssl">Specify whether the connection should be made over a secure connection.\n\nNote: SSL must be enabled and configured properly on the server.</string>
     <string name="help_username">Specify the username necessary to authenticate with against the server.</string>
 
     <string name="item_host_key_fingerprint_sample">00:00:00:00:00:00:00:00:00:00:00</string>

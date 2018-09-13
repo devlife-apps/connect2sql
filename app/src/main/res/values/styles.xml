@@ -83,9 +83,9 @@
         <item name="type">help</item>
     </style>
 
-    <style name="Form.Action.Visible">
-        <item name="android:src">@drawable/ic_form_visible</item>
-        <item name="android:contentDescription">@string/form_action_visible</item>
+    <style name="Form.Action.Obscure">
+        <item name="android:src">@drawable/ic_form_obscure</item>
+        <item name="android:contentDescription">@string/form_action_obscure</item>
         <item name="type">obscure</item>
     </style>
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -22,18 +23,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <LinearLayout
-                style="@style/Form.SectionLayout"
+            <include
+                layout="@layout/form_section_connection"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <include
-                    layout="@layout/form_section_connection"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
+                android:layout_height="wrap_content" />
 
             <LinearLayout
                 style="@style/Form.SectionLayout"
@@ -82,13 +75,15 @@
                                 android:textOn="@string/form_yes"
                                 android:textSize="@dimen/form_field_text_size" />
 
-                            <ImageView
+                            <app.devlife.connect2sql.ui.connection.form.ActionImageView
                                 style="@style/Form.Action.Help"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="right|bottom"
                                 android:layout_marginBottom="5dp"
-                                android:visibility="visible" />
+                                android:visibility="visible"
+                                app:helpText="@string/help_use_ssl" />
+
                         </app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout>
 
                         <app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout
@@ -109,31 +104,25 @@
                                 android:textOn="@string/form_yes"
                                 android:textSize="@dimen/form_field_text_size" />
 
-                            <ImageView
+                            <app.devlife.connect2sql.ui.connection.form.ActionImageView
                                 style="@style/Form.Action.Help"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="right|bottom"
                                 android:layout_marginBottom="5dp"
-                                android:visibility="visible" />
+                                android:visibility="visible"
+                                app:helpText="@string/help_trust_cert" />
+
                         </app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout>
 
                     </LinearLayout>
                 </android.support.design.card.MaterialCardView>
             </LinearLayout>
 
-            <LinearLayout
-                style="@style/Form.SectionLayout"
+            <include
+                layout="@layout/form_section_ssh_tunnel"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <include
-                    layout="@layout/form_section_ssh_tunnel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
     </app.devlife.connect2sql.ui.widget.NotifyingScrollView>

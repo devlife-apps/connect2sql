@@ -20,7 +20,7 @@
 
     <string name="form_action_help">Ayuda</string>
     <string name="form_action_keyboard_input">Alternar entrada de teclado</string>
-    <string name="form_action_visible">Alternar visibilidad</string>
+    <string name="form_action_obscure">Alternar visibilidad</string>
     <string name="form_advanced_options">Opciones Avanzadas</string>
     <string name="form_connection_details">Detalles de Conexión</string>
     <string name="form_error_database_required">Por favor, introduzca un nombre de base de datos.</string>
