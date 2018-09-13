@@ -35,13 +35,10 @@
                 android:orientation="vertical">
 
                 <TextView
+                    style="@style/TextAppearance.C2SQL.Form.SectionTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/form_header_underline"
-                    android:drawableLeft="@drawable/ic_form_header_gears"
-                    android:drawablePadding="10dp"
-                    android:text="@string/form_advanced_options"
-                    android:textSize="20dp" />
+                    android:text="@string/form_advanced_options" />
 
                 <android.support.design.card.MaterialCardView
                     style="@style/Form.SectionCardLayout"

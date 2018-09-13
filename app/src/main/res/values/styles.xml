@@ -26,9 +26,10 @@
     </style>
 
     <style name="Form.SectionCardLayout">
-        <item name="android:layout_marginTop">@dimen/form_section_padding_top</item>
+        <item name="android:layout_margin">3dp</item>
         <item name="cardBackgroundColor">@color/greyDarkest</item>
         <item name="cardCornerRadius">@dimen/form_card_corner_radius</item>
+        <item name="cardElevation">3dp</item>
     </style>
 
     <style name="Form.FloatLabelLayout">
@@ -101,6 +102,12 @@
     <style name="TextAppearance.C2SQL.Title" parent="android:TextAppearance.Material.Large" />
 
     <style name="TextAppearance.C2SQL.Body" parent="android:TextAppearance.Material.Body1" />
+
+    <style name="TextAppearance.C2SQL.Form.SectionTitle" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textSize">18sp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingBottom">@dimen/form_padding_vertical</item>
+    </style>
 
     <style name="TextAppearance.C2SQL.FloatLabel" parent="android:TextAppearance.Small">
         <item name="android:textColor">@drawable/widget_fll_label</item>
