@@ -20,7 +20,6 @@ import com.jcraft.jsch.JSch
 import kotlinx.android.synthetic.main.activity_host_keys.recycler_view
 import javax.inject.Inject
 
-
 class HostKeysActivity : AppCompatActivity() {
 
     private val hostKeys = mutableListOf<HostKey>()

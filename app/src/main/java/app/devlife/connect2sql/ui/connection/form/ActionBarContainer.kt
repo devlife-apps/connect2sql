@@ -9,31 +9,29 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.gitlab.connect2sql.R
 
-class ActionBarContainer @JvmOverloads constructor(context: Context,
-                                                   attrs: AttributeSet? = null,
-                                                   defStyle: Int = 0) : FrameLayout(context, attrs, defStyle) {
-    lateinit var logoView: ImageView
-        private set
-    lateinit var titleView: TextView
-        private set
-    private lateinit var background: FrameLayout
+class ActionBarContainer @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
+) :
+    FrameLayout(context, attrs, defStyle) {
+
+    val logoView: ImageView
+    val titleView: TextView
+    private val backgroundView: FrameLayout
 
     init {
-        init()
-    }
-
-    private fun init() {
         val view = LayoutInflater.from(context).inflate(R.layout.form_actionbar, this)
-        background = view.findViewById(R.id.form_actionbar_background)
+        backgroundView = view.findViewById(R.id.form_actionbar_background)
         logoView = view.findViewById(R.id.form_actionbar_logo)
         titleView = view.findViewById(R.id.form_actionbar_title)
     }
 
     override fun setBackgroundResource(resid: Int) {
-        background.setBackgroundResource(resid)
+        backgroundView.setBackgroundResource(resid)
     }
 
     override fun setBackground(background: Drawable) {
-        this.background.background = background
+        this.backgroundView.background = background
     }
 }

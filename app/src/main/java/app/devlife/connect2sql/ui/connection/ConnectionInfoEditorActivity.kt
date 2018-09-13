@@ -23,10 +23,8 @@ import app.devlife.connect2sql.db.repo.ConnectionInfoRepository
 import app.devlife.connect2sql.log.EzLogger
 import app.devlife.connect2sql.sql.driver.DriverDefaults
 import app.devlife.connect2sql.ui.connection.form.ActionBarContainer
-import app.devlife.connect2sql.ui.connection.form.BaseForm
-import app.devlife.connect2sql.ui.connection.form.Field
+import app.devlife.connect2sql.ui.connection.form.Form
 import app.devlife.connect2sql.ui.connection.form.FormFactory
-import app.devlife.connect2sql.ui.connection.form.FormUtils
 import app.devlife.connect2sql.ui.widget.NotifyingScrollView
 import app.devlife.connect2sql.ui.widget.Toast
 import app.devlife.connect2sql.ui.widget.dialog.ProgressDialog
@@ -46,14 +44,14 @@ class ConnectionInfoEditorActivity : BaseActivity() {
         intent?.extras?.getParcelable<ConnectionInfoEditorRequest>(EXTRA_CONNECTION_INFO_REQUEST)!!
     }
 
-    private val nameBarBackgroundDrawable: Drawable by lazy {
+    private val actionBarBackgroundDrawable: Drawable by lazy {
         val drawable = resources.getDrawable(R.drawable.action_bar_background)
         drawable.alpha = 0
         drawable
     }
 
     private lateinit var nameBarContainer: ActionBarContainer
-    private lateinit var form: BaseForm
+    private lateinit var form: Form
 
     private var doOnValidationSuccess: ValidationAction? = null
     private var progressDialog: ProgressDialog? = null
@@ -73,25 +71,22 @@ class ConnectionInfoEditorActivity : BaseActivity() {
 
         val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
-        val activity = this
-
         var connectionInfo: ConnectionInfo? = null
         if (request.action == ConnectionInfoEditorRequest.Action.EDIT) {
             connectionInfo = connectionInfoRepository.getConnectionInfo(request.connectionInfoId)
             request.driverType = connectionInfo!!.driverType
         }
 
-        form = FormFactory.get(activity, layoutInflater, request.driverType)
+        form = FormFactory.get(this, layoutInflater, request.driverType)
 
         // ensure we bring up the keyboard at startup
         form.nameEditText.post {
-            inputMethodManager.showSoftInput(form.nameEditText,
-                InputMethodManager.SHOW_IMPLICIT)
+            inputMethodManager.showSoftInput(form.nameEditText, InputMethodManager.SHOW_IMPLICIT)
         }
 
         // setup actionbar
         nameBarContainer = form.actionBarContainer
-        nameBarContainer.background = nameBarBackgroundDrawable
+        nameBarContainer.background = actionBarBackgroundDrawable
         nameBarContainer.titleView.alpha = 0f
         nameBarContainer.logoView.setImageResource(DriverLogo.fromDriverType(request.driverType).resource)
 
@@ -100,7 +95,6 @@ class ConnectionInfoEditorActivity : BaseActivity() {
         form.testButton.setOnClickListener(onTestButtonClickListener)
         form.saveButton.setOnClickListener(onSaveButtonClickListener)
         form.scrollView.setOnScrollChangedListener(onScrollChangedListener)
-        form.setOnActionOnClickListener(onActionOnClickListener)
 
         // populate form
         if (connectionInfo != null) {
@@ -118,18 +112,15 @@ class ConnectionInfoEditorActivity : BaseActivity() {
     }
 
     private fun saveConnection(): ConnectionInfo {
-        /**
-         * Save connection
-         */
         val connectionInfo = form.compileConnectionInfo()
-        when (request.action) {
+        return when (request.action) {
             ConnectionInfoEditorRequest.Action.EDIT -> {
                 val id = connectionInfoRepository.save(connectionInfo.copy(id = request.connectionInfoId))
-                return connectionInfo.copy(id = id)
+                connectionInfo.copy(id = id)
             }
             ConnectionInfoEditorRequest.Action.NEW -> {
                 val id = connectionInfoRepository.save(connectionInfo)
-                return connectionInfo.copy(id = id)
+                connectionInfo.copy(id = id)
             }
         }
     }
@@ -143,20 +134,20 @@ class ConnectionInfoEditorActivity : BaseActivity() {
          */
         if (TextUtils.isEmpty(connectionInfo.password)) {
             val promptDialogView = LayoutInflater.from(this).inflate(R.layout.dialog_prompt, null)
+            val passwordText = promptDialogView.findViewById<EditText>(R.id.editView1)
 
-            (promptDialogView.findViewById(R.id.textView1) as TextView).visibility = View.GONE
-
-            val passwordText = promptDialogView.findViewById(R.id.editView1) as EditText
+            promptDialogView.findViewById<TextView>(R.id.textView1).visibility = View.GONE
 
             passwordText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
 
-            val alertBuilder = AlertDialog.Builder(this)
-            alertBuilder.setTitle(R.string.dialog_password)
-            alertBuilder.setView(promptDialogView)
-            alertBuilder.setPositiveButton(R.string.dialog_ok) { dialog, which ->
-                executeTestConnection(connectionInfo.copy(password = passwordText.text.toString()))
-            }
-            alertBuilder.create().show()
+            AlertDialog.Builder(this)
+                .setTitle(R.string.dialog_password)
+                .setView(promptDialogView)
+                .setPositiveButton(R.string.dialog_ok) { _, _ ->
+                    executeTestConnection(connectionInfo.copy(password = passwordText.text.toString()))
+                }
+                .create()
+                .show()
         } else {
             executeTestConnection(connectionInfo)
         }
@@ -249,34 +240,6 @@ class ConnectionInfoEditorActivity : BaseActivity() {
         }
     }
 
-    private val onActionOnClickListener = Field.OnActionClickListener { action, actionView, inputView ->
-        when (action) {
-            Field.Action.VISIBLE -> if (inputView.id == R.id.form_txt_password) {
-                val editText = inputView as EditText
-                togglePasswordVisibility(editText)
-                editText.setSelection(editText.text.length)
-            }
-            Field.Action.KEYBOARD_INPUT -> if (inputView.id == R.id.form_txt_host) {
-                toggleAlphaToNumeric(inputView as EditText, false, false)
-            }
-            Field.Action.HELP -> {
-                val helpMessageResource = form.getHelpMessageResource(inputView)
-                if (helpMessageResource > 0) {
-                    showHelp(helpMessageResource)
-                }
-            }
-            else -> EzLogger.w("Unknown action: " + action)
-        }
-    }
-
-    private fun showHelp(resourceHelpMessage: Int) {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle(R.string.form_action_help)
-        builder.setMessage(resourceHelpMessage)
-        builder.setPositiveButton(R.string.help_positive_btn_label) { dialog, which -> dialog.dismiss() }
-        builder.show()
-    }
-
     private val onScrollChangedListener = NotifyingScrollView.OnScrollChangedListener { who, l, t, oldl, oldt ->
         val headerHeight = nameBarContainer.height / 2
         val ratio = Math.min(Math.max(t, 0), headerHeight).toFloat() / headerHeight
@@ -286,7 +249,7 @@ class ConnectionInfoEditorActivity : BaseActivity() {
         } else {
             nameBarContainer.titleView.alpha = 0f
         }
-        nameBarBackgroundDrawable.alpha = newAlpha
+        actionBarBackgroundDrawable.alpha = newAlpha
     }
 
     private val nameTextWatcher = object : TextWatcher {
@@ -309,39 +272,6 @@ class ConnectionInfoEditorActivity : BaseActivity() {
     private val onSaveButtonClickListener = View.OnClickListener {
         doOnValidationSuccess = ValidationAction.SAVE
         form.validate(validationListener)
-    }
-
-    private fun toggleAlphaToNumeric(editText: EditText, strict: Boolean, signed: Boolean) {
-        val inputType = editText.inputType
-        if (FormUtils.hasInputType(inputType, InputType.TYPE_CLASS_NUMBER)) {
-            var inputType1 = FormUtils.addInputType(inputType, InputType.TYPE_CLASS_TEXT)
-            inputType1 = FormUtils.removeInputType(inputType1, InputType.TYPE_CLASS_NUMBER)
-            if (signed) {
-                inputType1 = FormUtils.removeInputType(inputType1,
-                    InputType.TYPE_NUMBER_FLAG_SIGNED)
-            }
-            editText.inputType = inputType1
-        } else {
-            var inputType2 = FormUtils.addInputType(inputType, InputType.TYPE_CLASS_NUMBER)
-            if (strict) {
-                inputType2 = FormUtils.removeInputType(inputType2, InputType.TYPE_CLASS_TEXT)
-            }
-            if (signed) {
-                inputType2 = FormUtils.addInputType(inputType2, InputType.TYPE_NUMBER_FLAG_SIGNED)
-            }
-            editText.inputType = inputType2
-        }
-    }
-
-    private fun togglePasswordVisibility(editText: EditText) {
-        val inputType = editText.inputType
-        if (FormUtils.hasInputType(inputType, InputType.TYPE_TEXT_VARIATION_PASSWORD)) {
-            editText.inputType = FormUtils.removeInputType(inputType,
-                InputType.TYPE_TEXT_VARIATION_PASSWORD)
-        } else {
-            editText.inputType = FormUtils.addInputType(inputType,
-                InputType.TYPE_TEXT_VARIATION_PASSWORD)
-        }
     }
 
     companion object {

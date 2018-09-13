@@ -13,7 +13,6 @@ import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.SQLException
 import java.util.concurrent.ConcurrentHashMap
-import javax.inject.Inject
 
 class ConnectionAgent(private val sshTunnelAgent: SshTunnelAgent) {
 
@@ -45,8 +44,10 @@ class ConnectionAgent(private val sshTunnelAgent: SshTunnelAgent) {
         }
     }
 
-    private fun doConnect(connectionInfo: ConnectionInfo,
-                          tunnelAddress: Address?): Observable<Connection> {
+    private fun doConnect(
+        connectionInfo: ConnectionInfo,
+        tunnelAddress: Address?
+    ): Observable<Connection> {
         return Observable.create { subscriber ->
             try {
                 if (!activeConnections.containsKey(connectionInfo) || activeConnections[connectionInfo]?.isClosed == true) {

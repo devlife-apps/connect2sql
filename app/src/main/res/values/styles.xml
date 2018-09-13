@@ -25,10 +25,16 @@
         <item name="android:paddingTop">@dimen/form_section_padding_top</item>
     </style>
 
+    <style name="Form.SectionCardLayout">
+        <item name="android:layout_marginTop">@dimen/form_section_padding_top</item>
+        <item name="cardBackgroundColor">@color/greyDarkest</item>
+        <item name="cardCornerRadius">@dimen/form_card_corner_radius</item>
+    </style>
+
     <style name="Form.FloatLabelLayout">
-        <item name="android:layout_marginTop">@dimen/form_fll_top_margin</item>
         <item name="floatLabelTrigger">focus</item>
         <item name="floatLabelSidePadding">4dp</item>
+        <item name="android:paddingBottom">@dimen/form_padding_vertical</item>
         <item name="floatLabelTextAppearance">@style/TextAppearance.C2SQL.FloatLabel</item>
     </style>
 
@@ -66,21 +72,21 @@
     </style>
 
     <style name="Form.Action.KeyboardInput">
-        <item name="android:tag">action_keyboard_input</item>
         <item name="android:src">@drawable/ic_form_keyboard_input</item>
         <item name="android:contentDescription">@string/form_action_keyboard_input</item>
+        <item name="type">keyboard</item>
     </style>
 
     <style name="Form.Action.Help">
-        <item name="android:tag">action_help</item>
         <item name="android:src">@drawable/ic_form_help</item>
         <item name="android:contentDescription">@string/form_action_help</item>
+        <item name="type">help</item>
     </style>
 
     <style name="Form.Action.Visible">
-        <item name="android:tag">action_visible</item>
         <item name="android:src">@drawable/ic_form_visible</item>
         <item name="android:contentDescription">@string/form_action_visible</item>
+        <item name="type">obscure</item>
     </style>
 
     <style name="Form.TextIcon">
@@ -103,4 +109,6 @@
     </style>
 
     <style name="Widget"></style>
+
+    <dimen name="form_card_corner_radius">6dp</dimen>
 </resources>

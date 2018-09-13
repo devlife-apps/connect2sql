@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:orientation="vertical"
+    tools:parentTag="android.widget.LinearLayout">
+
+
+    <LinearLayout
+        style="@style/Form.SectionLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/form_name_background"
+        android:orientation="horizontal"
+        android:paddingTop="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/form_actionbar_logo_width"
+            android:layout_marginTop="@dimen/form_fll_top_margin"
+            android:orientation="vertical">
+
+            <app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout
+                style="@style/Form.FloatLabelLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/form_txt_name"
+                    style="@style/Form.EditText.Text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/form_hint_name">
+
+                    <requestFocus />
+                </EditText>
+
+                <ImageView
+                    style="@style/Form.Action.Help"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout>
+        </LinearLayout>
+    </LinearLayout>
+</merge>

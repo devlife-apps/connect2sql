@@ -3,8 +3,6 @@ package app.devlife.connect2sql.db.model
 import android.content.ContentValues
 import android.database.Cursor
 
-import net.sqlcipher.database.SQLiteDatabase
-
 interface SqlModel<T> {
 
     val modelClass: Class<T>

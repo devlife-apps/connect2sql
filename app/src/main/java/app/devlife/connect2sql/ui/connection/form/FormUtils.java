@@ -2,9 +2,6 @@ package app.devlife.connect2sql.ui.connection.form;
 
 import android.widget.EditText;
 
-/**
- * Created by javier.romero on 5/4/14.
- */
 public class FormUtils {
 
     public static boolean hasInputType(EditText editText, int inputType) {

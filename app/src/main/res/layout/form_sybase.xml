@@ -17,27 +17,11 @@
             android:orientation="vertical"
             android:paddingBottom="@dimen/form_content_padding_bottom">
 
-            <LinearLayout
-                style="@style/Form.SectionLayout"
+
+            <include
+                layout="@layout/form_section_name"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/form_name_background"
-                android:orientation="horizontal"
-                android:paddingTop="0dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/form_actionbar_logo_width"
-                    android:orientation="vertical">
-
-                    <include
-                        layout="@layout/form_base"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-
-            </LinearLayout>
+                android:layout_height="wrap_content" />
 
 
             <LinearLayout
@@ -46,41 +30,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/form_header_underline"
-                    android:drawableLeft="@drawable/ic_form_header_connection"
-                    android:drawablePadding="10dp"
-                    android:text="@string/form_connection_details"
-                    android:textSize="20dp" />
-
-
                 <include
-                    layout="@layout/form_base_connection"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                style="@style/Form.SectionLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/form_header_underline"
-                    android:drawableLeft="@drawable/ic_form_header_gears"
-                    android:drawablePadding="10dp"
-                    android:text="@string/form_advanced_options"
-                    android:textSize="20dp" />
-
-                <include
-                    layout="@layout/form_base_mssql"
+                    layout="@layout/form_section_connection"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
@@ -92,21 +43,25 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/form_header_underline"
-                    android:drawableLeft="@drawable/ic_form_header_gears"
-                    android:drawablePadding="10dp"
-                    android:text="@string/form_ssh_tunnel"
-                    android:textSize="20dp" />
-
                 <include
-                    layout="@layout/form_base_ssh_tunnel"
+                    layout="@layout/form_section_mssql"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
             </LinearLayout>
+
+            <LinearLayout
+                style="@style/Form.SectionLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include
+                    layout="@layout/form_section_ssh_tunnel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
         </LinearLayout>
     </app.devlife.connect2sql.ui.widget.NotifyingScrollView>
 

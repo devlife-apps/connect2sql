@@ -30,13 +30,11 @@ class ConnectionInfoSqlModel : SqlModel<ConnectionInfo> {
         const val SSH_PRIVATE_KEY = "ssh_private_key"
     }
 
-
     override val modelClass: Class<ConnectionInfo>
         get() = ConnectionInfo::class.java
 
     override val tableName: String
         get() = TABLE_NAME
-
 
     override val createSql: String
         get() =
@@ -96,7 +94,7 @@ class ConnectionInfoSqlModel : SqlModel<ConnectionInfo> {
 
                     when {
                         privateKeyContents != null ->
-                            SshConfig(Address(host, port), PrivateKey(username, privateKeyContents))
+                            SshConfig(Address(host, port), PrivateKey(username, password, privateKeyContents))
                         password != null ->
                             SshConfig(Address(host, port), BasicAuth(username, password))
                         else ->

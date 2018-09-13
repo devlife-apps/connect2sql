@@ -302,8 +302,8 @@ class TableGrid : FrameLayout, HorizontalScrollViewListener {
             return
         }
 
-        val widthFactor = Math.ceil(fontSize.toDouble() * mScale.toDouble()
-            * if (fontSize < 10) 0.9 else 0.7).toInt()
+        val widthFactor = Math.ceil(fontSize.toDouble() * mScale.toDouble() *
+            if (fontSize < 10) 0.9 else 0.7).toInt()
 
         val padding = 10 // account for padding
         for (i in 0 until row.childCount) {
@@ -358,8 +358,13 @@ class TableGrid : FrameLayout, HorizontalScrollViewListener {
     /**
      * Keep scroll views in sync
      */
-    override fun onScrollChanged(scrollView: ObservableHorizontalScrollView,
-                                 x: Int, y: Int, oldX: Int, oldY: Int) {
+    override fun onScrollChanged(
+        scrollView: ObservableHorizontalScrollView,
+        x: Int,
+        y: Int,
+        oldX: Int,
+        oldY: Int
+    ) {
         if (scrollView === mContentHeaderScrollView) {
             mContentTableScrollView!!.scrollTo(x, y)
         } else if (scrollView === mContentTableScrollView) {

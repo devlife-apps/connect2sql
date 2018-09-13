@@ -33,7 +33,7 @@ class ActivityAwareSubscriber<T>(
     }
 
     private fun isValid(): Boolean {
-        return activityRef.get()?.let {  activity ->
+        return activityRef.get()?.let { activity ->
             !activity.isDestroyed && !activity.isFinishing && activity.window.decorView.isShown
         } ?: false
     }

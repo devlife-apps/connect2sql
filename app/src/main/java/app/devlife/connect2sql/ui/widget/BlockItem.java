@@ -1,7 +1,5 @@
 package app.devlife.connect2sql.ui.widget;
 
-import com.gitlab.connect2sql.R;
-import app.devlife.connect2sql.log.EzLogger;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -14,6 +12,10 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.gitlab.connect2sql.R;
+
+import app.devlife.connect2sql.log.EzLogger;
 
 public class BlockItem extends FrameLayout {
 
@@ -98,7 +100,7 @@ public class BlockItem extends FrameLayout {
 
         // Inflate the view from the layout resource.
         final LayoutInflater inflater = (LayoutInflater) c
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.widget_block_item, this, true);
 
         // Get references to the child controls.
@@ -116,18 +118,16 @@ public class BlockItem extends FrameLayout {
     // custom attributes are defined in attrs.xml as declare-styleable resources
     private void readAttributes(Context context, AttributeSet attrs) {
 
-        TypedArray ta = context.obtainStyledAttributes(attrs,
-                R.styleable.app_devlife_connect2sql_ui_widget_BlockItem);
+        TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.BlockItem);
 
         // get/set title
-        setTitle(ta.getString(R.styleable.app_devlife_connect2sql_ui_widget_BlockItem_title));
+        setTitle(ta.getString(R.styleable.BlockItem_title));
 
         // get/set subtitle
-        setSubtitle(ta.getString(R.styleable.app_devlife_connect2sql_ui_widget_BlockItem_subtitle));
+        setSubtitle(ta.getString(R.styleable.BlockItem_subtitle));
 
         // get/set image resource
-        setImageResource(ta.getResourceId(R.styleable.app_devlife_connect2sql_ui_widget_BlockItem_image,
-                DEFAULT_IMAGE));
+        setImageResource(ta.getResourceId(R.styleable.BlockItem_image, DEFAULT_IMAGE));
 
         // get/set background resource
         // setBackgroundResource(ta.getResourceId(
@@ -147,7 +147,7 @@ public class BlockItem extends FrameLayout {
         bundle.putParcelable("instanceState", super.onSaveInstanceState());
         bundle.putString("mTitleView_text", mTitleView.getText().toString());
         bundle.putString("mSubtitleView_text", mSubtitleView.getText()
-                .toString());
+            .toString());
         return bundle;
     }
 
