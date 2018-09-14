@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/rate"
-        android:title="@string/menu_rate_app"
-        app:showAsAction="never">
-    </item>
+        android:id="@+id/host_keys"
+        android:title="@string/menu_host_keys"
+        app:showAsAction="never" />
     <item
         android:id="@+id/beta"
         android:title="@string/menu_join_beta"
-        app:showAsAction="never">
-    </item>
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/rate"
+        android:title="@string/menu_rate_app"
+        app:showAsAction="never" />
     <item
         android:id="@+id/about"
         android:title="@string/menu_about_app"
-        app:showAsAction="never">
-    </item>
+        app:showAsAction="never" />
 
 </menu>

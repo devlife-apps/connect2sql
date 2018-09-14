@@ -2,6 +2,7 @@
     <string name="activity_configure_connection">Configure Connection</string>
     <string name="activity_forgot_lock">Forgot Pattern</string>
     <string name="activity_home">@string/app_name</string>
+    <string name="activity_host_keys">Host Keys</string>
     <string name="activity_lock">@string/app_name</string>
     <string name="activity_query">Query</string>
     <string name="activity_query_history">Query History</string>
@@ -10,8 +11,15 @@
     <string name="activity_select_driver">Select Server</string>
     <string name="activity_set_lock">Set Pattern</string>
 
+    <string name="dialog_add_host_key">Add Host Key?</string>
+    <string name="dialog_error">Error</string>
+    <string name="dialog_host_fingerprint">Host: %1$s\nFingerprint: %2$s</string>
     <string name="dialog_name">Name</string>
+    <string name="dialog_no">No</string>
+    <string name="dialog_ok">OK</string>
+    <string name="dialog_password">Password?</string>
     <string name="dialog_query">Query</string>
+    <string name="dialog_yes">Yes</string>
 
     <string name="error_no_detected_databases">No databases detected.</string>
     <string name="error_no_detected_tables">No tables detected.</string>
@@ -20,13 +28,16 @@
 
     <string name="form_action_help">Help</string>
     <string name="form_action_keyboard_input">Toggle keyboard input</string>
-    <string name="form_action_visible">Toggle visibility</string>
+    <string name="form_action_obscure">Toggle visibility</string>
     <string name="form_advanced_options">Advanced Options</string>
     <string name="form_connection_details">Connection Details</string>
     <string name="form_error_database_required">Please enter a database name.</string>
     <string name="form_error_host_required">Please enter the host name.</string>
     <string name="form_error_name_required">Please enter a name for the connection.</string>
     <string name="form_error_port_required">Please enter a valid port.</string>
+    <string name="form_error_ssh_host_required">SSH host is required.</string>
+    <string name="form_error_ssh_port_required">SSH port is required.</string>
+    <string name="form_error_ssh_username_required">SSH username is required.</string>
     <string name="form_error_username_required">Please enter the username.</string>
     <string name="form_hint_database">Database</string>
     <string name="form_hint_domain">Domain</string>
@@ -35,9 +46,20 @@
     <string name="form_hint_name">Name (Required)</string>
     <string name="form_hint_password">Password</string>
     <string name="form_hint_port">Port (Required)</string>
+    <string name="form_hint_ssh_host">Host (Required)</string>
+    <string name="form_hint_ssh_passphrase">Passphrase (Optional)</string>
+    <string name="form_hint_ssh_password">Password (Required)</string>
+    <string name="form_hint_ssh_port">Port (Required)</string>
+    <string name="form_hint_ssh_private_key">Private Key (Contents)</string>
+    <string name="form_hint_ssh_username">Username (Required)</string>
     <string name="form_hint_username">Username (Required)</string>
     <string name="form_no">NO</string>
     <string name="form_save">Save</string>
+    <string name="form_ssh_auth_type">Authentication Type:</string>
+    <string name="form_ssh_auth_type_none">None</string>
+    <string name="form_ssh_auth_type_password">Password</string>
+    <string name="form_ssh_auth_type_private_key">Private Key</string>
+    <string name="form_ssh_tunnel">SSH Tunnel</string>
     <string name="form_test">Test</string>
     <string name="form_trust_cert">Trust Cert.?</string>
     <string name="form_use_ssl">Use SSL?</string>
@@ -51,21 +73,32 @@
     <string name="help_password">Specify the password necessary to authenticate with against the server. If left empty, we will ask you every time you attempt to connect.</string>
     <string name="help_port">Specify the port which your server is listening on.</string>
     <string name="help_positive_btn_label">Okay, got it!</string>
+    <string name="help_ssh_host">Specify host of the SSH server to tunnel through.</string>
+    <string name="help_ssh_passphrase">Specify SSH passphrase of the private key provided.</string>
+    <string name="help_ssh_password">Specify SSH password for the SSH server to tunnel through.</string>
+    <string name="help_ssh_port">Specify port of the SSH server to tunnel through.</string>
+    <string name="help_ssh_private_key">Specify SSH private key to use for the SSH server to tunnel through.</string>
+    <string name="help_ssh_tunnel">An SSH Tunnel can be used when direct connection to the database is not available.</string>
+    <string name="help_ssh_tunnel_learn_more">Learn More</string>
+    <string name="help_ssh_username">Specify SSH username for the SSH server to tunnel through.</string>
     <string name="help_trust_cert">Bypass validation of certificate when using SSL.</string>
-    <string name="help_use_ssl">Specify whether the connection should be made over a secure connection. Note: SSL must be enabled and configured properly on your server.</string>
+    <string name="help_use_ssl">Specify whether the connection should be made over a secure connection.\n\nNote: SSL must be enabled and configured properly on your server.</string>
     <string name="help_username">Specify the username necessary to authenticate with against the server.</string>
 
     <string name="lock_clear_data">Open App Info</string>
     <string name="lock_forgot_instructions">
         <b>Sorry you forgot your pattern.</b>\n\nUnfortunately, for your security, the only way to continue using this application is to clear all data.</string>
 
-    <string name="menu_about_app">About...</string>
+    <string name="menu_about_app">About</string>
     <string name="menu_clear">Clear</string>
     <string name="menu_configure">Configure</string>
+    <string name="menu_delete">Delete</string>
+    <string name="menu_delete_all">Delete All</string>
     <string name="menu_delete_connection">Delete</string>
     <string name="menu_duplicate">Duplicate</string>
     <string name="menu_history">History</string>
-    <string name="menu_join_beta">Join Beta</string>
+    <string name="menu_host_keys">Manage Host Keys</string>
+    <string name="menu_join_beta">Beta</string>
     <string name="menu_name_only">View names only</string>
     <string name="menu_open_">Open…</string>
     <string name="menu_quick_keys">Quick Keys</string>

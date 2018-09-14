@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <declare-styleable name="app.devlife.connect2sql.ui.widget.BlockItem">
-        <attr name="title"/>
-        <attr name="subtitle"/>
-        <attr name="image" format="reference"/>
+    <declare-styleable name="BlockItem">
+        <attr name="title" />
+        <attr name="subtitle" />
+        <attr name="image" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="ActionImageView">
+        <attr name="type" format="enum">
+            <enum name="help" value="0" />
+            <enum name="keyboard" value="1" />
+            <enum name="obscure" value="2" />
+        </attr>
+        <attr name="helpText" format="string" />
+        <attr name="associatedWith" format="reference" />
     </declare-styleable>
 
 </resources>

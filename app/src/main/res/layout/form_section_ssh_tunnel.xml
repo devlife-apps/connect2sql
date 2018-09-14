@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:orientation="vertical"
+    tools:parentTag="android.widget.LinearLayout">
+
+    <LinearLayout
+        style="@style/Form.SectionLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            style="@style/Form.SectionTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/TextAppearance.C2SQL.Form.SectionTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@+id/form_switch_ssh_tunnel"
+                android:text="@string/form_ssh_tunnel" />
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/form_switch_ssh_tunnel"
+                style="@style/Form.Switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true" />
+        </RelativeLayout>
+
+        <android.support.design.card.MaterialCardView
+            style="@style/Form.SectionCardLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/form_fields_ssh"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout
+                    style="@style/Form.FloatLabelLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/form_txt_ssh_host"
+                        style="@style/Form.EditText.Text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/form_hint_ssh_host" />
+
+                    <app.devlife.connect2sql.ui.connection.form.ActionImageView
+                        style="@style/Form.Action.KeyboardInput"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/form_fllp_action_margin_right_2"
+                        app:associatedWith="@+id/form_txt_ssh_host" />
+
+                    <app.devlife.connect2sql.ui.connection.form.ActionImageView
+                        style="@style/Form.Action.Help"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:helpText="@string/help_ssh_host" />
+
+                </app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout>
+
+                <app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout
+                    style="@style/Form.FloatLabelLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/form_txt_ssh_port"
+                        style="@style/Form.EditText.Number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/form_hint_ssh_port" />
+
+                    <app.devlife.connect2sql.ui.connection.form.ActionImageView
+                        style="@style/Form.Action.Help"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:helpText="@string/help_ssh_port" />
+
+                </app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout>
+
+                <app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout
+                    style="@style/Form.FloatLabelLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <EditText
+                        android:id="@+id/form_txt_ssh_username"
+                        style="@style/Form.EditText.Text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/form_hint_ssh_username" />
+
+                    <app.devlife.connect2sql.ui.connection.form.ActionImageView
+                        style="@style/Form.Action.Help"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:helpText="@string/help_ssh_username" />
+
+                </app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout>
+
+                <LinearLayout
+                    style="@style/Form.FloatLabelLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/form_padding_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/form_content_padding_horizontal"
+                    android:paddingRight="@dimen/form_content_padding_horizontal"
+                    android:weightSum="2">
+
+                    <TextView
+                        style="@style/Form.Label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/form_ssh_auth_type" />
+
+                    <android.support.v7.widget.AppCompatSpinner
+                        android:id="@+id/form_spn_ssh_auth_type"
+                        style="@style/Form.Spinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:entries="@array/form_ssh_auth_types" />
+                </LinearLayout>
+
+                <app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout
+                    android:id="@+id/form_field_ssh_password"
+                    style="@style/Form.FloatLabelLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
+
+                    <EditText
+                        android:id="@+id/form_txt_ssh_password"
+                        style="@style/Form.EditText.Password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/form_hint_ssh_password" />
+
+                    <app.devlife.connect2sql.ui.connection.form.ActionImageView
+                        style="@style/Form.Action.Obscure"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/form_fllp_action_margin_right_2"
+                        app:associatedWith="@+id/form_txt_ssh_password" />
+
+                    <app.devlife.connect2sql.ui.connection.form.ActionImageView
+                        style="@style/Form.Action.Help"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:helpText="@string/help_ssh_password" />
+
+                </app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout>
+
+                <app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout
+                    android:id="@+id/form_field_ssh_passphrase"
+                    style="@style/Form.FloatLabelLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
+
+                    <EditText
+                        android:id="@+id/form_txt_ssh_passphrase"
+                        style="@style/Form.EditText.Password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/form_hint_ssh_passphrase" />
+
+                    <app.devlife.connect2sql.ui.connection.form.ActionImageView
+                        style="@style/Form.Action.Obscure"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/form_fllp_action_margin_right_2"
+                        app:associatedWith="@+id/form_txt_ssh_passphrase" />
+
+                    <app.devlife.connect2sql.ui.connection.form.ActionImageView
+                        style="@style/Form.Action.Help"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:helpText="@string/help_ssh_passphrase" />
+
+                </app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout>
+
+                <app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout
+                    android:id="@+id/form_field_ssh_private_key"
+                    style="@style/Form.FloatLabelLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
+
+                    <EditText
+                        android:id="@+id/form_txt_ssh_private_key"
+                        style="@style/Form.EditText.Text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="top"
+                        android:hint="@string/form_hint_ssh_private_key"
+                        android:inputType="textMultiLine"
+                        android:lines="8"
+                        android:minLines="2" />
+
+                    <app.devlife.connect2sql.ui.connection.form.ActionImageView
+                        style="@style/Form.Action.Obscure"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/form_fllp_action_margin_right_2"
+                        app:associatedWith="@+id/form_txt_ssh_private_key" />
+
+                    <app.devlife.connect2sql.ui.connection.form.ActionImageView
+                        style="@style/Form.Action.Help"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:helpText="@string/help_ssh_private_key" />
+
+                </app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/form_help_ssh"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/form_content_padding_horizontal"
+                android:paddingRight="@dimen/form_content_padding_horizontal"
+                android:visibility="visible">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/help_ssh_tunnel"
+                    android:textSize="@dimen/form_field_text_size" />
+
+                <TextView
+                    android:id="@+id/form_link_ssh"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/form_padding_vertical"
+                    android:text="@string/help_ssh_tunnel_learn_more"
+                    android:textAppearance="@style/TextAppearance.C2SQL.Link"
+                    android:textSize="@dimen/form_field_text_size" />
+
+            </LinearLayout>
+
+        </android.support.design.card.MaterialCardView>
+    </LinearLayout>
+</merge>

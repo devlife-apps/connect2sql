@@ -3,6 +3,12 @@ package app.devlife.connect2sql.db.model.query;
 import app.devlife.connect2sql.db.model.SqlModel;
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.support.annotation.NonNull;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class BaseQuery {
 
@@ -36,13 +42,14 @@ public abstract class BaseQuery {
     public static abstract class BaseQuerySqlModel<T extends BaseQuery> implements SqlModel<T> {
 
         @Override
-        public T hydrateObject(Cursor cursor) throws IllegalAccessException, InstantiationException {
+        public T hydrateObject(@NonNull Cursor cursor) throws IllegalAccessException, InstantiationException {
             final T t = getModelClass().newInstance();
             t.setId(cursor.getInt(cursor.getColumnIndex(Column.ID)));
             t.setQuery(cursor.getString(cursor.getColumnIndex(Column.QUERY)));
             return t;
         }
 
+        @NonNull
         @Override
         public ContentValues toContentValues(T object) {
             ContentValues cv = new ContentValues();
@@ -51,6 +58,12 @@ public abstract class BaseQuery {
             }
             cv.put(Column.QUERY, object.getQuery());
             return cv;
+        }
+
+        @NotNull
+        @Override
+        public List<String> upgradeSql(int oldVersion, int newVersion) {
+            return new ArrayList<>();
         }
     }
 }

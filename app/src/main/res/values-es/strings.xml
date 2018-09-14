@@ -2,6 +2,7 @@
     <string name="activity_configure_connection">Configurar Conexión</string>
     <string name="activity_forgot_lock">Olvidé el Patrón</string>
     <string name="activity_home">@string/app_name</string>
+    <string name="activity_host_keys">Llaves de Hospedaje</string>
     <string name="activity_lock">@string/app_name</string>
     <string name="activity_query">Consulta</string>
     <string name="activity_query_history">Historial de consultas</string>
@@ -10,8 +11,15 @@
     <string name="activity_select_driver">Seleccione Servidor</string>
     <string name="activity_set_lock">Establece Un Patron</string>
 
+    <string name="dialog_add_host_key">Añadir llave de hospedaje?</string>
+    <string name="dialog_error">Error</string>
+    <string name="dialog_host_fingerprint">Hospedaje: %1$s \n Huella Digital: %2$s</string>
     <string name="dialog_name">Nombre</string>
+    <string name="dialog_no">No</string>
+    <string name="dialog_ok">OK</string>
+    <string name="dialog_password">¿Contraseña?</string>
     <string name="dialog_query">Consulta</string>
+    <string name="dialog_yes">Sí</string>
 
     <string name="error_no_detected_databases">No se detectaron bases de datos.</string>
     <string name="error_no_detected_tables">No se detectaron tablas.</string>
@@ -20,13 +28,16 @@
 
     <string name="form_action_help">Ayuda</string>
     <string name="form_action_keyboard_input">Alternar entrada de teclado</string>
-    <string name="form_action_visible">Alternar visibilidad</string>
+    <string name="form_action_obscure">Alternar visibilidad</string>
     <string name="form_advanced_options">Opciones Avanzadas</string>
     <string name="form_connection_details">Detalles de Conexión</string>
     <string name="form_error_database_required">Por favor, introduzca un nombre de base de datos.</string>
     <string name="form_error_host_required">Por favor, introduzca el nombre de host.</string>
     <string name="form_error_name_required">Por favor, introduzca un nombre para la conexión.</string>
     <string name="form_error_port_required">Por favor, introduzca un puerto válido.</string>
+    <string name="form_error_ssh_host_required">Hospedaje de SSH es necesario.</string>
+    <string name="form_error_ssh_port_required">Porte de SSH es necesario.</string>
+    <string name="form_error_ssh_username_required">Nombre de usario de SSH es necesario.</string>
     <string name="form_error_username_required">Por favor, introduzca el nombre de usuario.</string>
     <string name="form_hint_database">Base de datos</string>
     <string name="form_hint_domain">Dominio</string>
@@ -35,9 +46,20 @@
     <string name="form_hint_name">Nombre (Requerido)</string>
     <string name="form_hint_password">Contraseña</string>
     <string name="form_hint_port">Puerto (Requerido)</string>
+    <string name="form_hint_ssh_host">Hospedaje (Requerido)</string>
+    <string name="form_hint_ssh_passphrase">Frase De Contraseña (Opcional)</string>
+    <string name="form_hint_ssh_password">Contraseña (Requerido)</string>
+    <string name="form_hint_ssh_port">Puerto (Requerido)</string>
+    <string name="form_hint_ssh_private_key">Clave Privada (Contenidos)</string>
+    <string name="form_hint_ssh_username">Nombre De Usuario (Requerido)</string>
     <string name="form_hint_username">Nombre De Usuario (Requerido)</string>
     <string name="form_no">NO</string>
     <string name="form_save">Guardalo</string>
+    <string name="form_ssh_auth_type">Tipo De Autenticación:</string>
+    <string name="form_ssh_auth_type_none">Ninguna</string>
+    <string name="form_ssh_auth_type_password">Contraseña</string>
+    <string name="form_ssh_auth_type_private_key">Clave Privada</string>
+    <string name="form_ssh_tunnel">Túnel SSH</string>
     <string name="form_test">Prueba</string>
     <string name="form_trust_cert">Confía el Cert?</string>
     <string name="form_use_ssl">Usar SSL?</string>
@@ -51,21 +73,32 @@
     <string name="help_password">Especifique la contraseña necesaria para autenticarse con el servidor. Si se deja en blanco, le preguntaremos cada vez que intente conectarse.</string>
     <string name="help_port">Especifique el puerto en el que su servidor está escuchando.</string>
     <string name="help_positive_btn_label">¡Ok, lo tengo!</string>
+    <string name="help_ssh_host">Especifique el hospedaje del servidor SSH para hacer un túnel.</string>
+    <string name="help_ssh_passphrase">Especifique la frase de contraseña SSH de la clave privada proporcionada.</string>
+    <string name="help_ssh_password">Especifique la contraseña de SSH para que el servidor SSH por el que se realizará el túnel.</string>
+    <string name="help_ssh_port">Especifique el puerto del servidor SSH por el que se realizará el túnel.</string>
+    <string name="help_ssh_private_key">Especifique la clave privada SSH que se utilizará para que el servidor SSH por el que se realizará el túnel.</string>
+    <string name="help_ssh_tunnel">Un túnel SSH puede ser utilizado cuando la conexión directa a la base de datos no está disponible.</string>
+    <string name="help_ssh_tunnel_learn_more">Aprende Más</string>
+    <string name="help_ssh_username">Especifique el nombre de usuario SSH para el servidor SSH por el que se va a realizar el túnel.</string>
     <string name="help_trust_cert">Anular la validación del certificado cuando se utiliza SSL.</string>
-    <string name="help_use_ssl">Especificar si la conexión debe ser hecha a través de una conexión segura. Nota: SSL debe estar habilitado y configurado correctamente en el servidor.</string>
+    <string name="help_use_ssl">Especificar si la conexión debe ser hecha a través de una conexión segura.\n\nNota: SSL debe estar habilitado y configurado correctamente en el servidor.</string>
     <string name="help_username">Especifique el nombre de usuario necesario para autenticarse contra el servidor.</string>
 
     <string name="lock_clear_data">Abrir información de la aplicación</string>
     <string name="lock_forgot_instructions">
         <b>Lo sentimos que se olvidó de su patrón.</b>\n\nDesafortunadamente, para su seguridad, la única manera de seguir usando esta aplicación es borrar todos los datos.</string>
 
-    <string name="menu_about_app">Acerca...</string>
+    <string name="menu_about_app">Acerca</string>
     <string name="menu_clear">Borrar</string>
     <string name="menu_configure">Configurar</string>
+    <string name="menu_delete">Borrar</string>
+    <string name="menu_delete_all">Borrar Todos</string>
     <string name="menu_delete_connection">Borrar</string>
     <string name="menu_duplicate">Duplicar</string>
     <string name="menu_history">Historia</string>
-    <string name="menu_join_beta">Únete a Beta</string>
+    <string name="menu_host_keys">Administrar Llaves de Hospedaje</string>
+    <string name="menu_join_beta">Beta</string>
     <string name="menu_name_only">Ver solo nombres</string>
     <string name="menu_open_">Abra...</string>
     <string name="menu_quick_keys">Teclas Rápidas</string>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <app.devlife.connect2sql.ui.widget.NotifyingScrollView
         android:id="@+id/scroll_view"
@@ -13,140 +13,118 @@
         android:layout_marginBottom="@dimen/form_buttons_shadow_size_negative">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:paddingBottom="@dimen/form_content_padding_bottom">
 
+            <include
+                layout="@layout/form_section_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <include
+                layout="@layout/form_section_connection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
             <LinearLayout
+                style="@style/Form.SectionLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@drawable/form_name_background"
-                android:paddingTop="0dp"
-                style="@style/Form.SectionLayout">
+                android:orientation="vertical">
 
-                <LinearLayout
+                <TextView
+                    style="@style/Form.SectionTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/form_actionbar_logo_width"
-                    android:orientation="vertical">
+                    android:text="@string/form_advanced_options" />
 
-                    <include
-                        layout="@layout/form_base"
+                <android.support.design.card.MaterialCardView
+                    style="@style/Form.SectionCardLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-                </LinearLayout>
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:orientation="vertical">
 
+
+                        <app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout
+                            style="@style/Form.FloatLabelLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <android.support.v7.widget.SwitchCompat
+                                android:id="@+id/form_switch_use_ssl"
+                                style="@style/Form.Switch"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left"
+                                android:text="@string/form_use_ssl" />
+
+                            <app.devlife.connect2sql.ui.connection.form.ActionImageView
+                                style="@style/Form.Action.Help"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right|bottom"
+                                android:layout_marginBottom="5dp"
+                                android:visibility="visible"
+                                app:helpText="@string/help_use_ssl" />
+
+                        </app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout>
+
+                        <app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout
+                            style="@style/Form.FloatLabelLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <android.support.v7.widget.SwitchCompat
+                                android:id="@+id/form_switch_trust_cert"
+                                style="@style/Form.Switch"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left"
+                                android:text="@string/form_trust_cert" />
+
+                            <app.devlife.connect2sql.ui.connection.form.ActionImageView
+                                style="@style/Form.Action.Help"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right|bottom"
+                                android:layout_marginBottom="5dp"
+                                android:visibility="visible"
+                                app:helpText="@string/help_trust_cert" />
+
+                        </app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout>
+
+                    </LinearLayout>
+                </android.support.design.card.MaterialCardView>
             </LinearLayout>
 
-
-            <LinearLayout
+            <include
+                layout="@layout/form_section_ssh_tunnel"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                style="@style/Form.SectionLayout">
+                android:layout_height="wrap_content" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_form_header_connection"
-                    android:text="@string/form_connection_details"
-                    android:drawablePadding="10dp"
-                    android:textSize="20dp"
-                    android:background="@drawable/form_header_underline"/>
-
-                <include
-                    layout="@layout/form_base_connection"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                style="@style/Form.SectionLayout">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_form_header_gears"
-                    android:text="@string/form_advanced_options"
-                    android:drawablePadding="10dp"
-                    android:textSize="20dp"
-                    android:background="@drawable/form_header_underline"/>
-
-                <app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/Form.FloatLabelLayout">
-
-                    <Switch
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/form_use_ssl"
-                        android:id="@+id/form_swtch_use_ssl"
-                        android:layout_marginLeft="12dp"
-                        android:focusable="true"
-                        android:textSize="@dimen/form_field_text_size"
-                        android:textColor="@color/greyDark"
-                        android:textOn="@string/form_yes"
-                        android:textOff="@string/form_no"
-                        android:layout_gravity="left"/>
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:visibility="visible"
-                        android:layout_marginBottom="5dp"
-                        android:layout_gravity="right|bottom"
-                        style="@style/Form.Action.Help"/>
-                </app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout>
-
-                <app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/Form.FloatLabelLayout">
-
-                    <Switch
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/form_trust_cert"
-                        android:id="@+id/form_swtch_trust_cert"
-                        android:layout_marginLeft="12dp"
-                        android:focusable="true"
-                        android:textSize="@dimen/form_field_text_size"
-                        android:textColor="@color/greyDark"
-                        android:textOn="@string/form_yes"
-                        android:textOff="@string/form_no"
-                        android:layout_gravity="left"/>
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:visibility="visible"
-                        android:layout_marginBottom="5dp"
-                        android:layout_gravity="right|bottom"
-                        style="@style/Form.Action.Help"/>
-                </app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout>
-            </LinearLayout>
         </LinearLayout>
     </app.devlife.connect2sql.ui.widget.NotifyingScrollView>
 
     <include
         android:id="@+id/form_buttons"
         layout="@layout/form_buttons"
-        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
 
     <!-- Placed last to have greatest z-index value-->
     <app.devlife.connect2sql.ui.connection.form.ActionBarContainer
         android:id="@+id/form_actionbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>

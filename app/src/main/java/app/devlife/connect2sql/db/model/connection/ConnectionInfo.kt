@@ -11,6 +11,7 @@ data class ConnectionInfo(
     val username: String,
     val password: String?,
     val database: String?,
+    val sshConfig: SshConfig?,
     val options: Map<String, String>
 ) {
 

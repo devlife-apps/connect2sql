@@ -8,6 +8,7 @@
     <color name="grey">#b2b2b2</color>
     <color name="greyDark">#888</color>
     <color name="greyDarker">#555</color>
+    <color name="greyDarkest">#222</color>
     <color name="blueLight">#00bbee</color>
     <color name="blueBase">#33B5E5</color>
     <color name="blueDark">#0099cc</color>

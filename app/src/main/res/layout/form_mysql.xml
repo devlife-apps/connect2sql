@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <app.devlife.connect2sql.ui.widget.NotifyingScrollView
         android:id="@+id/scroll_view"
@@ -13,70 +12,40 @@
         android:layout_marginBottom="@dimen/form_buttons_shadow_size_negative">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:paddingBottom="@dimen/form_content_padding_bottom">
 
-            <LinearLayout
+            <include
+                layout="@layout/form_section_name"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@drawable/form_name_background"
-                android:paddingTop="0dp"
-                style="@style/Form.SectionLayout">
+                android:layout_height="wrap_content" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/form_actionbar_logo_width"
-                    android:orientation="vertical">
-
-                    <include
-                        layout="@layout/form_base"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-                </LinearLayout>
-
-            </LinearLayout>
-
-
-            <LinearLayout
+            <include
+                layout="@layout/form_section_connection"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                style="@style/Form.SectionLayout">
+                android:layout_height="wrap_content" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_form_header_connection"
-                    android:text="@string/form_connection_details"
-                    android:drawablePadding="10dp"
-                    android:textSize="20dp"
-                    android:background="@drawable/form_header_underline"/>
+            <include
+                layout="@layout/form_section_ssh_tunnel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-
-                <include
-                    layout="@layout/form_base_connection"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-            </LinearLayout>
         </LinearLayout>
     </app.devlife.connect2sql.ui.widget.NotifyingScrollView>
 
     <include
         android:id="@+id/form_buttons"
         layout="@layout/form_buttons"
-        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
 
     <!-- Placed last to have greatest z-index value-->
     <app.devlife.connect2sql.ui.connection.form.ActionBarContainer
         android:id="@+id/form_actionbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>

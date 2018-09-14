@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:orientation="vertical"
+    tools:parentTag="android.widget.LinearLayout">
+
+    <LinearLayout
+        style="@style/Form.SectionLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/Form.SectionTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/form_advanced_options" />
+
+        <android.support.design.card.MaterialCardView
+            style="@style/Form.SectionCardLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:orientation="vertical">
+
+                <app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout
+                    style="@style/Form.FloatLabelLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/form_txt_domain"
+                        style="@style/Form.EditText.Text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/form_hint_domain" />
+
+                    <app.devlife.connect2sql.ui.connection.form.ActionImageView
+                        style="@style/Form.Action.Help"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:helpText="@string/help_domain" />
+
+                </app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout>
+
+                <app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout
+                    style="@style/Form.FloatLabelLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/form_txt_instance"
+                        style="@style/Form.EditText.Text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/form_hint_instance" />
+
+                    <app.devlife.connect2sql.ui.connection.form.ActionImageView
+                        style="@style/Form.Action.Help"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:helpText="@string/help_instance" />
+
+                </app.devlife.connect2sql.ui.widget.FloatLabelPlusLayout>
+
+            </LinearLayout>
+        </android.support.design.card.MaterialCardView>
+    </LinearLayout>
+</merge>

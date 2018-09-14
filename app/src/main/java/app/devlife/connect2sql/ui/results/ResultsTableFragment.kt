@@ -53,8 +53,11 @@ class ResultsTableFragment : BaseFragment(), OnCellEventListener, android.view.V
 
     private lateinit var driverAgent: DriverAgent
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         EzLogger.d("Creating fragment...")
         if (container == null) {
             return null
@@ -134,7 +137,6 @@ class ResultsTableFragment : BaseFragment(), OnCellEventListener, android.view.V
                             }
 
                             override fun onCompleted() {
-
                             }
 
                             override fun onError(e: Throwable) {
@@ -174,7 +176,6 @@ class ResultsTableFragment : BaseFragment(), OnCellEventListener, android.view.V
         resultsTable!!.clear()
         resultsTable!!.draw(data)
     }
-
 
     protected fun setPaginationText(from: Int, to: Int, total: Int) {
         pagingTextView!!.text = getString(R.string.results_showing_records_to, from, to, total)

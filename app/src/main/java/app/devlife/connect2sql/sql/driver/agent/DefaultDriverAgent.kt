@@ -31,8 +31,10 @@ class DefaultDriverAgent(private val driverHelper: DriverHelper) : DriverAgent {
         }
     }
 
-    override fun tables(connection: Connection,
-                        databaseName: DriverAgent.Database): Observable<DriverAgent.Table> {
+    override fun tables(
+        connection: Connection,
+        databaseName: DriverAgent.Database
+    ): Observable<DriverAgent.Table> {
         EzLogger.v("[tables] databaseName=$databaseName")
         return Observable.create { subscriber ->
             try {
@@ -72,9 +74,11 @@ class DefaultDriverAgent(private val driverHelper: DriverHelper) : DriverAgent {
         }
     }
 
-    override fun columns(connection: Connection,
-                         databaseName: DriverAgent.Database,
-                         tableName: DriverAgent.Table): Observable<DriverAgent.Column> {
+    override fun columns(
+        connection: Connection,
+        databaseName: DriverAgent.Database,
+        tableName: DriverAgent.Table
+    ): Observable<DriverAgent.Column> {
         EzLogger.v("[columns] databaseName=$databaseName, tableName=$tableName")
         return Observable.create { subscriber ->
             try {
@@ -99,9 +103,11 @@ class DefaultDriverAgent(private val driverHelper: DriverHelper) : DriverAgent {
         }
     }
 
-    override fun execute(connection: Connection,
-                         databaseName: DriverAgent.Database?,
-                         sql: String): Observable<Statement> {
+    override fun execute(
+        connection: Connection,
+        databaseName: DriverAgent.Database?,
+        sql: String
+    ): Observable<Statement> {
         return Observable.create { subscriber ->
             try {
                 if (databaseName != null) {
@@ -121,9 +127,11 @@ class DefaultDriverAgent(private val driverHelper: DriverHelper) : DriverAgent {
         }
     }
 
-    override fun extract(resultSet: ResultSet,
-                         startIndex: Int,
-                         displayLimit: Int): Observable<DriverAgent.DisplayResults> {
+    override fun extract(
+        resultSet: ResultSet,
+        startIndex: Int,
+        displayLimit: Int
+    ): Observable<DriverAgent.DisplayResults> {
         return Observable.create { subscriber ->
             try {
                 val metaData = resultSet.metaData
@@ -131,7 +139,6 @@ class DefaultDriverAgent(private val driverHelper: DriverHelper) : DriverAgent {
 
                 resultSet.last()
                 val totalRows = resultSet.row
-
 
                 val columnNameAndTypes = (0 until columnCount).map { i ->
                     Pair(

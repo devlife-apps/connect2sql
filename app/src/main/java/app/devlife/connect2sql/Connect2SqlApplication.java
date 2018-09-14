@@ -3,21 +3,22 @@ package app.devlife.connect2sql;
 import android.app.Activity;
 import android.app.Application;
 
+import java.lang.ref.WeakReference;
+
+import javax.inject.Inject;
+
+import app.devlife.connect2sql.activity.LaunchActivity;
+import app.devlife.connect2sql.data.LockManager;
 import app.devlife.connect2sql.di.AnalyticsModule;
 import app.devlife.connect2sql.di.ApplicationComponent;
 import app.devlife.connect2sql.di.ApplicationModule;
+import app.devlife.connect2sql.di.ConnectionModule;
 import app.devlife.connect2sql.di.DaggerApplicationComponent;
 import app.devlife.connect2sql.di.DatabaseModule;
 import app.devlife.connect2sql.di.PreferencesModule;
 import app.devlife.connect2sql.di.SecurityModule;
-import io.fabric.sdk.android.Fabric;
-import app.devlife.connect2sql.activity.LaunchActivity;
-import app.devlife.connect2sql.data.LockManager;
-import app.devlife.connect2sql.di.*;
 import app.devlife.connect2sql.log.EzLogger;
-
-import javax.inject.Inject;
-import java.lang.ref.WeakReference;
+import io.fabric.sdk.android.Fabric;
 
 /**
  *
@@ -26,21 +27,25 @@ public class Connect2SqlApplication extends Application {
 
     private ApplicationComponent mApplicationComponent;
 
-    @Inject ApplicationFocusManager mApplicationFocusManager;
-    @Inject LockManager mLockManager;
-    @Inject Fabric mFabric;
+    @Inject
+    ApplicationFocusManager mApplicationFocusManager;
+    @Inject
+    LockManager mLockManager;
+    @Inject
+    Fabric mFabric;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
         mApplicationComponent = DaggerApplicationComponent.builder()
-                .analyticsModule(new AnalyticsModule(this))
-                .applicationModule(new ApplicationModule(this))
-                .databaseModule(new DatabaseModule(this))
-                .preferencesModule(new PreferencesModule(this))
-                .securityModule(new SecurityModule(this))
-                .build();
+            .analyticsModule(new AnalyticsModule(this))
+            .applicationModule(new ApplicationModule(this))
+            .connectionModule(new ConnectionModule(this))
+            .databaseModule(new DatabaseModule(this))
+            .preferencesModule(new PreferencesModule(this))
+            .securityModule(new SecurityModule(this))
+            .build();
 
         mApplicationComponent.inject(this);
         mApplicationFocusManager.addOnFocusChangeListener(mOnFocusChangeListener);
@@ -63,8 +68,8 @@ public class Connect2SqlApplication extends Application {
                         EzLogger.d("Last focused activity: " + activity);
                         if (!activity.getClass().equals(LaunchActivity.class)) {
                             if (!mLockManager.isSetLockActivity(activity) &&
-                                    !mLockManager.isUnlockActivity(activity) &&
-                                    !mLockManager.isForgotLockActivity(activity)) {
+                                !mLockManager.isUnlockActivity(activity) &&
+                                !mLockManager.isForgotLockActivity(activity)) {
                                 mLockManager.startUnlockActivity(activity, 0);
                             } else {
                                 EzLogger.d("Activity is a lock specific activity.");

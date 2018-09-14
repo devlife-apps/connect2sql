@@ -32,7 +32,6 @@ import javax.inject.Inject
 
 class ResultsActivity : BaseActivity() {
 
-
     private val sqlString: String by lazy { intent?.extras?.getString(EXTRA_SQL_STRING)!! }
     private val databaseName: String? by lazy { intent?.extras?.getString(EXTRA_DATABASE) }
     private val resultsSets = SparseArray<ResultSet>()
@@ -153,8 +152,10 @@ class ResultsActivity : BaseActivity() {
             .map { statement ->
                 val resultSet = statement.resultSet
                 if (resultSet != null) {
-                    fun extractResults(statement: Statement,
-                                       list: List<ResultSet>): List<ResultSet> {
+                    fun extractResults(
+                        statement: Statement,
+                        list: List<ResultSet>
+                    ): List<ResultSet> {
                         if (statement.getMoreResults(Statement.KEEP_CURRENT_RESULT))
                             return extractResults(statement, list + statement.resultSet)
                         else
@@ -261,14 +262,20 @@ class ResultsActivity : BaseActivity() {
 
     private val tabListener: android.support.v7.app.ActionBar.TabListener = object :
         android.support.v7.app.ActionBar.TabListener {
-        override fun onTabReselected(tab: android.support.v7.app.ActionBar.Tab?,
-                                     ft: android.support.v4.app.FragmentTransaction?) = Unit
+        override fun onTabReselected(
+            tab: android.support.v7.app.ActionBar.Tab?,
+            ft: android.support.v4.app.FragmentTransaction?
+        ) = Unit
 
-        override fun onTabUnselected(tab: android.support.v7.app.ActionBar.Tab?,
-                                     ft: android.support.v4.app.FragmentTransaction?) = Unit
+        override fun onTabUnselected(
+            tab: android.support.v7.app.ActionBar.Tab?,
+            ft: android.support.v4.app.FragmentTransaction?
+        ) = Unit
 
-        override fun onTabSelected(tab: android.support.v7.app.ActionBar.Tab?,
-                                   ft: android.support.v4.app.FragmentTransaction?) = Unit
+        override fun onTabSelected(
+            tab: android.support.v7.app.ActionBar.Tab?,
+            ft: android.support.v4.app.FragmentTransaction?
+        ) = Unit
     }
 
     class ResultSetClosingRunnable(private val mResultSet: ResultSet) : Runnable {
@@ -288,10 +295,12 @@ class ResultsActivity : BaseActivity() {
         private val EXTRA_DATABASE = "EXTRA_DATABASE"
         private val EXTRA_SQL_STRING = "EXTRA_SQL_STRING"
 
-        fun newIntent(context: Context,
-                      connectionInfoId: Long,
-                      sql: String,
-                      databaseName: String?): Intent {
+        fun newIntent(
+            context: Context,
+            connectionInfoId: Long,
+            sql: String,
+            databaseName: String?
+        ): Intent {
             val intent = Intent(context, ResultsActivity::class.java)
 
             intent.putExtra(EXTRA_CONNECTION_INFO_ID, connectionInfoId)

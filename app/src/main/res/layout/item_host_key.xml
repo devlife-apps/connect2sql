@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/item_icon"
+        style="@style/Form.TextIcon"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="10dp"
+        android:text="@string/item_host_key_icon_sample" />
+
+    <TextView
+        android:id="@+id/item_host"
+        style="@style/TextAppearance.C2SQL.Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/item_icon"
+        android:text="@string/item_host_key_host_sample" />
+
+    <TextView
+        android:id="@+id/item_fingerprint"
+        style="@style/TextAppearance.C2SQL.Body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/item_host"
+        android:layout_toRightOf="@+id/item_icon"
+        android:text="@string/item_host_key_fingerprint_sample" />
+
+</RelativeLayout>
