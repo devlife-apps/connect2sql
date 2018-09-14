@@ -111,7 +111,7 @@ class AppDatabaseHelperV3(
         /**
          * SSH config added to connection info
          */
-        const val DB_VERSION_2 = 1
+        const val DB_VERSION_2 = 2
 
         /**
          * Current db version
