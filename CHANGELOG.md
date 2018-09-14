@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## [4.0.11] - 2018-09-14
+
 ### Added
 - SSH tunnel support
 

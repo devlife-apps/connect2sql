@@ -1,0 +1,5 @@
+Added
+- SSH tunnel support
+
+Changed
+- Redesign of connection editing form
