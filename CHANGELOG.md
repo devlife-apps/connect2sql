@@ -1,5 +1,11 @@
 ## [Unreleased]
 
+### Added
+- SSH tunnel support
+
+### Changed
+- Redesign of connection editing form
+
 ## [4.0.10] - 2018-09-08
 
 ### Changed
