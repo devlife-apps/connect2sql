@@ -142,8 +142,8 @@ class ResultsTableFragment : BaseFragment(), OnCellEventListener, android.view.V
                             override fun onError(e: Throwable) {
                                 Log.e(TAG, "Could not extract results!", e)
 
-                                with(activity) {
-                                    AlertDialog.Builder(this!!)
+                                activity?.apply {
+                                    AlertDialog.Builder(this)
                                         .setTitle("Error")
                                         .setMessage(e.message)
                                         .setPositiveButton("OK") { dialog, _ ->

@@ -1,5 +1,8 @@
 ## [Unreleased]
 
+### Fixed
+- Crash: http://crashes.to/s/3d26037ebf1
+
 ## [4.0.11] - 2018-09-14
 
 ### Added
