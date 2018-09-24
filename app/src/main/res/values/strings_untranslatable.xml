@@ -9,6 +9,8 @@
 
     <string name="help_ssh_tunnel_learn_more_url" translatable="false">https://www.ssh.com/ssh/tunneling/</string>
 
+    <string name="item_browse_database_sample" translatable="false">database_a</string>
+    <string name="item_browse_table_sample" translatable="false">table_1</string>
     <string name="item_host_key_fingerprint_sample" translatable="false">00:00:00:00:00:00:00:00:00:00:00</string>
     <string name="item_host_key_host_sample" translatable="false">localhost</string>
     <string name="item_host_key_icon_sample" translatable="false">L</string>

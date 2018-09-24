@@ -1,5 +1,6 @@
 package app.devlife.connect2sql.sql.driver.agent
 
+import android.provider.ContactsContract
 import rx.Observable
 import java.sql.Connection
 import java.sql.ResultSet
@@ -12,11 +13,11 @@ interface DriverAgent {
 
     fun databases(connection: Connection): Observable<Database>
 
-    fun tables(connection: Connection, databaseName: Database): Observable<Table>
+    fun tables(connection: Connection, database: Database): Observable<Table>
 
-    fun columns(connection: Connection, databaseName: Database, tableName: Table): Observable<Column>
+    fun columns(connection: Connection, database: Database, table: Table): Observable<Column>
 
-    fun execute(connection: Connection, databaseName: Database?, sql: String): Observable<Statement>
+    fun execute(connection: Connection, database: Database?, sql: String): Observable<Statement>
 
     fun extract(resultSet: ResultSet, startIndex: Int, displayLimit: Int): Observable<DisplayResults>
 
@@ -30,8 +31,8 @@ interface DriverAgent {
     }
 
     data class Database(override val name: String) : SystemObject
-    data class Table(override val name: String, val type: TableType = TableType.TABLE) : SystemObject
-    data class Column(override val name: String) : SystemObject
+    data class Table(val database: Database, override val name: String, val type: TableType = TableType.TABLE) : SystemObject
+    data class Column(val table: Table, override val name: String) : SystemObject
 
     enum class TableType {
         VIEW,

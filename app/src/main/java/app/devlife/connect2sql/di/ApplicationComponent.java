@@ -5,14 +5,15 @@ import javax.inject.Singleton;
 import app.devlife.connect2sql.Connect2SqlApplication;
 import app.devlife.connect2sql.activity.DashboardActivity;
 import app.devlife.connect2sql.activity.LaunchActivity;
+import app.devlife.connect2sql.ui.browse.BrowseFragment;
 import app.devlife.connect2sql.ui.connection.ConnectionInfoEditorActivity;
-import app.devlife.connect2sql.ui.history.QueryHistoryActivity;
+import app.devlife.connect2sql.ui.history.HistoryFragment;
 import app.devlife.connect2sql.ui.hostkeys.HostKeysActivity;
 import app.devlife.connect2sql.ui.lock.SetLockActivity;
 import app.devlife.connect2sql.ui.lock.UnlockActivity;
 import app.devlife.connect2sql.ui.query.QueryActivity;
 import app.devlife.connect2sql.ui.results.ResultsActivity;
-import app.devlife.connect2sql.ui.savedqueries.SavedQueriesActivity;
+import app.devlife.connect2sql.ui.savedqueries.SavedFragment;
 import dagger.Component;
 
 @Singleton
@@ -22,14 +23,17 @@ import dagger.Component;
     ConnectionModule.class,
     DatabaseModule.class,
     PreferencesModule.class,
-    SecurityModule.class
+    SecurityModule.class,
+    ViewModelModule.class
 })
 public interface ApplicationComponent {
 
     // application
     void inject(Connect2SqlApplication application);
 
-    // activities
+    // activities / fragments
+    void inject(BrowseFragment fragment);
+
     void inject(ConnectionInfoEditorActivity activity);
 
     void inject(DashboardActivity activity);
@@ -40,13 +44,13 @@ public interface ApplicationComponent {
 
     void inject(QueryActivity activity);
 
-    void inject(QueryHistoryActivity activity);
+    void inject(HistoryFragment fragment);
 
     void inject(ResultsActivity activity);
 
     void inject(SetLockActivity activity);
 
-    void inject(SavedQueriesActivity activity);
+    void inject(SavedFragment fragment);
 
     void inject(UnlockActivity activity);
 }

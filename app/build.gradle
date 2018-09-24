@@ -110,6 +110,7 @@ android {
 }
 
 ext {
+    version_arch = '1.1.1'
     version_answers = '1.4.3'
     version_constraint_layout = '1.1.3'
     version_crashlytcs = '2.9.5'
@@ -124,11 +125,13 @@ ext {
     version_saripaar = '1.0.3'
     version_sqlcipher = '3.5.9'
     version_slf4j = '1.7.25'
-    version_support = '28.0.0-rc01'
+    version_support = '28.0.0'
 }
 
 dependencies {
     implementation fileTree(include: '*.jar', dir: 'libs')
+    implementation "android.arch.lifecycle:extensions:${version_arch}"
+    implementation "android.arch.lifecycle:viewmodel:${version_arch}"
     implementation "com.android.support:support-v4:${version_support}"
     implementation "com.android.support:support-annotations:${version_support}"
     implementation "com.android.support:appcompat-v7:${version_support}"

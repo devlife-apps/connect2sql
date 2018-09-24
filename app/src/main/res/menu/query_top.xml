@@ -2,25 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:icon="@drawable/ic_menu_open"
+        android:id="@+id/save"
+        android:title="@string/menu_save"
         app:showAsAction="always"
-        android:title="@string/menu_open_">
-        <menu>
-            <group android:checkableBehavior="none">
-                <item
-                    android:id="@+id/open_saved"
-                    android:title="@string/menu_saved">
-                </item>
-                <item
-                    android:id="@+id/save"
-                    android:title="@string/menu_save">
-                </item>
-                <item
-                    android:id="@+id/open_history"
-                    android:title="@string/menu_history">
-                </item>
-            </group>
-        </menu>
+        android:icon="@drawable/ic_saved">
     </item>
     <item
         android:id="@+id/quick_keys"

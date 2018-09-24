@@ -48,16 +48,8 @@
             android:label="@string/activity_host_keys" />
         <activity
             android:name="app.devlife.connect2sql.ui.query.QueryActivity"
-            android:configChanges="orientation|uiMode|screenSize|smallestScreenSize|keyboardHidden"
             android:label="@string/activity_query"
-            android:uiOptions="splitActionBarWhenNarrow"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name="app.devlife.connect2sql.ui.savedqueries.SavedQueriesActivity"
-            android:label="@string/activity_saved_queries" />
-        <activity
-            android:name="app.devlife.connect2sql.ui.history.QueryHistoryActivity"
-            android:label="@string/activity_query_history" />
+            android:theme="@style/Theme.C2SQL.NoActionBar" />
         <activity
             android:name="app.devlife.connect2sql.ui.results.ResultsActivity"
             android:configChanges="orientation|uiMode|screenSize|smallestScreenSize|keyboardHidden"

@@ -8,6 +8,7 @@
     <dimen name="form_actionbar_title_padding_left">114dp</dimen>
     <dimen name="form_actionbar_title_padding_top">20dp</dimen>
     <dimen name="form_buttons_shadow_size_negative">-10dp</dimen>
+    <dimen name="form_card_corner_radius">6dp</dimen>
     <dimen name="form_content_padding_bottom">10dp</dimen>
     <dimen name="form_content_padding_horizontal">5dp</dimen>
     <dimen name="form_field_text_size">16sp</dimen>
@@ -18,4 +19,7 @@
     <dimen name="form_padding_vertical">10dp</dimen>
     <dimen name="form_section_padding_bottom">20dp</dimen>
     <dimen name="form_section_padding_top">20dp</dimen>
+
+    <dimen name="item_horizontal_padding">10dp</dimen>
+    <dimen name="item_vertical_padding">8dp</dimen>
 </resources>

@@ -4,4 +4,6 @@
     style="@style/TextAppearance.C2SQL.Item.Title"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/activity_horizontal_margin" />
+    android:paddingBottom="@dimen/item_vertical_padding"
+    android:paddingStart="?android:attr/expandableListPreferredItemPaddingLeft"
+    android:paddingTop="@dimen/item_vertical_padding" />

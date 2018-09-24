@@ -1,91 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:gravity="top"
-                android:orientation="vertical">
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/llCurrentPath"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:background="@color/themeBgDarkTransparent"
-        android:gravity="left|top">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="@drawable/transparent_bar_item"
-            android:gravity="center"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:text="@string/query_database"
-            android:textAppearance="?android:attr/textAppearanceSmall"/>
-
-        <TextView
-            android:id="@+id/lblCurrentDatabase"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/transparent_bar_item_dropdown"
-            android:ellipsize="marquee"
-            android:paddingLeft="5dp"
-            android:paddingRight="15dp"
-            android:paddingTop="7dp"
-            android:singleLine="true"
-            android:text="@string/query_database"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/blueLight"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="@drawable/transparent_bar_item"
-            android:gravity="center"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:text="@string/query_table"
-            android:textAppearance="?android:attr/textAppearanceSmall"/>
-
-        <TextView
-            android:id="@+id/lblCurrentTable"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/transparent_bar_item_dropdown"
-            android:ellipsize="marquee"
-            android:paddingLeft="5dp"
-            android:paddingRight="15dp"
-            android:paddingTop="7dp"
-            android:singleLine="true"
-            android:text="@string/query_table"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/blueLight"/>
-    </LinearLayout>
-
-    <app.devlife.connect2sql.ui.widget.SqlEditText
-        android:id="@+id/txtQuery"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/llCurrentPath"
-        android:ems="10"
-        android:gravity="top"
-        android:hint="@string/query_hint"
-        android:inputType="textMultiLine|textNoSuggestions"
-        android:textColorHint="@color/greyDarker">
+        android:orientation="vertical">
 
-        <requestFocus/>
-    </app.devlife.connect2sql.ui.widget.SqlEditText>
+        <TextView
+            android:id="@+id/query_label_breadcrumbs"
+            style="@style/TextAppearance.C2SQL.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:gravity="end|top"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:singleLine="true"
+            android:text="@string/query_database" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
+        <app.devlife.connect2sql.ui.widget.SqlEditText
+            android:id="@+id/txtQuery"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:ems="10"
+            android:gravity="top"
+            android:hint="@string/query_hint"
+            android:inputType="textMultiLine|textNoSuggestions"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:textColorHint="@color/greyDarker">
+
+            <requestFocus />
+        </app.devlife.connect2sql.ui.widget.SqlEditText>
+
+    </LinearLayout>
+
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/sheet"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/txtQuery"
-        android:layout_alignRight="@+id/txtQuery"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        android:src="@drawable/ic_menu_run"/>
+        android:orientation="vertical"
+        app:behavior_hideable="false"
+        app:behavior_peekHeight="85dp"
+        app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
 
-</RelativeLayout>
+        <FrameLayout
+            android:id="@+id/fragment_content_sheet"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="85dp"
+            android:background="@color/greyDarker" />
+
+        <android.support.design.bottomappbar.BottomAppBar
+            android:id="@+id/nav_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:layout_marginTop="30dp"
+            app:fabAlignmentMode="end"
+            app:navigationIcon="@drawable/ic_browse" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_run"
+            app:layout_anchor="@id/nav_bottom" />
+
+    </android.support.design.widget.CoordinatorLayout>
+
+</android.support.design.widget.CoordinatorLayout>

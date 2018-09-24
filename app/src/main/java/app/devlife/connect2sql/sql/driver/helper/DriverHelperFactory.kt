@@ -15,7 +15,7 @@ object DriverHelperFactory {
         driverHelpers[DriverType.SYBASE] = SybaseDriverHelper()
     }
 
-    fun create(driverType: DriverType): DriverHelper? {
-        return driverHelpers[driverType]
+    fun create(driverType: DriverType): DriverHelper {
+        return driverHelpers[driverType]!!
     }
 }
