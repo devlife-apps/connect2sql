@@ -4,46 +4,73 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        app:layout_anchor="@+id/constraintLayout"
+        app:layout_anchorGravity="left|top">
 
         <TextView
             android:id="@+id/query_label_breadcrumbs"
             style="@style/TextAppearance.C2SQL.Title"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ellipsize="marquee"
-            android:gravity="end|top"
+            android:gravity="top|start"
             android:paddingBottom="@dimen/activity_vertical_margin"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="@dimen/activity_vertical_margin"
             android:singleLine="true"
-            android:text="@string/query_database" />
+            android:text="@string/query_database"
+            app:layout_constraintBottom_toTopOf="@+id/txtQuery"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <app.devlife.connect2sql.ui.widget.SqlEditText
             android:id="@+id/txtQuery"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            android:background="@null"
             android:ems="10"
             android:gravity="top"
             android:hint="@string/query_hint"
             android:inputType="textMultiLine|textNoSuggestions"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:textColorHint="@color/greyDarker">
+            android:paddingEnd="0dp"
+            android:paddingStart="@dimen/activity_horizontal_margin"
+            android:textColorHint="@color/greyDarker"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/query_save_btn"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/query_label_breadcrumbs">
 
             <requestFocus />
         </app.devlife.connect2sql.ui.widget.SqlEditText>
 
-    </LinearLayout>
+        <ImageButton
+            android:id="@+id/query_save_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:background="@null"
+            android:contentDescription="@string/menu_save"
+            android:src="@drawable/ic_saved"
+            android:tint="@color/grey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/txtQuery"
+            app:layout_constraintTop_toTopOf="@+id/txtQuery" />
+
+    </android.support.constraint.ConstraintLayout>
 
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/sheet"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         app:behavior_hideable="false"
         app:behavior_peekHeight="85dp"

@@ -1,6 +1,7 @@
 package app.devlife.connect2sql.sql.driver.agent
 
-import android.provider.ContactsContract
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 import rx.Observable
 import java.sql.Connection
 import java.sql.ResultSet
@@ -19,19 +20,29 @@ interface DriverAgent {
 
     fun execute(connection: Connection, database: Database?, sql: String): Observable<Statement>
 
-    fun extract(resultSet: ResultSet, startIndex: Int, displayLimit: Int): Observable<DisplayResults>
+    fun extract(resultSet: ResultSet,
+                startIndex: Int,
+                displayLimit: Int): Observable<DisplayResults>
 
     fun close(statement: Statement): Observable<Void>
 
     /**
      * System Objects are items such as tables, schemas, databases, columns, etc.
      */
-    interface SystemObject {
+
+    interface SystemObject : Parcelable {
         val name: String
     }
 
+    @Parcelize
     data class Database(override val name: String) : SystemObject
-    data class Table(val database: Database, override val name: String, val type: TableType = TableType.TABLE) : SystemObject
+
+    @Parcelize
+    data class Table(val database: Database,
+                     override val name: String,
+                     val type: TableType = TableType.TABLE) : SystemObject
+
+    @Parcelize
     data class Column(val table: Table, override val name: String) : SystemObject
 
     enum class TableType {
@@ -39,5 +50,7 @@ interface DriverAgent {
         TABLE
     }
 
-    data class DisplayResults(val columnNames: List<String>, val data: List<List<String>>, val totalCount: Int)
+    data class DisplayResults(val columnNames: List<String>,
+                              val data: List<List<String>>,
+                              val totalCount: Int)
 }

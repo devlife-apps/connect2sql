@@ -10,14 +10,16 @@
 
     <TextView
         android:id="@+id/lblQueryName"
-        style="@style/TextAppearance.C2SQL.Item.Title"
+        style="@style/TextAppearance.C2SQL.Item.Subtitle"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textColor="@color/greyDark" />
 
     <TextView
         android:id="@+id/lblQueryText"
         style="@style/TextAppearance.C2SQL.Item.Subtitle"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textColor="@color/white" />
 
 </LinearLayout>

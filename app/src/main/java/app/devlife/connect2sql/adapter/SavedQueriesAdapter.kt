@@ -88,7 +88,7 @@ class SavedQueriesAdapter(private val context: Context) : BaseExpandableListAdap
         parent: ViewGroup
     ): View {
         val view: View = when (convertView) {
-            null -> inflator.inflate(R.layout.item_expandable_simple, null)
+            null -> inflator.inflate(R.layout.item_expandable_group, null)
             else -> convertView
         }
 

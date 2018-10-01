@@ -7,19 +7,26 @@
         android:contentDescription="@string/menu_browse"
         android:icon="@drawable/ic_browse"
         android:title="@string/menu_browse"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_quick_keys"
+        android:contentDescription="@string/menu_quick_keys"
+        android:icon="@drawable/ic_quick_keys"
+        android:title="@string/menu_quick_keys"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/menu_saved"
         android:contentDescription="@string/menu_saved"
         android:icon="@drawable/ic_saved"
         android:title="@string/menu_saved"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/menu_history"
         android:contentDescription="@string/menu_history"
         android:icon="@drawable/ic_history"
         android:title="@string/menu_history"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 </menu>

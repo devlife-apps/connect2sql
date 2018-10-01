@@ -18,6 +18,7 @@ class ConnectionViewModel @Inject constructor(private val connectionAgent: Conne
 
     val databases: MutableLiveData<List<DriverAgent.Database>?> = MutableLiveData()
     val tables: MutableLiveData<List<DriverAgent.Table>?> = MutableLiveData()
+    val columns: MutableLiveData<List<DriverAgent.Column>?> = MutableLiveData()
     val selectedDatabase = MutableLiveData<DriverAgent.Database?>()
     val selectedTable = MutableLiveData<DriverAgent.Table>()
 
@@ -31,6 +32,12 @@ class ConnectionViewModel @Inject constructor(private val connectionAgent: Conne
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { databases ->
                 this.databases.value = databases
+
+                connectionInfo.database?.also { connectionDatabase ->
+                    databases
+                        .firstOrNull { it.name.equals(connectionDatabase, ignoreCase = true) }
+                        ?.also { setSelectedDatabase(it) }
+                }
             }
     }
 

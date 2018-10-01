@@ -12,6 +12,7 @@ import app.devlife.connect2sql.ui.hostkeys.HostKeysActivity;
 import app.devlife.connect2sql.ui.lock.SetLockActivity;
 import app.devlife.connect2sql.ui.lock.UnlockActivity;
 import app.devlife.connect2sql.ui.query.QueryActivity;
+import app.devlife.connect2sql.ui.quickkeys.QuickKeysFragment;
 import app.devlife.connect2sql.ui.results.ResultsActivity;
 import app.devlife.connect2sql.ui.savedqueries.SavedFragment;
 import dagger.Component;
@@ -38,19 +39,21 @@ public interface ApplicationComponent {
 
     void inject(DashboardActivity activity);
 
+    void inject(HistoryFragment fragment);
+
     void inject(HostKeysActivity activity);
 
     void inject(LaunchActivity activity);
 
     void inject(QueryActivity activity);
 
-    void inject(HistoryFragment fragment);
+    void inject(QuickKeysFragment fragment);
 
     void inject(ResultsActivity activity);
 
-    void inject(SetLockActivity activity);
-
     void inject(SavedFragment fragment);
+
+    void inject(SetLockActivity activity);
 
     void inject(UnlockActivity activity);
 }

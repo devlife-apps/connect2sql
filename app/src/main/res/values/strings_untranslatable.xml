@@ -14,6 +14,7 @@
     <string name="item_host_key_fingerprint_sample" translatable="false">00:00:00:00:00:00:00:00:00:00:00</string>
     <string name="item_host_key_host_sample" translatable="false">localhost</string>
     <string name="item_host_key_icon_sample" translatable="false">L</string>
+    <string name="item_expandable_group_sample" translatable="false">Group 1</string>
 
     <string-array name="operators">
         <item>=</item>

@@ -38,7 +38,7 @@ class SavedFragment : BaseFragment() {
     private val savedQueriesAdapter: SavedQueriesAdapter by lazy { SavedQueriesAdapter(context!!) }
 
     private val connectionInfo: ConnectionInfo by lazy {
-        val id = arguments?.getLong(EXTRA_CONNECTION_INFO_ID).ensure({ t -> t != null && t > 0 })!!
+        val id = arguments?.getLong(EXTRA_CONNECTION_INFO_ID).ensure { t -> t != null && t > 0 }!!
         connectionInfoRepo.getConnectionInfo(id)
     }
 
@@ -53,7 +53,7 @@ class SavedFragment : BaseFragment() {
     @Inject
     lateinit var userPreferences: UserPreferences
 
-    var onQueryClickListener: OnQueryClickListener? = null
+    var onQueryClickListener: (BaseQuery) -> Unit = {}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -213,12 +213,8 @@ class SavedFragment : BaseFragment() {
     private val mOnChildClickListener = ExpandableListView.OnChildClickListener { _, _, groupPosition, childPosition, _ ->
         val queryToLoad = (savedQueriesAdapter.getChild(groupPosition,
             childPosition) as BaseNamedQuery)
-        onQueryClickListener?.onQueryClick(queryToLoad)
+        onQueryClickListener.invoke(queryToLoad)
         true
-    }
-
-    interface OnQueryClickListener {
-        fun onQueryClick(query: BaseQuery)
     }
 
     companion object {

@@ -97,7 +97,6 @@ class BrowseFragment : BaseFragment() {
     override fun onStart() {
         super.onStart()
         activity?.apply {
-            connectionViewModel.init(connectionInfo)
             connectionViewModel.selectedDatabase.observe(this, Observer { database ->
                 databasesViewHolder.subtitle.text = when (database) {
                     null -> noneSelectedSubtitleText
