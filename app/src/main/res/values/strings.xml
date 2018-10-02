@@ -165,4 +165,8 @@
     <string name="item_browse_tables">Tables</string>
     <string name="item_browse_selected_">Selected: %s</string>
     <string name="item_browse_none_selected">[None]</string>
+    <string name="query_saved">Query saved!</string>
+    <string name="query_failed_saving">Failed to save query</string>
+    <string name="query_missing_name">Please enter a name for the query.</string>
+    <string name="query_no_database_selected">No database selected</string>
 </resources>

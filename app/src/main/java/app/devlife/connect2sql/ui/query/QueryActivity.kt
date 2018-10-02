@@ -12,11 +12,10 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AlertDialog
 import android.text.TextUtils
-import android.view.LayoutInflater
+import android.text.method.LinkMovementMethod
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import app.devlife.connect2sql.ApplicationUtils
 import app.devlife.connect2sql.activity.BaseActivity
 import app.devlife.connect2sql.db.model.connection.ConnectionInfo
@@ -25,7 +24,6 @@ import app.devlife.connect2sql.db.repo.ConnectionInfoRepository
 import app.devlife.connect2sql.db.repo.HistoryQueryRepository
 import app.devlife.connect2sql.db.repo.SavedQueryRepository
 import app.devlife.connect2sql.lang.ensure
-import app.devlife.connect2sql.log.EzLogger
 import app.devlife.connect2sql.sql.driver.agent.DefaultDriverAgent
 import app.devlife.connect2sql.sql.driver.agent.DriverAgent
 import app.devlife.connect2sql.sql.driver.helper.DriverHelper
@@ -43,9 +41,12 @@ import com.gitlab.connect2sql.R
 import kotlinx.android.synthetic.main.activity_query.fab
 import kotlinx.android.synthetic.main.activity_query.fragment_content_sheet
 import kotlinx.android.synthetic.main.activity_query.nav_bottom
+import kotlinx.android.synthetic.main.activity_query.query_label_breadcrumbs
 import kotlinx.android.synthetic.main.activity_query.query_save_btn
 import kotlinx.android.synthetic.main.activity_query.sheet
 import kotlinx.android.synthetic.main.activity_query.txtQuery
+import kotlinx.android.synthetic.main.dialog_save_query.view.txtQueryName
+import kotlinx.android.synthetic.main.dialog_save_query.view.txtQueryText
 import javax.inject.Inject
 
 class QueryActivity : BaseActivity() {
@@ -59,14 +60,18 @@ class QueryActivity : BaseActivity() {
         ViewModelProviders.of(this, viewModelFactory).get(ConnectionViewModel::class.java)
     }
 
-    private val browseFragment: BrowseFragment?
+    private val browseFragment: BrowseFragment
         get() = supportFragmentManager.findFragmentByTag(FRAG_TAG_BROWSE) as BrowseFragment?
-    private val historyFragment: HistoryFragment?
+            ?: BrowseFragment.newInstance(connectionInfo.id)
+    private val historyFragment: HistoryFragment
         get() = supportFragmentManager.findFragmentByTag(FRAG_TAG_HISTORY) as HistoryFragment?
-    private val quickKeysFragment: QuickKeysFragment?
+            ?: HistoryFragment.newInstance(connectionInfo.id)
+    private val quickKeysFragment: QuickKeysFragment
         get() = supportFragmentManager.findFragmentByTag(FRAG_TAG_QUICK_KEYS) as QuickKeysFragment?
-    private val savedFragment: SavedFragment?
+            ?: QuickKeysFragment.newInstance(connectionInfo.id)
+    private val savedFragment: SavedFragment
         get() = supportFragmentManager.findFragmentByTag(FRAG_TAG_SAVED) as SavedFragment?
+            ?: SavedFragment.newInstance(connectionInfo.id)
 
     private val bottomSheetBehavior by lazy {
         BottomSheetBehavior.from(sheet)
@@ -84,7 +89,7 @@ class QueryActivity : BaseActivity() {
     @Inject
     lateinit var mHistoryQueryRepository: HistoryQueryRepository
     @Inject
-    lateinit var mSavedQueryRepository: SavedQueryRepository
+    lateinit var savedQueryRepository: SavedQueryRepository
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
@@ -95,6 +100,15 @@ class QueryActivity : BaseActivity() {
         ApplicationUtils.getApplication(this).applicationComponent.inject(this)
 
         connectionViewModel.init(connectionInfo)
+
+        BreadcrumbsBinder(this, connectionViewModel).also { generator ->
+            generator.onBreadcrumbsGenerated = { value ->
+                query_label_breadcrumbs.movementMethod = LinkMovementMethod.getInstance()
+                query_label_breadcrumbs.text = value
+            }
+
+            generator.onBreadcrumbClicked = { showFragment(browseFragment) }
+        }
 
         txtQuery.setOnClickListener { bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED }
 
@@ -107,22 +121,19 @@ class QueryActivity : BaseActivity() {
                 menuItem.icon.setColorFilter(getColor(R.color.blueLight), PorterDuff.Mode.SRC_IN)
                 return@setOnMenuItemClickListener when (menuItem.itemId) {
                     R.id.menu_browse -> {
-                        showFragment(browseFragment
-                            ?: BrowseFragment.newInstance(connectionInfo.id))
+                        showFragment(browseFragment)
                         true
                     }
                     R.id.menu_quick_keys -> {
-                        showFragment(quickKeysFragment
-                            ?: QuickKeysFragment.newInstance(connectionInfo.id))
+                        showFragment(quickKeysFragment)
                         true
                     }
                     R.id.menu_history -> {
-                        showFragment(historyFragment
-                            ?: HistoryFragment.newInstance(connectionInfo.id))
+                        showFragment(historyFragment)
                         true
                     }
                     R.id.menu_saved -> {
-                        showFragment(savedFragment ?: SavedFragment.newInstance(connectionInfo.id))
+                        showFragment(savedFragment)
                         true
                     }
                     else -> false
@@ -320,7 +331,7 @@ class QueryActivity : BaseActivity() {
     }
 
     override fun onBackPressed() {
-        val bottomSheetBehavior = BottomSheetBehavior.from(nav_bottom)
+        val bottomSheetBehavior = BottomSheetBehavior.from(sheet)
         when (bottomSheetBehavior.state) {
             BottomSheetBehavior.STATE_EXPANDED ->
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
@@ -329,48 +340,41 @@ class QueryActivity : BaseActivity() {
     }
 
     private fun showSaveQueryDialog() {
-        EzLogger.i("showSaveQueryDialog")
-        val saveQueryDialogView = LayoutInflater.from(this)
-            .inflate(R.layout.dialog_save_query, null)
-
-        val txtQueryName = saveQueryDialogView.findViewById(R.id.txtQueryName) as EditText
-        val txtQueryText = saveQueryDialogView.findViewById(R.id.txtQueryText) as EditText
-
-        txtQueryText.setText(txtQuery.text.toString())
-
-        AlertDialog.Builder(this)
-            .setView(saveQueryDialogView)
-            .setNegativeButton("Cancel", null)
-            .setPositiveButton("Save", null)
-            .create()
-            .apply {
-                setOnShowListener { dialog ->
-                    val button = (dialog as AlertDialog).getButton(DialogInterface.BUTTON_POSITIVE)
-                    button.setOnClickListener {
-                        if (txtQueryName.length() > 0) {
-                            val savedQuery = SavedQuery(0,
-                                connectionInfo.id,
-                                txtQueryName.text.toString(),
-                                txtQueryText.text.toString())
-
-                            if (mSavedQueryRepository.saveQuery(savedQuery)) {
-                                Toast.makeText(this@QueryActivity, "Query saved!",
-                                    Toast.LENGTH_SHORT).show()
+        with(layoutInflater.inflate(R.layout.dialog_save_query, null)) {
+            txtQueryText.setText(txtQuery.text.toString())
+            AlertDialog.Builder(this.context)
+                .setView(this)
+                .setNegativeButton(R.string.dialog_cancel, null)
+                .setPositiveButton(R.string.dialog_save, null)
+                .create()
+                .also { dialog ->
+                    dialog.setOnShowListener { _ ->
+                        val button = dialog.getButton(DialogInterface.BUTTON_POSITIVE)
+                        button.setOnClickListener {
+                            if (txtQueryName.length() > 0) {
+                                if (savedQueryRepository.saveQuery(SavedQuery(0,
+                                        connectionInfo.id,
+                                        txtQueryName.text.toString(),
+                                        txtQueryText.text.toString()))) {
+                                    Toast.makeText(this@QueryActivity,
+                                        R.string.query_saved,
+                                        Toast.LENGTH_SHORT).show()
+                                } else {
+                                    Toast.makeText(this@QueryActivity,
+                                        R.string.query_failed_saving,
+                                        Toast.LENGTH_SHORT).show()
+                                }
+                                dialog.dismiss()
                             } else {
                                 Toast.makeText(this@QueryActivity,
-                                    "Failed to save query",
+                                    R.string.query_missing_name,
                                     Toast.LENGTH_SHORT).show()
                             }
-                            dialog.dismiss()
-                        } else {
-                            Toast.makeText(this@QueryActivity,
-                                "Please enter a name for the query.",
-                                Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
-            }
-            .show()
+                .show()
+        }
     }
 
     companion object {
