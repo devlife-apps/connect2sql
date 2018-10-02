@@ -5,17 +5,20 @@ import android.support.design.chip.ChipDrawable
 import android.support.v4.app.FragmentActivity
 import android.text.SpannableStringBuilder
 import android.text.Spanned.SPAN_INCLUSIVE_EXCLUSIVE
+import android.text.method.LinkMovementMethod
 import android.text.style.CharacterStyle
 import android.text.style.ClickableSpan
 import android.text.style.ImageSpan
 import android.view.View
+import android.widget.TextView
 import app.devlife.connect2sql.sql.driver.agent.DriverAgent
 import app.devlife.connect2sql.util.ext.appendMultiple
 import app.devlife.connect2sql.viewmodel.ConnectionViewModel
 import com.gitlab.connect2sql.R
 
 class BreadcrumbsBinder(private val activity: FragmentActivity,
-                        private val connectionViewModel: ConnectionViewModel) {
+                        private val connectionViewModel: ConnectionViewModel,
+                        private val breadcrumbView: TextView) {
 
     private fun chipSpan(text: String, backgroundRes: Int = R.color.blueBase): CharacterStyle {
         val chip = ChipDrawable.createFromResource(activity, R.xml.query_breadcrumb_chip)
@@ -37,15 +40,13 @@ class BreadcrumbsBinder(private val activity: FragmentActivity,
 
     var onBreadcrumbClicked: () -> Unit = {}
 
-    var onBreadcrumbsGenerated: (CharSequence) -> Unit = {}
-        set(value) {
-            field = value
-            generate(
-                connectionViewModel.selectedDatabase.value,
-                connectionViewModel.selectedTable.value)
-        }
-
     init {
+        breadcrumbView.movementMethod = LinkMovementMethod.getInstance()
+
+        generate(
+            connectionViewModel.selectedDatabase.value,
+            connectionViewModel.selectedTable.value)
+
         connectionViewModel.selectedDatabase.observe(activity, Observer { database ->
             generate(database, null)
         })
@@ -92,6 +93,6 @@ class BreadcrumbsBinder(private val activity: FragmentActivity,
             }
         }
 
-        onBreadcrumbsGenerated.invoke(builder)
+        breadcrumbView.text = builder
     }
 }

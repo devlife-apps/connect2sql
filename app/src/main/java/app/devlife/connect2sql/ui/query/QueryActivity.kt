@@ -12,7 +12,6 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AlertDialog
 import android.text.TextUtils
-import android.text.method.LinkMovementMethod
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.view.inputmethod.InputMethodManager
@@ -101,14 +100,8 @@ class QueryActivity : BaseActivity() {
 
         connectionViewModel.init(connectionInfo)
 
-        BreadcrumbsBinder(this, connectionViewModel).also { generator ->
-            generator.onBreadcrumbsGenerated = { value ->
-                query_label_breadcrumbs.movementMethod = LinkMovementMethod.getInstance()
-                query_label_breadcrumbs.text = value
-            }
-
-            generator.onBreadcrumbClicked = { showFragment(browseFragment) }
-        }
+        BreadcrumbsBinder(this, connectionViewModel, query_label_breadcrumbs)
+            .onBreadcrumbClicked = { showFragment(browseFragment) }
 
         txtQuery.setOnClickListener { bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED }
 
