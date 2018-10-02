@@ -14,7 +14,7 @@ import app.devlife.connect2sql.ui.lock.UnlockActivity;
 import app.devlife.connect2sql.ui.query.QueryActivity;
 import app.devlife.connect2sql.ui.quickkeys.QuickKeysFragment;
 import app.devlife.connect2sql.ui.results.ResultsActivity;
-import app.devlife.connect2sql.ui.savedqueries.SavedFragment;
+import app.devlife.connect2sql.ui.savedqueries.SavedQueryFragment;
 import dagger.Component;
 
 @Singleton
@@ -51,7 +51,7 @@ public interface ApplicationComponent {
 
     void inject(ResultsActivity activity);
 
-    void inject(SavedFragment fragment);
+    void inject(SavedQueryFragment fragment);
 
     void inject(SetLockActivity activity);
 

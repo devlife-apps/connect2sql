@@ -30,6 +30,10 @@ class SavedQueriesAdapter(private val context: Context) : BaseExpandableListAdap
         queries[GROUP_SAVED].remove(query)
     }
 
+    fun clearSavedQueries() {
+        queries[GROUP_SAVED].clear()
+    }
+
     fun clear() {
         queries[GROUP_BUILTIN].clear()
         queries[GROUP_SAVED].clear()

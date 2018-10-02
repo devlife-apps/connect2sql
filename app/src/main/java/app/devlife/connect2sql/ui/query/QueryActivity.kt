@@ -32,7 +32,7 @@ import app.devlife.connect2sql.ui.history.HistoryFragment
 import app.devlife.connect2sql.ui.quickkeys.QuickKeysAdapter
 import app.devlife.connect2sql.ui.quickkeys.QuickKeysFragment
 import app.devlife.connect2sql.ui.results.ResultsActivity
-import app.devlife.connect2sql.ui.savedqueries.SavedFragment
+import app.devlife.connect2sql.ui.savedqueries.SavedQueryFragment
 import app.devlife.connect2sql.ui.widget.Toast
 import app.devlife.connect2sql.viewmodel.ConnectionViewModel
 import app.devlife.connect2sql.viewmodel.ViewModelFactory
@@ -68,9 +68,9 @@ class QueryActivity : BaseActivity() {
     private val quickKeysFragment: QuickKeysFragment
         get() = supportFragmentManager.findFragmentByTag(FRAG_TAG_QUICK_KEYS) as QuickKeysFragment?
             ?: QuickKeysFragment.newInstance(connectionInfo.id)
-    private val savedFragment: SavedFragment
-        get() = supportFragmentManager.findFragmentByTag(FRAG_TAG_SAVED) as SavedFragment?
-            ?: SavedFragment.newInstance(connectionInfo.id)
+    private val savedQueryFragment: SavedQueryFragment
+        get() = supportFragmentManager.findFragmentByTag(FRAG_TAG_SAVED) as SavedQueryFragment?
+            ?: SavedQueryFragment.newInstance(connectionInfo.id)
 
     private val bottomSheetBehavior by lazy {
         BottomSheetBehavior.from(sheet)
@@ -126,7 +126,7 @@ class QueryActivity : BaseActivity() {
                         true
                     }
                     R.id.menu_saved -> {
-                        showFragment(savedFragment)
+                        showFragment(savedQueryFragment)
                         true
                     }
                     else -> false
@@ -214,7 +214,7 @@ class QueryActivity : BaseActivity() {
                     }
                 }
             }
-            is SavedFragment -> {
+            is SavedQueryFragment -> {
                 fragment.onQueryClickListener = { query ->
                     loadQueryIfAny(query.query)
                     bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
@@ -228,7 +228,7 @@ class QueryActivity : BaseActivity() {
             is BrowseFragment -> FRAG_TAG_BROWSE
             is HistoryFragment -> FRAG_TAG_HISTORY
             is QuickKeysFragment -> FRAG_TAG_QUICK_KEYS
-            is SavedFragment -> FRAG_TAG_SAVED
+            is SavedQueryFragment -> FRAG_TAG_SAVED
             else -> TODO()
         }
 
@@ -259,7 +259,7 @@ class QueryActivity : BaseActivity() {
         beginTransaction().apply(t).commitNow()
 
     private fun FragmentTransaction.hideAllFragmentsExcept(predicate: (Fragment) -> Boolean) {
-        listOfNotNull(browseFragment, historyFragment, quickKeysFragment, savedFragment)
+        listOfNotNull(browseFragment, historyFragment, quickKeysFragment, savedQueryFragment)
             .filter { !predicate.invoke(it) }
             .forEach {
                 hide(it)

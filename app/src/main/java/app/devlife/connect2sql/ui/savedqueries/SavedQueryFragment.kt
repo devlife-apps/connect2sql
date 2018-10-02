@@ -1,12 +1,12 @@
 package app.devlife.connect2sql.ui.savedqueries
 
+import android.database.ContentObserver
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.support.v7.app.AlertDialog
 import android.view.ContextMenu
 import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
@@ -23,14 +23,12 @@ import app.devlife.connect2sql.db.repo.ConnectionInfoRepository
 import app.devlife.connect2sql.db.repo.SavedQueryRepository
 import app.devlife.connect2sql.fragment.BaseFragment
 import app.devlife.connect2sql.lang.ensure
-import app.devlife.connect2sql.prefs.UserPreferences
-import app.devlife.connect2sql.prefs.UserPreferences.Option.BooleanOption
 import app.devlife.connect2sql.ui.widget.Toast
 import com.gitlab.connect2sql.R
 import kotlinx.android.synthetic.main.activity_saved_queries.listview_saved_queries
 import javax.inject.Inject
 
-class SavedFragment : BaseFragment() {
+class SavedQueryFragment : BaseFragment() {
 
     private val savedQueryContentUri: Uri = ContentUriHelper.getContentUri(SavedQuery.SavedQuerySqlModel::class.java)
     private val builtinQueryContentUri: Uri = ContentUriHelper.getContentUri(BuiltInQuery.BuiltInQuerySqlModel::class.java)
@@ -42,6 +40,8 @@ class SavedFragment : BaseFragment() {
         connectionInfoRepo.getConnectionInfo(id)
     }
 
+    private var contentObserver: ContentObserver? = null
+
     @Inject
     lateinit var connectionInfoRepo: ConnectionInfoRepository
     @Inject
@@ -50,8 +50,6 @@ class SavedFragment : BaseFragment() {
     lateinit var builtInQuerySqlModel: BuiltInQuery.BuiltInQuerySqlModel
     @Inject
     lateinit var savedQuerySqlModel: SavedQuery.SavedQuerySqlModel
-    @Inject
-    lateinit var userPreferences: UserPreferences
 
     var onQueryClickListener: (BaseQuery) -> Unit = {}
 
@@ -75,68 +73,62 @@ class SavedFragment : BaseFragment() {
         listview_saved_queries.expandGroup(SavedQueriesAdapter.GROUP_SAVED)
         listview_saved_queries.setOnChildClickListener(mOnChildClickListener)
         listview_saved_queries.setOnCreateContextMenuListener(this)
-    }
-
-    override fun onResume() {
-        super.onResume()
 
         savedQueriesAdapter.clear()
 
-        val cursor1 = context?.contentResolver?.query(savedQueryContentUri, null,
-            SavedQuery.Column.CONNECTION_ID + "=" + connectionInfo.id, null,
-            SavedQuery.Column.NAME + " ASC")
+        refreshSavedQueries()
 
-        if (cursor1 != null) {
-            while (cursor1.moveToNext()) {
-                savedQueriesAdapter.addToSavedQueries(savedQuerySqlModel.hydrateObject(cursor1))
+        contentObserver = object : ContentObserver(Handler()) {
+            override fun onChange(selfChange: Boolean, uri: Uri?) {
+                refreshSavedQueries()
             }
-            cursor1.close()
+        }.also {
+            context?.contentResolver?.registerContentObserver(savedQueryContentUri, true, it)
         }
 
-        val cursor2 = context?.contentResolver?.query(builtinQueryContentUri, null,
-            BuiltInQuery.Column.DRIVER + " = ?",
+        context?.contentResolver?.query(
+            builtinQueryContentUri,
+            null,
+            "${BuiltInQuery.Column.DRIVER} = ?",
             arrayOf(connectionInfo.driverType.name),
-            BuiltInQuery.Column.NAME + " ASC")
-
-        if (cursor2 != null) {
-            while (cursor2.moveToNext()) {
-                savedQueriesAdapter.addToBuiltInQueries(builtInQuerySqlModel.hydrateObject(cursor2))
+            "${BuiltInQuery.Column.NAME} ASC")
+            ?.let { cursor ->
+                while (cursor.moveToNext()) {
+                    savedQueriesAdapter.addToBuiltInQueries(
+                        builtInQuerySqlModel.hydrateObject(cursor))
+                }
+                cursor.close()
             }
-            cursor2.close()
-        }
 
-        savedQueriesAdapter.titleOnly = userPreferences.read(OPTION_SAVED_QUERY_NAMES_ONLY, false)
         savedQueriesAdapter.notifyDataSetChanged()
 
         if (savedQueriesAdapter.getChildrenCount(SavedQueriesAdapter.GROUP_SAVED) == 0) {
             listview_saved_queries.expandGroup(SavedQueriesAdapter.GROUP_BUILTIN)
         }
-
-        userPreferences.registerListener<Boolean>(OPTION_SAVED_QUERY_NAMES_ONLY) { _, value ->
-            savedQueriesAdapter.titleOnly = value == true
-            savedQueriesAdapter.notifyDataSetChanged()
-        }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.query_saved, menu)
+    override fun onStop() {
+        contentObserver?.also { context?.contentResolver?.unregisterContentObserver(it) }
+        super.onStop()
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?) {
-        super.onPrepareOptionsMenu(menu)
+    private fun refreshSavedQueries() {
+        savedQueriesAdapter.clearSavedQueries()
 
-        menu?.findItem(R.id.menu_name_only)?.isChecked =
-            userPreferences.read(OPTION_SAVED_QUERY_NAMES_ONLY, false)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when (item?.itemId) {
-            R.id.menu_name_only -> {
-                userPreferences.save(BooleanOption(OPTION_SAVED_QUERY_NAMES_ONLY, !item.isChecked))
-                true
+        context?.contentResolver?.query(
+            savedQueryContentUri,
+            null,
+            "${SavedQuery.Column.CONNECTION_ID}=${connectionInfo.id}",
+            null,
+            "${SavedQuery.Column.NAME} ASC")
+            ?.let { cursor ->
+                while (cursor.moveToNext()) {
+                    savedQueriesAdapter.addToSavedQueries(savedQuerySqlModel.hydrateObject(cursor))
+                }
+                cursor.close()
             }
-            else -> super.onOptionsItemSelected(item)
-        }
+
+        savedQueriesAdapter.notifyDataSetChanged()
     }
 
     override fun onCreateContextMenu(menu: ContextMenu,
@@ -220,12 +212,11 @@ class SavedFragment : BaseFragment() {
     companion object {
 
         private const val EXTRA_CONNECTION_INFO_ID = "EXTRA_CONNECTION_INFO_ID"
-        private const val OPTION_SAVED_QUERY_NAMES_ONLY = "OPTION_SAVED_QUERY_NAMES_ONLY"
         private const val MENU_OPEN = 1
         private const val MENU_DELETE = 9
 
-        fun newInstance(connectionInfoId: Long): SavedFragment {
-            return SavedFragment().apply {
+        fun newInstance(connectionInfoId: Long): SavedQueryFragment {
+            return SavedQueryFragment().apply {
                 arguments = Bundle().apply { putLong(EXTRA_CONNECTION_INFO_ID, connectionInfoId) }
             }
         }
