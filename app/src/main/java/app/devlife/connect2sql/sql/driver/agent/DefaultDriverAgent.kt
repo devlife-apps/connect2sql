@@ -76,13 +76,12 @@ class DefaultDriverAgent(private val driverHelper: DriverHelper) : DriverAgent {
 
     override fun columns(
         connection: Connection,
-        databaseName: DriverAgent.Database,
         table: DriverAgent.Table
     ): Observable<DriverAgent.Column> {
-        EzLogger.v("[columns] databaseName=$databaseName, tableName=$table")
+        EzLogger.v("[columns] table=$table")
         return Observable.create { subscriber ->
             try {
-                useDatabase(connection, databaseName)
+                useDatabase(connection, table.database)
 
                 val statement = connection.createStatement()
                 val resultSet = statement.executeQuery(driverHelper.getColumnsQuery(table))

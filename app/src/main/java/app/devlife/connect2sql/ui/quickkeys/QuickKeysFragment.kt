@@ -77,6 +77,18 @@ class QuickKeysFragment : BaseFragment() {
             EzLogger.i("Observing connectionViewModel...")
 
             connectionViewModel.apply {
+                columns.observe(fragmentActivity, Observer { columns ->
+                    EzLogger.i("connectionViewModel:columns...")
+                    columnQuickKeys.clear()
+                    columns?.map { column ->
+                        columnQuickKeys.add(QuickKeysAdapter.QuickKey.OfTypeSystemObject(
+                            column.name,
+                            column
+                        ))
+                    }
+                    quickKeysAdapter.notifyDataSetChanged()
+                })
+
                 tables.observe(fragmentActivity, Observer { tables ->
                     EzLogger.i("connectionViewModel:tables...")
                     tableQuickKeys.clear()

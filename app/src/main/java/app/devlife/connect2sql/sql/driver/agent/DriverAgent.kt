@@ -16,7 +16,8 @@ interface DriverAgent {
 
     fun tables(connection: Connection, database: Database): Observable<Table>
 
-    fun columns(connection: Connection, database: Database, table: Table): Observable<Column>
+    fun columns(connection: Connection,
+                table: Table): Observable<Column>
 
     fun execute(connection: Connection, database: Database?, sql: String): Observable<Statement>
 

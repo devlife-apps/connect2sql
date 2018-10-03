@@ -45,6 +45,7 @@ class ConnectionViewModel @Inject constructor(private val connectionAgent: Conne
         if (selectedDatabase.value != database) {
             selectedDatabase.value = database
             selectedTable.value = null
+            columns.value = null
 
             if (database != null) {
                 val driverAgent = DefaultDriverAgent(DriverHelperFactory.create(connectionInfo.driverType))
@@ -62,12 +63,28 @@ class ConnectionViewModel @Inject constructor(private val connectionAgent: Conne
     }
 
     fun setSelectedTable(table: DriverAgent.Table?) {
-        selectedTable.value = table
+        if (selectedTable.value != table) {
+            selectedTable.value = table
+
+            if (table != null) {
+                val driverAgent = DefaultDriverAgent(DriverHelperFactory.create(connectionInfo.driverType))
+                connectionAgent.connect(connectionInfo)
+                    .flatMap { driverAgent.columns(it, table).toList() }
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe { columns ->
+                        this.columns.value = columns
+                    }
+            } else {
+                columns.value = null
+            }
+        }
     }
 
     override fun onCleared() {
         databases.value = null
         tables.value = null
+        columns.value = null
         selectedDatabase.value = null
         selectedTable.value = null
     }
