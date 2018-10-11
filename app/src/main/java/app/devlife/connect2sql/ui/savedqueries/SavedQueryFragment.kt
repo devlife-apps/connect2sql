@@ -1,9 +1,10 @@
 package app.devlife.connect2sql.ui.savedqueries
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.database.ContentObserver
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import android.support.v7.app.AlertDialog
 import android.view.ContextMenu
 import android.view.LayoutInflater
@@ -24,13 +25,15 @@ import app.devlife.connect2sql.db.repo.SavedQueryRepository
 import app.devlife.connect2sql.fragment.BaseFragment
 import app.devlife.connect2sql.lang.ensure
 import app.devlife.connect2sql.ui.widget.Toast
+import app.devlife.connect2sql.viewmodel.SavedQueriesViewModel
+import app.devlife.connect2sql.viewmodel.ViewModelFactory
 import com.gitlab.connect2sql.R
 import kotlinx.android.synthetic.main.activity_saved_queries.listview_saved_queries
 import javax.inject.Inject
 
 class SavedQueryFragment : BaseFragment() {
 
-    private val savedQueryContentUri: Uri = ContentUriHelper.getContentUri(SavedQuery.SavedQuerySqlModel::class.java)
+
     private val builtinQueryContentUri: Uri = ContentUriHelper.getContentUri(BuiltInQuery.BuiltInQuerySqlModel::class.java)
 
     private val savedQueriesAdapter: SavedQueriesAdapter by lazy { SavedQueriesAdapter(context!!) }
@@ -38,6 +41,10 @@ class SavedQueryFragment : BaseFragment() {
     private val connectionInfo: ConnectionInfo by lazy {
         val id = arguments?.getLong(EXTRA_CONNECTION_INFO_ID).ensure { t -> t != null && t > 0 }!!
         connectionInfoRepo.getConnectionInfo(id)
+    }
+
+    private val savedQueriesViewModel: SavedQueriesViewModel by lazy {
+        ViewModelProviders.of(activity!!, viewModelFactory).get(SavedQueriesViewModel::class.java)
     }
 
     private var contentObserver: ContentObserver? = null
@@ -49,7 +56,7 @@ class SavedQueryFragment : BaseFragment() {
     @Inject
     lateinit var builtInQuerySqlModel: BuiltInQuery.BuiltInQuerySqlModel
     @Inject
-    lateinit var savedQuerySqlModel: SavedQuery.SavedQuerySqlModel
+    lateinit var viewModelFactory: ViewModelFactory
 
     var onQueryClickListener: (BaseQuery) -> Unit = {}
 
@@ -76,15 +83,12 @@ class SavedQueryFragment : BaseFragment() {
 
         savedQueriesAdapter.clear()
 
-        refreshSavedQueries()
-
-        contentObserver = object : ContentObserver(Handler()) {
-            override fun onChange(selfChange: Boolean, uri: Uri?) {
-                refreshSavedQueries()
-            }
-        }.also {
-            context?.contentResolver?.registerContentObserver(savedQueryContentUri, true, it)
-        }
+        savedQueriesViewModel.getSavedQueries(connectionInfo.id)
+            .observe(this, Observer { savedQueries ->
+                savedQueriesAdapter.clearSavedQueries()
+                savedQueries?.forEach { savedQueriesAdapter.addToSavedQueries(it) }
+                savedQueriesAdapter.notifyDataSetChanged()
+            })
 
         context?.contentResolver?.query(
             builtinQueryContentUri,
@@ -110,25 +114,6 @@ class SavedQueryFragment : BaseFragment() {
     override fun onStop() {
         contentObserver?.also { context?.contentResolver?.unregisterContentObserver(it) }
         super.onStop()
-    }
-
-    private fun refreshSavedQueries() {
-        savedQueriesAdapter.clearSavedQueries()
-
-        context?.contentResolver?.query(
-            savedQueryContentUri,
-            null,
-            "${SavedQuery.Column.CONNECTION_ID}=${connectionInfo.id}",
-            null,
-            "${SavedQuery.Column.NAME} ASC")
-            ?.let { cursor ->
-                while (cursor.moveToNext()) {
-                    savedQueriesAdapter.addToSavedQueries(savedQuerySqlModel.hydrateObject(cursor))
-                }
-                cursor.close()
-            }
-
-        savedQueriesAdapter.notifyDataSetChanged()
     }
 
     override fun onCreateContextMenu(menu: ContextMenu,

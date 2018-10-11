@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        version_androidgradle = '3.2.0-beta05'
+        version_androidgradle = '3.2.0'
         version_kotlin = '1.2.61'
         version_ktlint = '4.1.0'
         version_detekt = '1.0.0.RC8'

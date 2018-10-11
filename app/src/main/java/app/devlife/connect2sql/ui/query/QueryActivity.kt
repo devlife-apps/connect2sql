@@ -33,8 +33,11 @@ import app.devlife.connect2sql.ui.quickkeys.QuickKeysAdapter
 import app.devlife.connect2sql.ui.quickkeys.QuickKeysFragment
 import app.devlife.connect2sql.ui.results.ResultsActivity
 import app.devlife.connect2sql.ui.savedqueries.SavedQueryFragment
+import app.devlife.connect2sql.ui.widget.SqlEditText
 import app.devlife.connect2sql.ui.widget.Toast
+import app.devlife.connect2sql.util.ext.equals
 import app.devlife.connect2sql.viewmodel.ConnectionViewModel
+import app.devlife.connect2sql.viewmodel.SavedQueriesViewModel
 import app.devlife.connect2sql.viewmodel.ViewModelFactory
 import com.gitlab.connect2sql.R
 import kotlinx.android.synthetic.main.activity_query.fab
@@ -57,6 +60,10 @@ class QueryActivity : BaseActivity() {
 
     private val connectionViewModel: ConnectionViewModel by lazy {
         ViewModelProviders.of(this, viewModelFactory).get(ConnectionViewModel::class.java)
+    }
+
+    private val savedQueriesViewModel: SavedQueriesViewModel by lazy {
+        ViewModelProviders.of(this, viewModelFactory).get(SavedQueriesViewModel::class.java)
     }
 
     private val browseFragment: BrowseFragment
@@ -271,6 +278,25 @@ class QueryActivity : BaseActivity() {
 
         txtQuery.clearFocus()
         txtQuery.requestFocus()
+        txtQuery.onTextChangedListener = SqlEditText.OnTextChangedListener { refreshSavedButton() }
+    }
+
+    private fun refreshSavedButton() {
+        val alreadySaved = savedQueriesViewModel.getSavedQueries(connectionInfo.id).value
+            ?.any { savedQuery ->
+                savedQuery.query.equals(txtQuery.cleanText,
+                    ignoreCase = true,
+                    ignoreWhitespace = true)
+            }
+            ?: false
+
+        if (alreadySaved) {
+            query_save_btn.isSelected = true
+            query_save_btn.isEnabled = false
+        } else {
+            query_save_btn.isSelected = false
+            query_save_btn.isEnabled = true
+        }
     }
 
     private fun loadQueryIfAny(query: String?) {
@@ -349,6 +375,9 @@ class QueryActivity : BaseActivity() {
                                         connectionInfo.id,
                                         txtQueryName.text.toString(),
                                         txtQueryText.text.toString()))) {
+
+                                    refreshSavedButton()
+
                                     Toast.makeText(this@QueryActivity,
                                         R.string.query_saved,
                                         Toast.LENGTH_SHORT).show()

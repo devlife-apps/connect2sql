@@ -2,7 +2,6 @@ package app.devlife.connect2sql.viewmodel
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
-
 import javax.inject.Inject
 import javax.inject.Provider
 import javax.inject.Singleton
@@ -15,26 +14,22 @@ constructor(
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        var creator: Provider<out ViewModel>? = creators[modelClass]
-        if (creator == null) {
-            for ((key, value) in creators) {
-                if (modelClass.isAssignableFrom(key)) {
-                    creator = value
-                    break
-                }
+        val creator = creators[modelClass] ?: findCompatibleCreator(modelClass)
+        ?: throw IllegalArgumentException("Unknown model class $modelClass")
+
+        @Suppress("UNCHECKED_CAST")
+        return creator.get() as T
+    }
+
+    private fun <T : ViewModel> findCompatibleCreator(modelClass: Class<T>):
+        @JvmSuppressWildcards Provider<ViewModel>? {
+
+        for ((key, value) in creators) {
+            if (modelClass.isAssignableFrom(key)) {
+                return value
             }
         }
 
-        if (creator == null) {
-            throw IllegalArgumentException("unknown model class " + modelClass)
-        }
-
-        try {
-            @Suppress("UNCHECKED_CAST")
-            return creator.get() as T
-        } catch (e: Exception) {
-            throw RuntimeException(e)
-        }
-
+        return null
     }
 }

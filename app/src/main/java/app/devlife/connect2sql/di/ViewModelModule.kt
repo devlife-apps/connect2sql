@@ -3,6 +3,7 @@ package app.devlife.connect2sql.di
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import app.devlife.connect2sql.viewmodel.ConnectionViewModel
+import app.devlife.connect2sql.viewmodel.SavedQueriesViewModel
 import app.devlife.connect2sql.viewmodel.ViewModelFactory
 import dagger.Binds
 import dagger.MapKey
@@ -27,5 +28,10 @@ abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(ConnectionViewModel::class)
-    abstract fun bindConnectionViewModel(mainViewModel: ConnectionViewModel): ViewModel
+    abstract fun bindConnectionViewModel(modelView: ConnectionViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SavedQueriesViewModel::class)
+    abstract fun bindSavedQueriesViewModel(modelView: SavedQueriesViewModel): ViewModel
 }

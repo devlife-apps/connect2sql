@@ -70,8 +70,8 @@
             android:layout_marginStart="8dp"
             android:background="@null"
             android:contentDescription="@string/menu_save"
-            android:src="@drawable/ic_saved"
-            android:tint="@color/grey"
+            android:src="@drawable/ic_saved_selector"
+            android:tint="@color/blueBase"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/txtQuery"
             app:layout_constraintTop_toTopOf="@+id/txtQuery" />
