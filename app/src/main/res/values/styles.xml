@@ -10,6 +10,7 @@
         <item name="materialCardViewStyle">@style/Widget.MaterialComponents.CardView</item>
         <item name="bottomNavigationStyle">@style/Widget.BottomNavigationView</item>
         <item name="bottomAppBarStyle">@style/Widget.BottomAppBar</item>
+        <item name="borderlessButtonStyle">@style/BorderlessButton</item>
     </style>
 
     <style name="Theme.C2SQL.NoActionBar">
@@ -155,5 +156,12 @@
         <item name="backgroundTint">@color/greyDarker</item>
     </style>
 
+    <style name="BorderlessButton" parent="Widget.AppCompat.Button.Borderless">
+        <item name="cornerRadius">0dp</item>
+        <item name="rippleColor">@color/greyLightest</item>
+        <item name="backgroundTint">@color/transparent</item>
+        <item name="android:textColor">@color/borderless_button_text</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+    </style>
 
 </resources>
