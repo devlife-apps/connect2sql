@@ -338,7 +338,6 @@ class QueryActivity : BaseActivity() {
         val queryText = txtQuery.text.toString()
 
         mHistoryQueryRepository.saveQueryHistory(this, connectionInfo, queryText)
-
         mHistoryQueryRepository.purgeQueryHistory(this, connectionInfo, 50)
 
         val intent = ResultsActivity.newIntent(this,

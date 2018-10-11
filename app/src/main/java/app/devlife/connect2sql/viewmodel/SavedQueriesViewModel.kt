@@ -25,7 +25,7 @@ class SavedQueriesViewModel @Inject constructor(
         if (!::contentObserver.isInitialized) {
             contentObserver = object : ContentObserver(Handler(Looper.getMainLooper())) {
                 override fun onChange(selfChange: Boolean, uri: Uri?) {
-                    savedQueries.forEach { connectionInfoId, _ ->
+                    savedQueries.keys.forEach { connectionInfoId ->
                         refreshSavedQueries(connectionInfoId)
                     }
                 }
