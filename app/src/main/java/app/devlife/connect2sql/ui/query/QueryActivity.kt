@@ -13,6 +13,7 @@ import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AlertDialog
 import android.text.TextUtils
 import android.view.View
+import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
 import android.view.inputmethod.InputMethodManager
 import app.devlife.connect2sql.ApplicationUtils
@@ -41,7 +42,6 @@ import app.devlife.connect2sql.viewmodel.SavedQueriesViewModel
 import app.devlife.connect2sql.viewmodel.ViewModelFactory
 import com.gitlab.connect2sql.R
 import kotlinx.android.synthetic.main.activity_query.fab
-import kotlinx.android.synthetic.main.activity_query.fragment_content_sheet
 import kotlinx.android.synthetic.main.activity_query.nav_bottom
 import kotlinx.android.synthetic.main.activity_query.query_label_breadcrumbs
 import kotlinx.android.synthetic.main.activity_query.query_save_btn
@@ -117,6 +117,9 @@ class QueryActivity : BaseActivity() {
         nav_bottom.navigationIcon = null
         nav_bottom.setOnMenuItemClickListener { menuItem ->
             if (!menuItem.isChecked) {
+                fab.hide()
+                nav_bottom.background.alpha = 0
+
                 clearMenuSelection()
                 menuItem.icon.setColorFilter(getColor(R.color.blueLight), PorterDuff.Mode.SRC_IN)
                 return@setOnMenuItemClickListener when (menuItem.itemId) {
@@ -146,6 +149,13 @@ class QueryActivity : BaseActivity() {
         driverHelper = DriverHelperFactory.create(connectionInfo.driverType)
         driverAgent = DefaultDriverAgent(driverHelper)
 
+        val marginCalculator = MarginCalculator(
+            bottomSheetBehavior.peekHeight,
+            (nav_bottom.layoutParams as ViewGroup.MarginLayoutParams).topMargin)
+
+        sheet.setBackgroundColor(resources.getColor(R.color.greyDarker, null))
+        sheet.background.alpha = 0
+
         bottomSheetBehavior.setBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
 
@@ -155,6 +165,11 @@ class QueryActivity : BaseActivity() {
                 when (state) {
                     BottomSheetBehavior.STATE_COLLAPSED -> {
                         disableDragging = true
+
+
+                        sheet.background.alpha = 0
+                        nav_bottom.background.alpha = 255
+
                         fab.show()
                         clearMenuSelection()
                     }
@@ -165,6 +180,10 @@ class QueryActivity : BaseActivity() {
                     }
                     BottomSheetBehavior.STATE_EXPANDED -> {
                         disableDragging = false
+
+                        sheet.background.alpha = MIN_BOTTOMSHEET_ALPHA.toInt()
+                        nav_bottom.background.alpha = 0
+
                         fab.hide()
                     }
                 }
@@ -172,14 +191,15 @@ class QueryActivity : BaseActivity() {
 
             override fun onSlide(v: View, position: Float) {
                 interpolator.getInterpolation(1f - position)
-                    .let { percentage ->
-                        (percentage * (MAX_BOTTOMSHEET_ALPHA - MIN_BOTTOMSHEET_ALPHA)) + MIN_BOTTOMSHEET_ALPHA
+                    .also { percentage ->
+                        ((percentage * (MAX_BOTTOMSHEET_ALPHA - MIN_BOTTOMSHEET_ALPHA)) + MIN_BOTTOMSHEET_ALPHA)
+                            .toInt()
+                            .also { calculatedAlpha ->
+                                sheet.background.alpha = calculatedAlpha
+                                query_save_btn.alpha = calculatedAlpha / 255f
+                            }
                     }
-                    .toInt()
-                    .also { calculatedAlpha ->
-                        nav_bottom.background.alpha = calculatedAlpha
-                        fragment_content_sheet.background.alpha = calculatedAlpha
-                    }
+
             }
         })
 
@@ -349,7 +369,6 @@ class QueryActivity : BaseActivity() {
     }
 
     override fun onBackPressed() {
-        val bottomSheetBehavior = BottomSheetBehavior.from(sheet)
         when (bottomSheetBehavior.state) {
             BottomSheetBehavior.STATE_EXPANDED ->
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
@@ -398,8 +417,22 @@ class QueryActivity : BaseActivity() {
         }
     }
 
+
+    class MarginCalculator(private val peek: Int, private val marginTop: Int) {
+        val marginMin = 0
+        val marginMax = marginTop
+
+        fun calculateMargin(f: Float): Int {
+            return ((f * (marginMax - marginMin)) + marginMin).toInt()
+        }
+
+        fun calculateSheetMargin(f: Float): Int {
+            return peek - calculateMargin(f)
+        }
+    }
+
     companion object {
-        private const val MIN_BOTTOMSHEET_ALPHA = 100f
+        private const val MIN_BOTTOMSHEET_ALPHA = 125f
         private const val MAX_BOTTOMSHEET_ALPHA = 255f
 
         private const val FRAG_TAG_BROWSE = "FRAG_TAG_BROWSE"
