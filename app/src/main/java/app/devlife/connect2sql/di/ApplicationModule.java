@@ -4,9 +4,9 @@ import android.app.Application;
 
 import javax.inject.Singleton;
 
+import app.devlife.connect2sql.ApplicationFocusManager;
 import dagger.Module;
 import dagger.Provides;
-import app.devlife.connect2sql.ApplicationFocusManager;
 
 /**
  *
@@ -25,4 +25,11 @@ public class ApplicationModule {
     public ApplicationFocusManager provideApplicationFocusManager() {
         return new ApplicationFocusManager(mApplication);
     }
+
+    @Provides
+    @Singleton
+    public Application provideApplication() {
+        return mApplication;
+    }
+
 }

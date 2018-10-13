@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_browse"
+        android:contentDescription="@string/menu_browse"
+        android:icon="@drawable/ic_browse"
+        android:title="@string/menu_browse"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_quick_keys"
+        android:contentDescription="@string/menu_quick_keys"
+        android:icon="@drawable/ic_quick_keys"
+        android:title="@string/menu_quick_keys"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_saved"
+        android:contentDescription="@string/menu_saved"
+        android:icon="@drawable/ic_saved_inactivated"
+        android:title="@string/menu_saved"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_history"
+        android:contentDescription="@string/menu_history"
+        android:icon="@drawable/ic_history"
+        android:title="@string/menu_history"
+        app:showAsAction="always" />
+</menu>
