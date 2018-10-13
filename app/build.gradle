@@ -103,6 +103,7 @@ android {
     }
 
     detekt {
+        version = '1.0.0.RC8'
         defaultProfile {
             config = file("$projectDir/detekt.yml")
             output = file("$buildDir/reports/")
