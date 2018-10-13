@@ -10,13 +10,20 @@
     <string name="activity_set_lock">Establece Un Patron</string>
 
     <string name="dialog_add_host_key">Añadir llave de hospedaje?</string>
+    <string name="dialog_cancel">Cancelalo</string>
+    <string name="dialog_clear_history">¿Borrar historia?</string>
+    <string name="dialog_clear_history_confirm_msg">¿Está seguro de que desea borrar todo el historial de esta conexión?</string>
     <string name="dialog_error">Error</string>
+    <string name="dialog_history_cleared">Historia borrada</string>
     <string name="dialog_host_fingerprint">Hospedaje: %1$s \n Huella Digital: %2$s</string>
+    <string name="dialog_message_delete_query">¿Estás seguro de que quieres eliminar esta consulta?</string>
     <string name="dialog_name">Nombre</string>
     <string name="dialog_no">No</string>
     <string name="dialog_ok">OK</string>
     <string name="dialog_password">¿Contraseña?</string>
     <string name="dialog_query">Consulta</string>
+    <string name="dialog_save">Guardalo</string>
+    <string name="dialog_title_delete_query">¿Borrar consulta?</string>
     <string name="dialog_yes">Sí</string>
 
     <string name="form_action_help">Ayuda</string>
@@ -78,11 +85,17 @@
     <string name="help_use_ssl">Especificar si la conexión debe ser hecha a través de una conexión segura.\n\nNota: SSL debe estar habilitado y configurado correctamente en el servidor.</string>
     <string name="help_username">Especifique el nombre de usuario necesario para autenticarse contra el servidor.</string>
 
+    <string name="item_browse_databases">Bases de Datos</string>
+    <string name="item_browse_none_selected">[Ninguna]</string>
+    <string name="item_browse_selected_">Seleccionado: %s</string>
+    <string name="item_browse_tables">Seleccionado:</string>
+
     <string name="lock_clear_data">Abrir información de la aplicación</string>
     <string name="lock_forgot_instructions">
         <b>Lo sentimos que se olvidó de su patrón.</b>\n\nDesafortunadamente, para su seguridad, la única manera de seguir usando esta aplicación es borrar todos los datos.</string>
 
     <string name="menu_about_app">Acerca</string>
+    <string name="menu_browse">Tablas</string>
     <string name="menu_clear">Borrar</string>
     <string name="menu_configure">Configurar</string>
     <string name="menu_delete">Borrar</string>
@@ -125,7 +138,11 @@
     <string name="qk_section_tables">Tablas</string>
 
     <string name="query_database">Base de datos</string>
+    <string name="query_failed_saving">"Error al guardar la consulta "</string>
     <string name="query_hint">SELECT * FROM tabla;</string>
+    <string name="query_missing_name">Por favor, introduzca un nombre para la consulta.</string>
+    <string name="query_no_database_selected">No hay base de datos seleccionada</string>
+    <string name="query_saved">Consulta guardada!</string>
 
     <string name="results_next">Siguiente</string>
     <string name="results_previous">Anterior</string>

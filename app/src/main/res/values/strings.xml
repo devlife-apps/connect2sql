@@ -85,6 +85,11 @@
     <string name="help_use_ssl">Specify whether the connection should be made over a secure connection.\n\nNote: SSL must be enabled and configured properly on your server.</string>
     <string name="help_username">Specify the username necessary to authenticate with against the server.</string>
 
+    <string name="item_browse_databases">Databases</string>
+    <string name="item_browse_none_selected">[None]</string>
+    <string name="item_browse_selected_">Selected: %s</string>
+    <string name="item_browse_tables">Tables</string>
+
     <string name="lock_clear_data">Open App Info</string>
     <string name="lock_forgot_instructions">
         <b>Sorry you forgot your pattern.</b>\n\nUnfortunately, for your security, the only way to continue using this application is to clear all data.</string>
@@ -133,7 +138,11 @@
     <string name="qk_section_tables">Tables</string>
 
     <string name="query_database">Database</string>
+    <string name="query_failed_saving">Failed to save query</string>
     <string name="query_hint">SELECT * FROM table;</string>
+    <string name="query_missing_name">Please enter a name for the query.</string>
+    <string name="query_no_database_selected">No database selected</string>
+    <string name="query_saved">Query saved!</string>
 
     <string name="results_next">Next</string>
     <string name="results_previous">Prev</string>
@@ -144,12 +153,4 @@
 
     <string name="table_list_type_table">(Table)</string>
     <string name="table_list_type_view">(View)</string>
-    <string name="item_browse_databases">Databases</string>
-    <string name="item_browse_tables">Tables</string>
-    <string name="item_browse_selected_">Selected: %s</string>
-    <string name="item_browse_none_selected">[None]</string>
-    <string name="query_saved">Query saved!</string>
-    <string name="query_failed_saving">Failed to save query</string>
-    <string name="query_missing_name">Please enter a name for the query.</string>
-    <string name="query_no_database_selected">No database selected</string>
 </resources>
