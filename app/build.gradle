@@ -40,12 +40,11 @@ android {
         applicationId "app.devlife.connect2sql"
         minSdkVersion 23
         manifestPlaceholders = [fabricApiKey: fabricApiKey]
-        project.version = versionName
         targetSdkVersion 28
 
         /* format: [  M].[00m].[00p] */
         versionCode 4000012
-        versionName "4.0.12"
+        versionName '4.0.12'
     }
 
     testOptions {
