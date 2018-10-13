@@ -1,5 +1,8 @@
 ## [Unreleased]
 
+### Changed
+- Redesign of query screen
+
 ### Fixed
 - Crash: http://crashes.to/s/3d26037ebf1
 
