@@ -6,7 +6,7 @@ import app.devlife.connect2sql.db.model.SqlModel;
 import android.net.Uri;
 
 public class ContentUriHelper {
-    private static HashMap<String, HashMap<Class<? extends SqlModel>, Uri>> sCachedUris = new HashMap<String, HashMap<Class<? extends SqlModel>, Uri>>();
+    private static HashMap<String, HashMap<Class<? extends SqlModel>, Uri>> sCachedUris = new HashMap<>();
 
     public static Uri getContentUri(Class<? extends SqlModel> clazz) throws BaseUriNotFoundException {
         return getContentUri(AppContentProvider.AUTHORITY, clazz);

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="transparent">#00FFFFFF</color>
+    <color name="transparent">#00000000</color>
     <color name="white">#FFF</color>
     <color name="greyLightest">#EEE</color>
     <color name="greyLighter">#DDD</color>
@@ -14,6 +14,5 @@
     <color name="blueDark">#0099cc</color>
     <color name="blueDarkest">#1A99C7</color>
     <color name="themeBgDarkTransparent">#7111</color>
-    <color name="themeDialogBgTransparent">#4111</color>
 
 </resources>

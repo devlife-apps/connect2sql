@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/item_vertical_padding"
+    android:paddingLeft="@dimen/item_horizontal_padding"
+    android:paddingRight="@dimen/item_horizontal_padding"
+    android:paddingTop="@dimen/item_vertical_padding">
+
+    <TextView
+        android:id="@+id/item_title"
+        style="@style/TextAppearance.C2SQL.Item.Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/item_browse_database_sample" />
+
+</LinearLayout>

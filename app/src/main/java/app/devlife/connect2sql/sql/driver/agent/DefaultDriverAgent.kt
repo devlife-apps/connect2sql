@@ -33,15 +33,15 @@ class DefaultDriverAgent(private val driverHelper: DriverHelper) : DriverAgent {
 
     override fun tables(
         connection: Connection,
-        databaseName: DriverAgent.Database
+        database: DriverAgent.Database
     ): Observable<DriverAgent.Table> {
-        EzLogger.v("[tables] databaseName=$databaseName")
+        EzLogger.v("[tables] database=$database")
         return Observable.create { subscriber ->
             try {
-                useDatabase(connection, databaseName)
+                useDatabase(connection, database)
 
                 val statement = connection.createStatement()
-                val resultSet = statement.executeQuery(driverHelper.getTablesQuery(databaseName))
+                val resultSet = statement.executeQuery(driverHelper.getTablesQuery(database))
                 while (resultSet.next()) {
                     val tableName = resultSet.getString(driverHelper.tableNameIndex)
                     val tableType = resultSet.getString(driverHelper.tableTypeIndex)?.let {
@@ -60,7 +60,7 @@ class DefaultDriverAgent(private val driverHelper: DriverHelper) : DriverAgent {
                     }
 
                     if (tableType != null) {
-                        subscriber.onNext(DriverAgent.Table(tableName, tableType))
+                        subscriber.onNext(DriverAgent.Table(database, tableName, tableType))
                     }
                 }
                 resultSet.close()
@@ -76,20 +76,19 @@ class DefaultDriverAgent(private val driverHelper: DriverHelper) : DriverAgent {
 
     override fun columns(
         connection: Connection,
-        databaseName: DriverAgent.Database,
-        tableName: DriverAgent.Table
+        table: DriverAgent.Table
     ): Observable<DriverAgent.Column> {
-        EzLogger.v("[columns] databaseName=$databaseName, tableName=$tableName")
+        EzLogger.v("[columns] table=$table")
         return Observable.create { subscriber ->
             try {
-                useDatabase(connection, databaseName)
+                useDatabase(connection, table.database)
 
                 val statement = connection.createStatement()
-                val resultSet = statement.executeQuery(driverHelper.getColumnsQuery(tableName))
+                val resultSet = statement.executeQuery(driverHelper.getColumnsQuery(table))
 
                 while (resultSet.next()) {
                     val columnName = resultSet.getString(driverHelper.columnNameIndex)
-                    subscriber.onNext(DriverAgent.Column(columnName))
+                    subscriber.onNext(DriverAgent.Column(table, columnName))
                 }
 
                 resultSet.close()

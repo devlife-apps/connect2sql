@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Theme.C2SQL" parent="@style/Theme.AppCompat">
+    <style name="Theme.C2SQL" parent="@style/Theme.MaterialComponents">
         <item name="patternViewStyle">@style/PatternView</item>
         <item name="colorPrimary">@color/blueDark</item>
         <item name="colorPrimaryDark">@color/blueDarkest</item>
+        <item name="coordinatorLayoutStyle">@style/Widget.Support.CoordinatorLayout</item>
         <item name="colorAccent">@color/blueBase</item>
         <item name="materialCardViewStyle">@style/Widget.MaterialComponents.CardView</item>
+        <item name="bottomNavigationStyle">@style/Widget.BottomNavigationView</item>
+        <item name="bottomAppBarStyle">@style/Widget.BottomAppBar</item>
+        <item name="borderlessButtonStyle">@style/BorderlessButton</item>
     </style>
 
     <style name="Theme.C2SQL.NoActionBar">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
     </style>
 
     <style name="Theme.C2SQL.ActionBar"></style>
@@ -124,6 +130,14 @@
 
     <style name="TextAppearance.C2SQL.Body" parent="android:TextAppearance.Material.Body1" />
 
+    <style name="TextAppearance.C2SQL.Item.Title" parent="android:TextAppearance.Material.Large">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TextAppearance.C2SQL.Item.Subtitle" parent="android:TextAppearance.Material.Body1">
+        <item name="android:textColor">@color/grey</item>
+    </style>
+
     <style name="TextAppearance.C2SQL.Form.SectionTitle" parent="TextAppearance.MaterialComponents.Subtitle1">
         <item name="android:textSize">18sp</item>
     </style>
@@ -134,7 +148,20 @@
         <item name="android:textStyle">normal</item>
     </style>
 
-    <style name="Widget"></style>
+    <style name="Widget" />
 
-    <dimen name="form_card_corner_radius">6dp</dimen>
+    <style name="Widget.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView.Colored" />
+
+    <style name="Widget.BottomAppBar" parent="Widget.MaterialComponents.BottomAppBar">
+        <item name="backgroundTint">@color/greyDarker</item>
+    </style>
+
+    <style name="BorderlessButton" parent="Widget.AppCompat.Button.Borderless">
+        <item name="cornerRadius">0dp</item>
+        <item name="rippleColor">@color/greyLightest</item>
+        <item name="backgroundTint">@color/transparent</item>
+        <item name="android:textColor">@color/borderless_button_text</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+    </style>
+
 </resources>

@@ -1,15 +1,15 @@
 package app.devlife.connect2sql.adapter
 
-import app.devlife.connect2sql.db.model.query.BaseNamedQuery
-import app.devlife.connect2sql.db.model.query.BuiltInQuery
-import com.gitlab.connect2sql.R
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
 import android.widget.TextView
+import app.devlife.connect2sql.db.model.query.BaseNamedQuery
+import app.devlife.connect2sql.db.model.query.BuiltInQuery
 import app.devlife.connect2sql.db.model.query.SavedQuery
+import com.gitlab.connect2sql.R
 
 class SavedQueriesAdapter(private val context: Context) : BaseExpandableListAdapter() {
     var titleOnly = false
@@ -28,6 +28,10 @@ class SavedQueriesAdapter(private val context: Context) : BaseExpandableListAdap
 
     fun removeSavedQuery(query: SavedQuery) {
         queries[GROUP_SAVED].remove(query)
+    }
+
+    fun clearSavedQueries() {
+        queries[GROUP_SAVED].clear()
     }
 
     fun clear() {
@@ -52,11 +56,7 @@ class SavedQueriesAdapter(private val context: Context) : BaseExpandableListAdap
     ): View {
 
         val view: View = when (convertView) {
-            null -> {
-                val view = inflator.inflate(R.layout.item_query_list_child, null)
-                view.setPadding(80, 10, 2, 10)
-                view
-            }
+            null -> inflator.inflate(R.layout.item_query_list_child, null)
             else -> convertView
         }
 
@@ -92,15 +92,11 @@ class SavedQueriesAdapter(private val context: Context) : BaseExpandableListAdap
         parent: ViewGroup
     ): View {
         val view: View = when (convertView) {
-            null -> {
-                val view = inflator.inflate(android.R.layout.simple_expandable_list_item_1, null)
-                view.setPadding(80, 15, 2, 15)
-                view
-            }
+            null -> inflator.inflate(R.layout.item_expandable_group, null)
             else -> convertView
         }
 
-        val textView = view.findViewById(android.R.id.text1) as TextView
+        val textView = view.findViewById(R.id.text1) as TextView
         when (groupPosition) {
             GROUP_BUILTIN -> textView.text = builtInText
             else -> textView.text = savedText

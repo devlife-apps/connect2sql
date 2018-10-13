@@ -55,7 +55,7 @@ open class Form(val context: Context, val view: View, private val driverType: Dr
             "",
             0,
             "",
-            null,
+            "",
             null,
             null,
             hashMapOf())

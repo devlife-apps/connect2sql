@@ -1,91 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:gravity="top"
-                android:orientation="vertical">
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/llCurrentPath"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:background="@color/themeBgDarkTransparent"
-        android:gravity="left|top">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="@drawable/transparent_bar_item"
-            android:gravity="center"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:text="@string/query_database"
-            android:textAppearance="?android:attr/textAppearanceSmall"/>
 
-        <TextView
-            android:id="@+id/lblCurrentDatabase"
+        <HorizontalScrollView
+            android:id="@+id/query_breadcrumbs_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            app:layout_constraintBottom_toTopOf="@+id/txtQuery"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/query_label_breadcrumbs"
+                style="@style/TextAppearance.C2SQL.Body"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:gravity="top|start"
+                android:linksClickable="true"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:singleLine="true"
+                android:text="@string/query_database" />
+        </HorizontalScrollView>
+
+        <app.devlife.connect2sql.ui.widget.SqlEditText
+            android:id="@+id/txtQuery"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            android:background="@null"
+            android:ems="10"
+            android:gravity="top"
+            android:hint="@string/query_hint"
+            android:inputType="textMultiLine|textNoSuggestions"
+            android:paddingStart="@dimen/activity_horizontal_margin"
+            android:paddingEnd="0dp"
+            android:textColorHint="@color/greyDarker"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/query_save_btn"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/query_breadcrumbs_container">
+
+            <requestFocus />
+        </app.devlife.connect2sql.ui.widget.SqlEditText>
+
+        <ImageButton
+            android:id="@+id/query_save_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/transparent_bar_item_dropdown"
-            android:ellipsize="marquee"
-            android:paddingLeft="5dp"
-            android:paddingRight="15dp"
-            android:paddingTop="7dp"
-            android:singleLine="true"
-            android:text="@string/query_database"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/blueLight"/>
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@null"
+            android:contentDescription="@string/menu_save"
+            android:src="@drawable/ic_saved_selector"
+            android:tint="@color/blueBase"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/txtQuery"
+            app:layout_constraintTop_toTopOf="@+id/txtQuery" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="@drawable/transparent_bar_item"
-            android:gravity="center"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:text="@string/query_table"
-            android:textAppearance="?android:attr/textAppearanceSmall"/>
+    </android.support.constraint.ConstraintLayout>
 
-        <TextView
-            android:id="@+id/lblCurrentTable"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/transparent_bar_item_dropdown"
-            android:ellipsize="marquee"
-            android:paddingLeft="5dp"
-            android:paddingRight="15dp"
-            android:paddingTop="7dp"
-            android:singleLine="true"
-            android:text="@string/query_table"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/blueLight"/>
-    </LinearLayout>
-
-    <app.devlife.connect2sql.ui.widget.SqlEditText
-        android:id="@+id/txtQuery"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/sheet"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/llCurrentPath"
-        android:ems="10"
-        android:gravity="top"
-        android:hint="@string/query_hint"
-        android:inputType="textMultiLine|textNoSuggestions"
-        android:textColorHint="@color/greyDarker">
+        android:orientation="vertical"
+        app:behavior_hideable="false"
+        app:behavior_peekHeight="85dp"
+        app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
 
-        <requestFocus/>
-    </app.devlife.connect2sql.ui.widget.SqlEditText>
+        <android.support.design.widget.CoordinatorLayout
+            android:id="@+id/nav_bottom_bg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/txtQuery"
-        android:layout_alignRight="@+id/txtQuery"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        android:src="@drawable/ic_menu_run"/>
+            <app.devlife.connect2sql.ui.widget.CustomBottomAppBar
+                android:id="@+id/nav_bottom"
+                style="@style/Widget.MaterialComponents.BottomAppBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:layout_marginTop="30dp"
+                android:background="@color/greyDarker"
+                android:backgroundTint="@color/greyDarker"
+                app:fabAlignmentMode="end"
+                app:navigationContentDescription="@null"
+                app:navigationIcon="@null" />
 
-</RelativeLayout>
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_run"
+                app:layout_anchor="@id/nav_bottom" />
+        </android.support.design.widget.CoordinatorLayout>
+
+        <FrameLayout
+            android:id="@+id/fragment_content_sheet"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/nav_bottom_bg" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.design.widget.CoordinatorLayout>

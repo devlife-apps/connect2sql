@@ -34,7 +34,7 @@ class ConnectionFormSection(view: View) :
             host = hostEditText.stringValue,
             port = portEditText.intValue,
             username = usernameEditText.stringValue,
-            password = passwordEditText.nonBlankStringValue,
+            password = passwordEditText.stringValue,
             database = databaseEditTextView.nonBlankStringValue)
     }
 
