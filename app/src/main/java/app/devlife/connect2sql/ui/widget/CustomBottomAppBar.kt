@@ -2,7 +2,9 @@ package app.devlife.connect2sql.ui.widget
 
 import android.content.Context
 import android.support.design.bottomappbar.BottomAppBar
+import android.support.v7.widget.Toolbar.OnMenuItemClickListener
 import android.util.AttributeSet
+import android.view.MenuItem
 
 class CustomBottomAppBar @JvmOverloads constructor(
     context: Context,
@@ -11,11 +13,17 @@ class CustomBottomAppBar @JvmOverloads constructor(
 ) : BottomAppBar(context, attrs, defStyleAttr) {
 
     private var onMenuItemClickListener: OnMenuItemClickListener? = null
+    private val delegatingOnMenuItemClickListener: OnMenuItemClickListener = OnMenuItemClickListener { menuItem ->
+        onMenuItemClickListener?.onMenuItemClick(menuItem)
+            ?.also { handled -> if (handled) selectFunction.invoke(menuItem) }
+            ?: false
+    }
+
+    var selectFunction: (MenuItem) -> Unit = {}
+    var deselectFunction: (MenuItem) -> Unit = {}
 
     init {
-        super.setOnMenuItemClickListener { menuItem ->
-            onMenuItemClickListener?.onMenuItemClick(menuItem) ?: false
-        }
+        super.setOnMenuItemClickListener(delegatingOnMenuItemClickListener)
     }
 
     override fun setOnMenuItemClickListener(listener: OnMenuItemClickListener?) {
@@ -26,7 +34,7 @@ class CustomBottomAppBar @JvmOverloads constructor(
         (0 until menu.size()).forEach {
             val menuItem = menu.getItem(it)
             if (menuItem.itemId == itemId) {
-                return onMenuItemClickListener?.onMenuItemClick(menuItem) ?: false
+                return delegatingOnMenuItemClickListener.onMenuItemClick(menuItem)
             }
         }
 
@@ -35,7 +43,7 @@ class CustomBottomAppBar @JvmOverloads constructor(
 
     fun clearMenuSelection() {
         (0 until menu.size()).forEach {
-            menu.getItem(it).isChecked = false
+            deselectFunction.invoke(menu.getItem(it))
         }
     }
 }

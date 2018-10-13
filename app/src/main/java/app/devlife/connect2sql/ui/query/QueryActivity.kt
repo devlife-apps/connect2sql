@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
 import android.support.v4.app.Fragment
@@ -111,14 +112,17 @@ class QueryActivity : BaseActivity() {
         txtQuery.setOnClickListener { bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED }
 
         query_save_btn.setOnClickListener { showSaveQueryDialog() }
+
+        nav_bottom.selectFunction = { menuItem ->
+            menuItem.icon.setColorFilter(getColor(R.color.blueLight), PorterDuff.Mode.SRC_IN)
+        }
+        nav_bottom.deselectFunction = { it.icon.clearColorFilter() }
         nav_bottom.inflateMenu(R.menu.query_bottom)
         nav_bottom.setOnMenuItemClickListener { menuItem ->
             if (!menuItem.isChecked) {
                 fab.hide()
                 nav_bottom.background.alpha = 0
                 nav_bottom.clearMenuSelection()
-
-                menuItem.isChecked = true
 
                 return@setOnMenuItemClickListener when (menuItem.itemId) {
                     R.id.menu_browse -> {
