@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## ['4.0.12'] - 2018-10-13
+
 ### Changed
 - Redesign of query screen
 
