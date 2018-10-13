@@ -90,15 +90,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <android.support.design.bottomappbar.BottomAppBar
+            <app.devlife.connect2sql.ui.widget.CustomBottomAppBar
                 android:id="@+id/nav_bottom"
+                style="@style/Widget.MaterialComponents.BottomAppBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
                 android:layout_marginTop="30dp"
                 android:background="@color/greyDarker"
+                android:backgroundTint="@color/greyDarker"
                 app:fabAlignmentMode="end"
-                app:navigationIcon="@drawable/ic_browse" />
+                app:navigationContentDescription="@null"
+                app:navigationIcon="@null" />
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/fab"

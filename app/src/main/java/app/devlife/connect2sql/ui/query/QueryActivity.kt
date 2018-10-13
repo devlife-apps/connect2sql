@@ -4,7 +4,6 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import android.graphics.PorterDuff
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
 import android.support.v4.app.Fragment
@@ -13,7 +12,6 @@ import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AlertDialog
 import android.text.TextUtils
 import android.view.View
-import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
 import android.view.inputmethod.InputMethodManager
 import app.devlife.connect2sql.ApplicationUtils
@@ -108,20 +106,20 @@ class QueryActivity : BaseActivity() {
         connectionViewModel.init(connectionInfo)
 
         BreadcrumbsBinder(this, connectionViewModel, query_label_breadcrumbs)
-            .onBreadcrumbClicked = { showFragment(browseFragment) }
+            .onBreadcrumbClicked = { nav_bottom.performClickOn(R.id.menu_browse) }
 
         txtQuery.setOnClickListener { bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED }
 
         query_save_btn.setOnClickListener { showSaveQueryDialog() }
         nav_bottom.inflateMenu(R.menu.query_bottom)
-        nav_bottom.navigationIcon = null
         nav_bottom.setOnMenuItemClickListener { menuItem ->
             if (!menuItem.isChecked) {
                 fab.hide()
                 nav_bottom.background.alpha = 0
+                nav_bottom.clearMenuSelection()
 
-                clearMenuSelection()
-                menuItem.icon.setColorFilter(getColor(R.color.blueLight), PorterDuff.Mode.SRC_IN)
+                menuItem.isChecked = true
+
                 return@setOnMenuItemClickListener when (menuItem.itemId) {
                     R.id.menu_browse -> {
                         showFragment(browseFragment)
@@ -149,10 +147,6 @@ class QueryActivity : BaseActivity() {
         driverHelper = DriverHelperFactory.create(connectionInfo.driverType)
         driverAgent = DefaultDriverAgent(driverHelper)
 
-        val marginCalculator = MarginCalculator(
-            bottomSheetBehavior.peekHeight,
-            (nav_bottom.layoutParams as ViewGroup.MarginLayoutParams).topMargin)
-
         sheet.setBackgroundColor(resources.getColor(R.color.greyDarker, null))
         sheet.background.alpha = 0
 
@@ -171,7 +165,7 @@ class QueryActivity : BaseActivity() {
                         nav_bottom.background.alpha = 255
 
                         fab.show()
-                        clearMenuSelection()
+                        nav_bottom.clearMenuSelection()
                     }
                     BottomSheetBehavior.STATE_DRAGGING -> {
                         if (disableDragging) {
@@ -274,12 +268,6 @@ class QueryActivity : BaseActivity() {
         }
 
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-    }
-
-    private fun clearMenuSelection() {
-        (0 until nav_bottom.menu.size()).forEach {
-            nav_bottom.menu.getItem(it).icon.clearColorFilter()
-        }
     }
 
     private fun FragmentManager.inTransaction(t: FragmentTransaction.() -> Unit): Unit =
@@ -414,20 +402,6 @@ class QueryActivity : BaseActivity() {
                     }
                 }
                 .show()
-        }
-    }
-
-
-    class MarginCalculator(private val peek: Int, private val marginTop: Int) {
-        val marginMin = 0
-        val marginMax = marginTop
-
-        fun calculateMargin(f: Float): Int {
-            return ((f * (marginMax - marginMin)) + marginMin).toInt()
-        }
-
-        fun calculateSheetMargin(f: Float): Int {
-            return peek - calculateMargin(f)
         }
     }
 
