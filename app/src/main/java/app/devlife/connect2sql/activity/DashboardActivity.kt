@@ -41,10 +41,8 @@ import com.gitlab.connect2sql.R
 import com.jcraft.jsch.JSch
 import kotlinx.android.synthetic.main.activity_connections.connections_dashboard
 import kotlinx.android.synthetic.main.activity_connections.fab
-import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
-import java.sql.Connection
 import java.util.ArrayList
 import javax.inject.Inject
 
@@ -140,42 +138,35 @@ class DashboardActivity : BaseActivity() {
             .connect(connectionInfo)
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : Subscriber<Connection>() {
-                override fun onCompleted() {}
+            .subscribe({
+                progressDialog.dismiss()
 
-                override fun onError(e: Throwable?) {
-                    progressDialog.dismiss()
+                startActivity(QueryActivity.newIntent(this@DashboardActivity, connectionInfo.id))
+            }, { e ->
+                progressDialog.dismiss()
 
-                    when (e) {
-                        is SshTunnelAgent.UnknownHostException -> AlertDialog.Builder(this@DashboardActivity)
-                            .setTitle(R.string.dialog_add_host_key)
-                            .setMessage(getString(
-                                R.string.dialog_host_fingerprint,
-                                e.hostKey.host,
-                                e.hostKey.getFingerPrint(jSch)
-                            ))
-                            .setNegativeButton(R.string.dialog_no, null)
-                            .setPositiveButton(R.string.dialog_yes) { dialog, _ ->
-                                dialog.dismiss()
-                                jSch.hostKeyRepository.add(e.hostKey, null)
-                                connect(connectionInfo)
-                            }
-                            .create()
-                            .show()
-                        else -> AlertDialog.Builder(this@DashboardActivity)
-                            .setTitle(R.string.dialog_error)
-                            .setMessage("Couldn't connect:\n\n${e?.message}")
-                            .setNeutralButton(R.string.dialog_ok, null)
-                            .create()
-                            .show()
-                    }
-                }
-
-                override fun onNext(t: Connection?) {
-                    progressDialog.dismiss()
-
-                    startActivity(QueryActivity.newIntent(this@DashboardActivity,
-                        connectionInfo.id))
+                when (e) {
+                    is SshTunnelAgent.UnknownHostException -> AlertDialog.Builder(this@DashboardActivity)
+                        .setTitle(R.string.dialog_add_host_key)
+                        .setMessage(getString(
+                            R.string.dialog_host_fingerprint,
+                            e.hostKey.host,
+                            e.hostKey.getFingerPrint(jSch)
+                        ))
+                        .setNegativeButton(R.string.dialog_no, null)
+                        .setPositiveButton(R.string.dialog_yes) { dialog, _ ->
+                            dialog.dismiss()
+                            jSch.hostKeyRepository.add(e.hostKey, null)
+                            connect(connectionInfo)
+                        }
+                        .create()
+                        .show()
+                    else -> AlertDialog.Builder(this@DashboardActivity)
+                        .setTitle(R.string.dialog_error)
+                        .setMessage("Couldn't connect:\n\n${e?.message}")
+                        .setNeutralButton(R.string.dialog_ok, null)
+                        .create()
+                        .show()
                 }
             })
 

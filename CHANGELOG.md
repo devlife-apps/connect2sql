@@ -1,6 +1,9 @@
 ## [Unreleased]
 
-## ['4.0.12'] - 2018-10-13
+### Fixed
+- Crash: http://crashes.to/s/311ed77eeee
+
+## [4.0.12] - 2018-10-13
 
 ### Changed
 - Redesign of query screen

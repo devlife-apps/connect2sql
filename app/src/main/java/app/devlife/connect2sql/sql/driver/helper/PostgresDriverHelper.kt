@@ -39,10 +39,13 @@ class PostgresDriverHelper : DriverHelper {
         get() = 1
 
     override fun getTablesQuery(database: DriverAgent.Database): String {
-        return "SELECT table_name,table_type " +
-                "FROM information_schema.tables " +
-                "WHERE table_schema != 'pg_catalog'" +
-                "AND table_schema != 'information_schema'"
+        return """
+            SELECT table_name,table_type
+            FROM information_schema.tables
+            WHERE table_schema != 'pg_catalog'
+              AND table_schema != 'information_schema'
+            """
+            .trimIndent()
     }
 
     override val tableNameIndex: Int
@@ -52,7 +55,12 @@ class PostgresDriverHelper : DriverHelper {
         get() = 2
 
     override fun getColumnsQuery(table: DriverAgent.Table): String {
-        return "SELECT column_name, data_type FROM information_schema.columns WHERE table_name = " + safeObject(table) + ";"
+        return """
+            SELECT column_name, data_type
+            FROM information_schema.columns
+            WHERE table_name = ${safeValue(table.name)}
+            """
+            .trimIndent()
     }
 
     override val columnNameIndex: Int
