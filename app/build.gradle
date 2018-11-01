@@ -44,7 +44,7 @@ android {
 
         /* format: [  M].[00m].[00p] */
         versionCode 4000013
-        versionName 4.0.13
+        versionName '4.0.13'
     }
 
     testOptions {
