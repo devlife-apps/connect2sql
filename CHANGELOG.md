@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## ['4.0.13'] - 2018-11-01
+
 ### Fixed
 - Crash: http://crashes.to/s/311ed77eeee
 
