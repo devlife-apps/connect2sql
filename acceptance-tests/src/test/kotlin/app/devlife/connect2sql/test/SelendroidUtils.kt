@@ -1,16 +1,17 @@
 package app.devlife.connect2sql.test
 
-import io.selendroid.client.SelendroidDriver
+import io.appium.java_client.MobileElement
+import io.appium.java_client.android.AndroidDriver
 import io.selendroid.client.TouchActionBuilder
 import org.openqa.selenium.By
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.interactions.touch.TouchActions
 
-fun SelendroidDriver.withElement(by: By) : ActionBuilder {
+fun AndroidDriver<MobileElement>.withElement(by: By): ActionBuilder {
     return ActionBuilder(this, findElement(by))
 }
 
-fun SelendroidDriver.ensure(): ValidationBuilder {
+fun AndroidDriver<MobileElement>.ensure(): ValidationBuilder {
     return ValidationBuilder(this)
 }
 
@@ -24,29 +25,29 @@ object Matcher {
     }
 }
 
-class ActionBuilder(protected val driver: SelendroidDriver, protected val element: WebElement) {
+class ActionBuilder(protected val driver: AndroidDriver<MobileElement>,
+                    protected val element: WebElement) {
     private val actions: MutableList<() -> Unit> = arrayListOf()
 
     fun tap(): ActionBuilder {
-        actions.add({element.click()})
-        return this;
+        actions.add { element.click() }
+        return this
     }
 
     fun doubleTap(): ActionBuilder {
-        actions.add({TouchActions(driver).doubleTap(element).perform()})
-        return this;
+        actions.add { TouchActions(driver).doubleTap(element).perform() }
+        return this
     }
 
     fun longPress(ms: Int): ActionBuilder {
-        actions.add({
-            val t = TouchActionBuilder()
-            t.pointerDown(element)
-            t.pause(ms)
-            t.pointerUp()
-            t.build()
-            .perform(driver)
-        })
-        return this;
+        actions.add {
+            TouchActionBuilder().apply {
+                pointerDown(element)
+                pause(ms)
+                pointerUp()
+            }.build().perform(driver)
+        }
+        return this
     }
 
     fun perform() {
@@ -54,7 +55,7 @@ class ActionBuilder(protected val driver: SelendroidDriver, protected val elemen
     }
 }
 
-class ValidationBuilder(protected val driver: SelendroidDriver) {
+class ValidationBuilder(private val driver: AndroidDriver<MobileElement>) {
     private val validations: MutableList<() -> Unit> = arrayListOf()
 
     fun element(by: By): ValidationCompleter {
@@ -65,7 +66,9 @@ class ValidationBuilder(protected val driver: SelendroidDriver) {
         validations.forEach { f -> f() }
     }
 
-    class ValidationCompleter(protected val driver: SelendroidDriver, protected val validationBuilder: ValidationBuilder, protected val by: By) {
+    class ValidationCompleter(private val driver: AndroidDriver<MobileElement>,
+                              private val validationBuilder: ValidationBuilder,
+                              private val by: By) {
 
         fun exists(): ValidationBuilder {
             validationBuilder.validations.add {

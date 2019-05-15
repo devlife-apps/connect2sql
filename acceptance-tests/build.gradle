@@ -1,8 +1,8 @@
 apply plugin: 'kotlin'
 
 dependencies {
-    testCompile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    testCompile 'io.selendroid:selendroid-standalone:0.17.0'
+    testCompile "org.jetbrains.kotlin:kotlin-stdlib"
+    testCompile 'io.appium:java-client:7.0.0'
     testCompile 'io.selendroid:selendroid-client:0.17.0'
     testCompile "junit:junit:4.12"
 
@@ -11,5 +11,4 @@ dependencies {
 
 repositories {
     mavenCentral()
-    maven { url "https://jitpack.io" }
 }

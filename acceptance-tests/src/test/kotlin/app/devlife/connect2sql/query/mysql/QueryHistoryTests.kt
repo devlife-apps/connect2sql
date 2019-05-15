@@ -20,7 +20,7 @@ class QueryHistoryTests : MySqlTestSpec() {
     override val testServer: TestServer = TestServer.MYSQL_BASIC_USER
 
     @Test
-    public fun shouldPersistQueryAndRestoreIt() {
+    fun shouldPersistQueryAndRestoreIt() {
         val driver = ApplicationDriverFactory.create()
         try {
             driver.doSetUnlockPattern()
@@ -48,7 +48,7 @@ class QueryHistoryTests : MySqlTestSpec() {
     }
 
     @Test
-    public fun shouldRestoreItFromContextMenu() {
+    fun shouldRestoreItFromContextMenu() {
         val driver = ApplicationDriverFactory.create()
         try {
             driver.doSetUnlockPattern()
@@ -83,7 +83,7 @@ class QueryHistoryTests : MySqlTestSpec() {
 
 
     @Test
-    public fun shouldDeleteItFromContextMenu() {
+    fun shouldDeleteItFromContextMenu() {
         val driver = ApplicationDriverFactory.create()
         try {
             driver.doSetUnlockPattern()

@@ -1,0 +1,3 @@
+# see https://maradns.samiam.org/tutorial/authoritative.html
+%       IP_ADDRESS ~
+db.%    IP_ADDRESS ~

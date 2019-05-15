@@ -25,9 +25,9 @@ abstract class MySqlTestSpec {
     fun setup() {
         with(db(testServer)) {
             val databases = query("SHOW DATABASES") list { getString(1) }
-            databases.filterNot({ it.toLowerCase().endsWith("schema")}).forEach { database ->
+            databases.filterNot { it.toLowerCase().endsWith("schema")}.forEach { database ->
                 println("Dropping DB: $database")
-                execute("DROP DATABASE `${database}`")
+                execute("DROP DATABASE `$database`")
             }
 
             close()
